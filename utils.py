@@ -177,7 +177,7 @@ class PlayerPos():
 	def task(self, task):
 		
 		
-		pos = self.app.dt6.playerActor.getPos()
+		pos = self.app.dt6.playerNP.getPos()
 		
 		msg = ['']*3
 		

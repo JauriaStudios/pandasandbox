@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Authors: ep0s TurBoss
 # Models: ep0s TurBoss
 
@@ -14,6 +15,10 @@ from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletBoxShape
+from panda3d.bullet import BulletCylinderShape
+from panda3d.bullet import BulletCapsuleShape
+from panda3d.bullet import BulletCharacterControllerNode
+from panda3d.bullet import ZUp
 
 from direct.actor.Actor import Actor
 
@@ -27,19 +32,21 @@ class Enemy():
 		
 		self.app = app
 		
-		self.shape = BulletBoxShape(Vec3(1.5, 1.5, 1.5))
- 
-		self.node = BulletRigidBodyNode('Box')
-		self.node.setMass(20.0)
-		self.node.addShape(self.shape)
-		 
-		self.np = render.attachNewNode(self.node)
-		self.np.setPos(10, 0, 2)
-		self.np.setCollideMask(BitMask32.allOn())
-		self.np.show()
+		height = 1
+		radius = 1
 		
-		self.app.world.attachRigidBody(self.node)
+		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
 		
+		self.enemyNode = BulletCharacterControllerNode(shape, 0.4, 'Player')
+		self.enemyNP = self.app.worldNP.attachNewNode(self.enemyNode)
+		self.enemyNP.setPos(-2, 0, 14)
+		self.enemyNP.setH(45)
+		self.enemyNP.setCollideMask(BitMask32.allOn())
+
+		self.app.world.attachCharacter(self.enemyNP.node())
+
+		self.app.enemyShape = self.enemyNode
+				
 		self.hp = hp
 		self.mana = mana
 		self.speed = speed
@@ -51,7 +58,7 @@ class Enemy():
 		self.enemyActor.setHpr(0,0,0)
 		self.enemyActor.setPos(0,0,-0.5)
 		self.enemyActor.setScale(0.5)
-		self.enemyActor.reparentTo(self.np)
+		self.enemyActor.reparentTo(self.enemyNP)
 		
 		self.setupAI()
 		
@@ -64,7 +71,7 @@ class Enemy():
 		
 		self.AIworld = AIWorld(render)
 
-		self.AIchar = AICharacter("enemy",self.np, 60, 0.05, 5)
+		self.AIchar = AICharacter("enemy",self.enemyNP, 60, 0.05, 5)
 		self.AIworld.addAiChar(self.AIchar)
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
 

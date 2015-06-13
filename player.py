@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Authors: ep0s TurBoss
 # Models: ep0s TurBoss
 
@@ -6,10 +7,14 @@
 from direct.task import Task
 
 #from panda3d.core import OrthographicLens
+
 from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletBoxShape
 from panda3d.bullet import BulletCylinderShape
+from panda3d.bullet import BulletCapsuleShape
+from panda3d.bullet import BulletCharacterControllerNode
+from panda3d.bullet import ZUp
 
 from panda3d.core import Point3
 from panda3d.core import CollisionTraverser,CollisionNode
@@ -17,6 +22,7 @@ from panda3d.core import CollisionHandlerQueue,CollisionRay
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.core import PandaNode,NodePath
+from panda3d.core import TransformState
 
 from direct.actor.Actor import Actor
 
@@ -25,19 +31,22 @@ class Player():
 		
 		self.app = app
 		
-		self.shape = BulletCylinderShape(1, 1, 2)
- 
-		self.node = BulletRigidBodyNode('Cyl')
-		self.node.setMass(80.0)
-		self.node.addShape(self.shape)
-		 
-		self.np = render.attachNewNode(self.node)
-		self.np.setPos(0, 0, 5)
-		self.np.setCollideMask(BitMask32.allOn())
-		self.np.show()
+		height = 2.5
+		radius = 0.4
 		
-		self.app.world.attachRigidBody(self.node)
+		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
 		
+		self.playerNode = BulletCharacterControllerNode(shape, 0.4, 'Player')
+		self.playerNP = self.app.worldNP.attachNewNode(self.playerNode)
+		self.playerNP.setPos(-2, 0, 14)
+		self.playerNP.setH(45)
+		self.playerNP.setCollideMask(BitMask32.allOn())
+
+		self.app.world.attachCharacter(self.playerNP.node())
+
+		self.app.playerShape = self.playerNode
+		
+			
 		self.hp = hp
 		self.mana = mana
 		self.speed = speed
@@ -46,6 +55,9 @@ class Player():
 		self.cameraDistance = 20
 		self.cameraAngle = 80
 		self.cameraOrientation = 0
+		
+		self.floater = NodePath(PandaNode("floater"))
+		self.floater.reparentTo(render)
 		
 		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0, "jump":0}
 		
@@ -57,12 +69,10 @@ class Player():
 		self.playerActor.setPos(0,0,-1)
 		self.playerActor.setScale(0.1)
 		
-		self.playerActor.reparentTo(self.np)
+		self.playerActor.reparentTo(self.playerNP)
 		
 		self.playerHand = self.playerActor.exposeJoint(None, 'body', 'antebrazoder')
-		
 		#self.playerLeg = self.player.controlJoint(None, 'body', 'piernader')
-		
 		
 		#self.playerLeg.setScale(2,1,1)
 		
@@ -94,8 +104,6 @@ class Player():
 		
 		#self.cTrav = CollisionTraverser()
 		
-		self.floater = NodePath(PandaNode("floater"))
-		self.floater.reparentTo(render)
 		
 		self.app.accept("arrow_left", self.setKey, ["left",1])
 		self.app.accept("arrow_right", self.setKey, ["right",1])
@@ -109,6 +117,7 @@ class Player():
 		self.app.accept("arrow_up-up", self.setKey, ["forward",0])
 		self.app.accept("a-up", self.setKey, ["cam-left",0])
 		self.app.accept("s-up", self.setKey, ["cam-right",0])
+		self.app.accept("space-up", self.setKey, ["jump",0])
 		
 		
 		
@@ -117,6 +126,11 @@ class Player():
 		
 		self.app.accept("i", self.toggleObject)
 		
+	def jump(self):
+		self.playerNP.node().setMaxJumpHeight(10.0)
+		self.playerNP.node().setJumpSpeed(10.0)
+		self.playerNP.node().doJump()
+	
 	def moveCam(self, direction):
 		
 		if direction == 1 and self.cameraAngle < 100:
@@ -150,41 +164,35 @@ class Player():
 		
 		for np in self.models: np.hide()
 		self.models[self.item].show()
-
+		
 	def move(self, task):
 		
 		
-		# If the camera-left key is pressed, move camera left.
-		# If the camera-right key is pressed, move camera right.
-		
-		self.app.camera.lookAt(self.np)
-		
-		
-		if (self.keyMap["cam-left"]!=0):
-			self.cameraOrientation += 1
-			
-		if (self.keyMap["cam-right"]!=0):
-			self.cameraOrientation -= 1
-		
-		self.app.camera.setPos(self.np.getX(),self.np.getY()+self.cameraDistance, self.cameraAngle)
-		
-		#self.app.camera.setX(self.app.camera, self.cameraOrientation * globalClock.getDt())
-		
-		# save dt6's initial position so that we can restore it,
-		# in case he falls off the map or runs into something.
-		
-		startpos = self.playerActor.getPos()
-		
 		# If a move-key is pressed, move dt6 in the specified direction.
 		
+		
+		speed = Vec3(0, 0, 0)
+		omega = 0.0
+		"""
+		if inputState.isSet('forward'): speed.setY( 3.0)
+		if inputState.isSet('reverse'): speed.setY(-3.0)
+		if inputState.isSet('left'):    speed.setX(-3.0)
+		if inputState.isSet('right'):   speed.setX( 3.0)
+		if inputState.isSet('turnLeft'):  omega =  120.0
+		if inputState.isSet('turnRight'): omega = -120.0
+		"""
+		
 		if (self.keyMap["left"]!=0):
-			self.np.setH(self.np.getH() + 200 * globalClock.getDt())
+			omega =  200.0
 		if (self.keyMap["right"]!=0):
-			self.np.setH(self.np.getH() - 200 * globalClock.getDt())
+			omega = -200.0
 		if (self.keyMap["forward"]!=0):
-			self.np.setY(self.np, -10 * globalClock.getDt())
+			speed.setY( -10.0)
 		if (self.keyMap["jump"]!=0):
-			self.np.setZ(self.np, 5 * globalClock.getDt())
+			self.jump()
+
+		self.playerNP.node().setAngularMovement(omega)
+		self.playerNP.node().setLinearMovement(speed, True)
 		
 		# If dt6 is moving, loop the run animation.
 		# If he is standing still, stop the animation.
@@ -198,48 +206,32 @@ class Player():
 				self.playerActor.stop()
 				self.playerActor.pose("walk",1)
 				self.isMoving = False
-				
-		# Now check for collisions.
 		
 		
-		#self.cTrav.traverse(render)
+		return task.cont
 		
-		# Adjust dt6's Z coordinate.  If dt6's ray hit terrain,
-		# update his Z. If it hit anything else, or didn't hit anything, put
-		# him back where he was last frame.
-		"""
-		entries = []
-		for i in range(self.playerGroundHandler.getNumEntries()):
-			entry = self.playerGroundHandler.getEntry(i)
-			entries.append(entry)
-		entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
-									 x.getSurfacePoint(render).getZ()))
-		if (len(entries)>0) and (entries[0].getIntoNode().getName() == "terrain"):
-			self.playerActor.setZ(entries[0].getSurfacePoint(render).getZ())
-		else:
-			self.playerActor.setPos(startpos)
-		"""
-		# Keep the camera at one foot above the terrain,
-		# or two feet above dt6, whichever is greater.
-		"""
-		entries = []
-		for i in range(self.camGroundHandler.getNumEntries()):
-			entry = self.camGroundHandler.getEntry(i)
-			entries.append(entry)
-		entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
-									 x.getSurfacePoint(render).getZ()))
-		if (len(entries)>0) and (entries[0].getIntoNode().getName() == "terrain"):
-			self.app.camera.setZ(entries[0].getSurfacePoint(render).getZ()+1.0)
-		if (self.app.camera.getZ() < self.playerActor.getZ() + 2.0):
-			self.app.camera.setZ(self.playerActor.getZ() + 2.0)
-			"""
+	def updateCamera(self, task):
+		
+		# If the camera-left key is pressed, move camera left.
+		# If the camera-right key is pressed, move camera right.
+		
+		#self.app.camera.lookAt(self.playerNP)
+		
+		#self.app.camera.setX(self.app.camera, self.cameraOrientation * globalClock.getDt())
+		
+		if (self.keyMap["cam-left"]!=0):
+			self.cameraOrientation += 1
+			
+		if (self.keyMap["cam-right"]!=0):
+			self.cameraOrientation -= 1
+		
+		self.app.camera.setPos(self.playerNP.getX(),self.playerNP.getY()+self.cameraDistance, self.cameraAngle)
 		# The camera should look in dt6's direction,
 		# but it should also try to stay horizontal, so look at
 		# a floater which hovers above dt6's head.
 		
-		self.floater.setPos(self.np.getPos())
-		self.floater.setZ(self.np.getZ() + 2.0)
+		self.floater.setPos(self.playerNP.getPos())
+		self.floater.setZ(self.playerNP.getZ() + 2.0)
 		
 		self.app.camera.lookAt(self.floater)
-		
 		return task.cont

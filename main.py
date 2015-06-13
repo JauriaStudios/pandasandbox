@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Authors: ep0s TurBoss
 # Models: ep0s TurBoss
 
@@ -37,110 +38,10 @@ class World(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		
-		
-		self.world = BulletWorld()
-		self.world.setGravity(Vec3(0, 0, -9.81))
-		
-		
-		debugNode = BulletDebugNode('Debug')
-		debugNode.showWireframe(True)
-		debugNode.showConstraints(True)
-		debugNode.showBoundingBoxes(True)
-		debugNode.showNormals(True)
-		debugNP = render.attachNewNode(debugNode)
-		debugNP.show()
-		
-		self.world.setDebugNode(debugNP.node())
-		
-		self.shape = BulletPlaneShape(Vec3(0, 0, 1), 1)
-
-		self.node = BulletRigidBodyNode('Ground')
-		self.node.addShape(self.shape)
-
-		self.np = render.attachNewNode(self.node)
-		self.np.setPos(0, 0, 0)
-		self.np.setCollideMask(BitMask32.allOn())
-		self.np.show()
-
-		self.world.attachRigidBody(self.node)
-		
 		#pdb.set_trace()
-		self.dt6 = Player(self, 100, 50, 5, 2)
-		self.foe1 = Enemy(self, 100, 50, 5, 2)
-		
-		self.crono = Crono(self)
-		self.cursorpos = CursorPos(self)
-		self.playerpos = PlayerPos(self)
-		
-		self.crono.draw(0.7, -0.85)
-		self.cursorpos.draw(0.0, -0.85)
-		self.playerpos.draw(-0.7, -0.85)
-		
-		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0}
-		
-		# Load the models.
-		
-		self.environ = self.loader.loadModel("models/castillo")
-		#self.juggernaut = self.loader.loadModel("models/juggernaut")
-		self.statusBar = self.loader.loadModel("models/statusbar")
-		
-		
-		self.statusBar.setDepthTest(True)
-		self.statusBar.setDepthWrite(True)
-		
-		# Reparent the model to NodePath.
-		
-		self.environ.reparentTo(self.np)
-		
-		
-		# Reparent the model to render2d.
-		
-		self.statusBar.reparentTo(self.render2d)
-		
-		# Apply scale and position transforms on the model.
-		self.environ.setScale(8, 8, 8)
-		self.environ.setPos(0, 0, -5)
-		
-		#self.juggernaut.setScale(0.03, 0.03, 0.03)
-		#self.juggernaut.setPos(0.75, 0, 0.6)
-		
-		
-		self.statusBar.setScale(0.15, 0.15, 0.15)
-		self.statusBar.setPos(-0.95, 0, 0.65)
-		
-		
-		
-		# Add the spinCameraTask procedure to the task manager.
-		
-		#self.taskMgr.add(self.spinCameraTask, "SpinCameraTask")
-		self.taskMgr.add(self.dt6.move, "moveTask")
-		
-		self.taskMgr.add(self.crono.task, "cronoTask")
-		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
-		self.taskMgr.add(self.playerpos.task, "playerposTask")
-		self.taskMgr.add(self.foe1.update, "enemyTask")
-		
-		self.taskMgr.add(self.update, 'update')
-		
-		# Accept the control keys
-		self.accept("escape", sys.exit)
-		
-		
-		self.accept("c", self.crono.start)
-		
 		
 		# Window change event handler
 		#self.windowEventSetup()
-		
-		
-		# Uncomment this line to see the collision rays
-		#self.dt6GroundColNp.show()
-		
-		#self.camGroundColNp.show()
-	   
-		# Uncomment this line to show a visual representation of the 
-		# collisions occuring
-		#self.cTrav.showCollisions(render)
 		
 		# Create some lighting
 		
@@ -160,7 +61,7 @@ class World(ShowBase):
 		
 		render.setLight(plnp1)
 		render.setLight(render.attachNewNode(ambientLight))
-		self.environ.setShaderAuto()
+		#self.environ.setShaderAuto()
 		
 		#render.setLight(render.attachNewNode(directionalLight))
 		
@@ -173,11 +74,117 @@ class World(ShowBase):
 		self.light.node().getLens().setNearFar(10,100)
 		render.setLight(self.light)
 		"""
+		self.setup()
+		
+	def setup(self):
+		
+		self.worldNP = render.attachNewNode('World')
+		
+		# World
+		self.debugNP = self.worldNP.attachNewNode(BulletDebugNode('Debug'))
+		
+		self.debugNP.show()
+		self.debugNP.node().showWireframe(True)
+		self.debugNP.node().showConstraints(True)
+		self.debugNP.node().showBoundingBoxes(False)
+		self.debugNP.node().showNormals(False)
+		
+		self.world = BulletWorld()
+		self.world.setGravity(Vec3(0, 0, -9.81))
+		self.world.setDebugNode(self.debugNP.node())
+		
+		# Plane
+		shape = BulletPlaneShape(Vec3(0, 0, 1), 0)
+
+		
+		self.np = self.worldNP.attachNewNode(BulletRigidBodyNode('Ground'))
+		self.np.node().addShape(shape)
+		self.np.setPos(0, 0, -1)
+		self.np.setCollideMask(BitMask32.allOn())
+		
+		self.world.attachRigidBody(self.np.node())
+		
+        
+		self.dt6 = Player(self, 100, 50, 5, 2)
+		self.foe1 = Enemy(self, 100, 50, 5, 2)
+		
+		self.crono = Crono(self)
+		self.cursorpos = CursorPos(self)
+		self.playerpos = PlayerPos(self)
+		
+		self.crono.draw(0.7, -0.85)
+		self.cursorpos.draw(0.0, -0.85)
+		self.playerpos.draw(-0.7, -0.85)
+		
+		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0}
+		
+		# Load the models.
+		
+		self.environ = self.loader.loadModel("models/castillo")
+		self.statusBar = self.loader.loadModel("models/statusbar")
+		
+		
+		self.statusBar.setDepthTest(True)
+		self.statusBar.setDepthWrite(True)
+		
+		# Reparent the model to NodePath.
+		self.environ.reparentTo(self.np)
+		
+		
+		# Reparent the model to render2d.
+		self.statusBar.reparentTo(self.render2d)
+		
+		# Apply scale and position transforms on the model.
+		self.environ.setScale(8, 8, 8)
+		self.environ.setPos(0, 0, -5)
+    
+		self.statusBar.setScale(0.15, 0.15, 0.15)
+		self.statusBar.setPos(-0.95, 0, 0.65)
+		
+		self.taskMgr.add(self.dt6.move, "moveTask")
+		
+		self.taskMgr.add(self.crono.task, "cronoTask")
+		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
+		self.taskMgr.add(self.playerpos.task, "playerposTask")
+        
+		self.taskMgr.add(self.dt6.updateCamera, "playerCameraTask",priority=1)
+        
+		self.taskMgr.add(self.foe1.update, "enemyTask")
+		
+		self.taskMgr.add(self.update, 'update')
+		
+		# Accept the control keys
+		self.accept("escape", sys.exit)
+		
+		self.accept("c", self.crono.start)
+		
+	
 	def update(self, task):
 		dt = globalClock.getDt()
-		self.world.doPhysics(dt)
+		
+		self.world.doPhysics(dt, 10, 0.008)
+		#self.processContacts()
 		return task.cont
 	
+	def processContacts(self):
+		if not self.sphere: 
+			return
+
+		result = self.world.contactTest(self.sphere)
+
+		#print '-->', result.getNumContacts()
+		for contact in result.getContacts():
+			cp = contact.getManifoldPoint()
+			node0 = contact.getNode0()
+			node1 = contact.getNode1()
+			#print node0.getName(), node1.getName(), cp.getLocalPointA()
+
+			#print contact.getNode0(), cp.getPositionWorldOnA()
+			#print contact.getIdx0(), contact.getIdx1(), \
+			#      contact.getPartId0(), contact.getPartId1()
+
+			#self.updateNode(node1)
+
 	
 	def setKey(self, key, value):
 		self.keyMap[key] = value
