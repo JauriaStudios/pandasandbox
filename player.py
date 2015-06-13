@@ -6,6 +6,9 @@
 from direct.task import Task
 
 #from panda3d.core import OrthographicLens
+from panda3d.bullet import BulletPlaneShape
+from panda3d.bullet import BulletRigidBodyNode
+from panda3d.bullet import BulletBoxShape
 
 from panda3d.core import Point3
 from panda3d.core import CollisionTraverser,CollisionNode
@@ -20,6 +23,19 @@ class Player():
 	def __init__(self, app, hp, mana, speed, attackSpeed):
 		
 		self.app = app
+		
+		self.shape = BulletBoxShape(Vec3(2, 2, 1.5))
+ 
+		self.node = BulletRigidBodyNode('Box')
+		self.node.setMass(1.0)
+		self.node.addShape(self.shape)
+		 
+		self.np = render.attachNewNode(self.node)
+		self.np.setPos(0, 0, 0)
+		self.np.setCollideMask(BitMask32.allOn())
+		self.np.show()
+		
+		self.app.world.attachRigidBody(self.node)
 		
 		self.hp = hp
 		self.mana = mana
@@ -40,7 +56,7 @@ class Player():
 		self.playerActor.setPos(0,0,0)
 		self.playerActor.setScale(0.1)
 		
-		self.playerActor.reparentTo(render)
+		self.playerActor.reparentTo(self.np)
 		
 		self.playerHand = self.playerActor.exposeJoint(None, 'body', 'antebrazoder')
 		
@@ -75,11 +91,11 @@ class Player():
 		#lens.setFilmSize(20, 15)  # Or whatever is appropriate for your scene
 		#self.app.cam.node().setLens(lens)
 		
-		self.cTrav = CollisionTraverser()
+		#self.cTrav = CollisionTraverser()
 		
 		self.floater = NodePath(PandaNode("floater"))
 		self.floater.reparentTo(render)
-		
+		"""
 		self.playerGroundRay = CollisionRay()
 		self.playerGroundRay.setOrigin(0,0,1000)
 		self.playerGroundRay.setDirection(0,0,-1)
@@ -103,6 +119,7 @@ class Player():
 		self.camGroundColNp = self.app.camera.attachNewNode(self.camGroundCol)
 		self.camGroundHandler = CollisionHandlerQueue()
 		self.cTrav.addCollider(self.camGroundColNp, self.camGroundHandler)
+		"""
 		
 		self.app.accept("arrow_left", self.setKey, ["left",1])
 		self.app.accept("arrow_right", self.setKey, ["right",1])
@@ -205,12 +222,12 @@ class Player():
 		# Now check for collisions.
 		
 		
-		self.cTrav.traverse(render)
+		#self.cTrav.traverse(render)
 		
 		# Adjust dt6's Z coordinate.  If dt6's ray hit terrain,
 		# update his Z. If it hit anything else, or didn't hit anything, put
 		# him back where he was last frame.
-		
+		"""
 		entries = []
 		for i in range(self.playerGroundHandler.getNumEntries()):
 			entry = self.playerGroundHandler.getEntry(i)
@@ -221,7 +238,7 @@ class Player():
 			self.playerActor.setZ(entries[0].getSurfacePoint(render).getZ())
 		else:
 			self.playerActor.setPos(startpos)
-		
+		"""
 		# Keep the camera at one foot above the terrain,
 		# or two feet above dt6, whichever is greater.
 		"""

@@ -22,6 +22,11 @@ from panda3d.core import Filename,AmbientLight,DirectionalLight, PointLight, Spo
 
 from pandac.PandaModules import WindowProperties
 
+from panda3d.bullet import BulletWorld
+from panda3d.bullet import BulletPlaneShape
+from panda3d.bullet import BulletRigidBodyNode
+from panda3d.bullet import BulletDebugNode
+
 from utils import Crono, CursorPos, PlayerPos
 from player import Player
 from enemy import Enemy
@@ -32,9 +37,36 @@ class World(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		
+		
+		self.world = BulletWorld()
+		self.world.setGravity(Vec3(0, 0, -9.81))
+		
+		
+		debugNode = BulletDebugNode('Debug')
+		debugNode.showWireframe(True)
+		debugNode.showConstraints(True)
+		debugNode.showBoundingBoxes(True)
+		debugNode.showNormals(True)
+		debugNP = render.attachNewNode(debugNode)
+		debugNP.show()
+		
+		self.world.setDebugNode(debugNP.node())
+		
+		self.shape = BulletPlaneShape(Vec3(0, 0, 1), 1)
+
+		self.node = BulletRigidBodyNode('Ground')
+		self.node.addShape(self.shape)
+
+		self.np = render.attachNewNode(self.node)
+		self.np.setPos(0, 0, -2)
+		self.np.setCollideMask(BitMask32.allOn())
+		self.np.show()
+
+		self.world.attachRigidBody(self.node)
+		
 		#pdb.set_trace()
-		self.dt6 = Player(self,100, 50, 5, 2)
-		self.foe1 = Enemy(100, 50, 5, 2)
+		self.dt6 = Player(self, 100, 50, 5, 2)
+		self.foe1 = Enemy(self, 100, 50, 5, 2)
 		
 		self.crono = Crono(self)
 		self.cursorpos = CursorPos(self)
@@ -59,7 +91,7 @@ class World(ShowBase):
 		
 		# Reparent the model to render.
 		
-		self.environ.reparentTo(self.render)
+		self.environ.reparentTo(self.np)
 		
 		
 		# Reparent the model to render2d.
@@ -80,7 +112,7 @@ class World(ShowBase):
 		
 		# Apply scale and position transforms on the model.
 		self.environ.setScale(8, 8, 8)
-		self.environ.setPos(0, 0, 0)
+		self.environ.setPos(0, 0, -2)
 		
 		#self.juggernaut.setScale(0.03, 0.03, 0.03)
 		#self.juggernaut.setPos(0.75, 0, 0.6)
@@ -100,6 +132,8 @@ class World(ShowBase):
 		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
 		self.taskMgr.add(self.playerpos.task, "playerposTask")
 		self.taskMgr.add(self.foe1.update, "enemyTask")
+		
+		self.taskMgr.add(self.update, 'update')
 		
 		# Accept the control keys
 		self.accept("escape", sys.exit)
@@ -152,7 +186,12 @@ class World(ShowBase):
 		self.light.node().getLens().setNearFar(10,100)
 		render.setLight(self.light)
 		"""
-		
+	def update(self, task):
+		dt = globalClock.getDt()
+		self.world.doPhysics(dt)
+		return task.cont
+	
+	
 	def setKey(self, key, value):
 		self.keyMap[key] = value
 		
