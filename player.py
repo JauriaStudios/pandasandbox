@@ -5,6 +5,8 @@
 
 from direct.task import Task
 
+#from panda3d.core import OrthographicLens
+
 from panda3d.core import Point3
 from panda3d.core import CollisionTraverser,CollisionNode
 from panda3d.core import CollisionHandlerQueue,CollisionRay
@@ -25,12 +27,15 @@ class Player():
 		self.attackSpeed = attackSpeed
 		
 		self.cameraDistance = 20
+		self.cameraAngle = 80
+		self.cameraOrientation = 0
 		
-		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0, "space":0}
+		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0}
 		
 		self.playerActor = Actor({	"body":"models/dt6",},
 							{"body":{"walk":"models/dt6-walk"},
 						})
+		
 		self.playerActor.setHpr(0,0,0)
 		self.playerActor.setPos(0,0,0)
 		self.playerActor.setScale(0.1)
@@ -64,7 +69,11 @@ class Player():
 		self.setObject(self.item)							#Make object 0 the first shown
 		
 		self.app.disableMouse()
-		self.app.camera.setPos(self.playerActor.getX(),self.playerActor.getY()+self.cameraDistance,2)
+		self.app.camera.setPos(self.playerActor.getX(),self.playerActor.getY()+self.cameraDistance, self.cameraAngle)
+		
+		#lens = OrthographicLens()
+		#lens.setFilmSize(20, 15)  # Or whatever is appropriate for your scene
+		#self.app.cam.node().setLens(lens)
 		
 		self.cTrav = CollisionTraverser()
 		
@@ -94,21 +103,39 @@ class Player():
 		self.camGroundColNp = self.app.camera.attachNewNode(self.camGroundCol)
 		self.camGroundHandler = CollisionHandlerQueue()
 		self.cTrav.addCollider(self.camGroundColNp, self.camGroundHandler)
-
+		
 		self.app.accept("arrow_left", self.setKey, ["left",1])
 		self.app.accept("arrow_right", self.setKey, ["right",1])
 		self.app.accept("arrow_up", self.setKey, ["forward",1])
-		self.app.accept("space", self.setKey, ["space", 1])
 		self.app.accept("a", self.setKey, ["cam-left",1])
 		self.app.accept("s", self.setKey, ["cam-right",1])
+		
 		self.app.accept("arrow_left-up", self.setKey, ["left",0])
 		self.app.accept("arrow_right-up", self.setKey, ["right",0])
 		self.app.accept("arrow_up-up", self.setKey, ["forward",0])
-		self.app.accept("space_up", self.setKey, ["space", 0])
 		self.app.accept("a-up", self.setKey, ["cam-left",0])
 		self.app.accept("s-up", self.setKey, ["cam-right",0])
 		
+		
+		self.app.accept("wheel_up", self.moveCam, [1])
+		self.app.accept("wheel_down", self.moveCam, [0])
+		
 		self.app.accept("i", self.toggleObject)
+		
+	def moveCam(self, direction):
+		
+		if direction == 1 and self.cameraAngle < 100:
+			self.cameraDistance += 1
+			self.cameraAngle += 5
+		elif direction == 0 and self.cameraAngle > 10:
+			self.cameraDistance -= 1
+			self.cameraAngle -= 5
+		"""
+		print("###################")
+		print(self.cameraDistance)
+		print(self.cameraAngle)
+		print("###################")
+		"""
 		
 	def setKey(self, key, value):
 		self.keyMap[key] = value
@@ -131,14 +158,22 @@ class Player():
 
 	def move(self, task):
 		
+		
 		# If the camera-left key is pressed, move camera left.
 		# If the camera-right key is pressed, move camera right.
 		
 		self.app.camera.lookAt(self.playerActor)
+		
+		
 		if (self.keyMap["cam-left"]!=0):
-			self.app.camera.setX(self.app.camera, -20 * globalClock.getDt())
+			self.cameraOrientation += 1
+			
 		if (self.keyMap["cam-right"]!=0):
-			self.app.camera.setX(self.app.camera, +20 * globalClock.getDt())
+			self.cameraOrientation -= 1
+		
+		self.app.camera.setPos(self.playerActor.getX(),self.playerActor.getY()+self.cameraDistance, self.cameraAngle)
+		
+		#self.app.camera.setX(self.app.camera, self.cameraOrientation * globalClock.getDt())
 		
 		# save dt6's initial position so that we can restore it,
 		# in case he falls off the map or runs into something.
@@ -149,14 +184,10 @@ class Player():
 		
 		if (self.keyMap["left"]!=0):
 			self.playerActor.setH(self.playerActor.getH() + 200 * globalClock.getDt())
-			self.app.camera.setX(self.app.camera, +65 * globalClock.getDt())
 		if (self.keyMap["right"]!=0):
 			self.playerActor.setH(self.playerActor.getH() - 200 * globalClock.getDt())
-			self.app.camera.setX(self.app.camera, -65 * globalClock.getDt())
 		if (self.keyMap["forward"]!=0):
 			self.playerActor.setY(self.playerActor, -120 * globalClock.getDt())
-		if (self.keyMap["space"]!=0):
-			self.playerActor.setZ(self.playerActor, 120 * globalClock.getDt())
 		
 		# If dt6 is moving, loop the run animation.
 		# If he is standing still, stop the animation.
@@ -170,22 +201,9 @@ class Player():
 				self.playerActor.stop()
 				self.playerActor.pose("walk",1)
 				self.isMoving = False
-		
-		# If the camera is too far from dt6, move it closer.
-		# If the camera is too close to dt6, move it farther.
-		
-		camvec = self.playerActor.getPos() - self.app.camera.getPos()
-		camvec.setZ(0)
-		camdist = camvec.length()
-		camvec.normalize()
-		if (camdist > self.app.cameraDistance):
-			self.app.camera.setPos(self.app.camera.getPos() + camvec*(camdist-self.app.cameraDistance))
-			camdist = self.app.cameraDistance
-		if (camdist < 5.0):
-			self.app.camera.setPos(self.app.camera.getPos() - camvec*(5-camdist))
-			camdist = 5.0
-		
+				
 		# Now check for collisions.
+		
 		
 		self.cTrav.traverse(render)
 		
@@ -206,7 +224,7 @@ class Player():
 		
 		# Keep the camera at one foot above the terrain,
 		# or two feet above dt6, whichever is greater.
-		
+		"""
 		entries = []
 		for i in range(self.camGroundHandler.getNumEntries()):
 			entry = self.camGroundHandler.getEntry(i)
@@ -217,7 +235,7 @@ class Player():
 			self.app.camera.setZ(entries[0].getSurfacePoint(render).getZ()+1.0)
 		if (self.app.camera.getZ() < self.playerActor.getZ() + 2.0):
 			self.app.camera.setZ(self.playerActor.getZ() + 2.0)
-			
+			"""
 		# The camera should look in dt6's direction,
 		# but it should also try to stay horizontal, so look at
 		# a floater which hovers above dt6's head.
@@ -228,35 +246,3 @@ class Player():
 		self.app.camera.lookAt(self.floater)
 		
 		return task.cont
-		
-class DynamicEntity(Entity):
-   forceNode = 0
-   actorNode = 0
-
-   def __init__(self):
-      self.actorNode = ActorNode("playerActor")
-      NodePath.__init__(self,self.actorNode)
-      # init collision
-      self._collisionHandler = PhysicsCollisionHandler()
-      base.cTrav = CollisionTraverser()
-   
-   def createForceNode(self):
-      # set up the ForceNode. This contains all the forces that
-      # act on this Entity.
-      self.forceNode = ForceNode("ForceNode")
-      self.attachNewNode( self.forceNode )
-      base.physicsMgr.attachPhysicalnode( self.actorNode )
-   
-   def addLinearForce( self, force ):
-      if ( self.forceNode == 0 ):
-         self.createForceNode()
-      self.forceNode.addForce( force )
-      base.physicsMgr.addLinearForce( force )
-
-   def setCollisionSolid( self, solid ):
-      collNodePath = Entity.setCollisionSolid( self, solid )
-      base.cTrav.addCollider( collNodePath, self.collisionHandler() )
-      self.collisionHandler().addCollider( collNodePath, self )
-   
-   def collisionHandler(self):
-      return self._collisionHandler

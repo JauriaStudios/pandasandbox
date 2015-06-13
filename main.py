@@ -44,8 +44,6 @@ class World(ShowBase):
 		self.cursorpos.draw(0.0, -0.85)
 		self.playerpos.draw(-0.7, -0.85)
 		
-		self.cameraDistance = 25
-		
 		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0}
 		
 		# Load the models.
@@ -188,8 +186,6 @@ class World(ShowBase):
 		self.camera.setPos(40 * sin(angleRadians), -10.0 * cos(angleRadians), 3)
 		self.camera.setHpr(angleDegrees, 0, 0)
 		return Task.cont
-		
-	
 		
 
 def main():
