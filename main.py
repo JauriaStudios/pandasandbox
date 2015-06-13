@@ -58,7 +58,7 @@ class World(ShowBase):
 		self.node.addShape(self.shape)
 
 		self.np = render.attachNewNode(self.node)
-		self.np.setPos(0, 0, -2)
+		self.np.setPos(0, 0, 0)
 		self.np.setCollideMask(BitMask32.allOn())
 		self.np.show()
 
@@ -87,32 +87,19 @@ class World(ShowBase):
 		
 		self.statusBar.setDepthTest(True)
 		self.statusBar.setDepthWrite(True)
-		# Load the actors.
 		
-		# Reparent the model to render.
+		# Reparent the model to NodePath.
 		
 		self.environ.reparentTo(self.np)
 		
 		
 		# Reparent the model to render2d.
 		
-		#self.juggernaut.reparentTo(self.render2d)
 		self.statusBar.reparentTo(self.render2d)
-		
-		
-		#texture_dt6 = self.loader.loadTexture("models/tex/Cube_AO.png")
-		#texture_env = self.loader.loadTexture("models/tex/Plane_AO.png")
-		#texture_jug = self.loader.loadTexture("models/juggernaut.png")
-		#texture_stats = self.loader.loadTexture("models/statusbar.png")
-		
-		#self.dt6.setTexture(texture_dt6)
-		#self.environ.setTexture(texture_env)
-		#self.juggernaut.setTexture(texture_jug)
-		#self.statusBar.setTexture(texture_stats)
 		
 		# Apply scale and position transforms on the model.
 		self.environ.setScale(8, 8, 8)
-		self.environ.setPos(0, 0, -2)
+		self.environ.setPos(0, 0, -5)
 		
 		#self.juggernaut.setScale(0.03, 0.03, 0.03)
 		#self.juggernaut.setPos(0.75, 0, 0.6)

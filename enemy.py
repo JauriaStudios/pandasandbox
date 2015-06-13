@@ -30,11 +30,11 @@ class Enemy():
 		self.shape = BulletBoxShape(Vec3(1.5, 1.5, 1.5))
  
 		self.node = BulletRigidBodyNode('Box')
-		self.node.setMass(1.0)
+		self.node.setMass(20.0)
 		self.node.addShape(self.shape)
 		 
 		self.np = render.attachNewNode(self.node)
-		self.np.setPos(10, 0, 0)
+		self.np.setPos(10, 0, 2)
 		self.np.setCollideMask(BitMask32.allOn())
 		self.np.show()
 		
@@ -49,7 +49,7 @@ class Enemy():
 							{"body":{"walk":"models/bug-walk"},
 						})
 		self.enemyActor.setHpr(0,0,0)
-		self.enemyActor.setPos(10,0,0)
+		self.enemyActor.setPos(0,0,-0.5)
 		self.enemyActor.setScale(0.5)
 		self.enemyActor.reparentTo(self.np)
 		
@@ -59,10 +59,12 @@ class Enemy():
 		
 		
 		self.enemyActor.loop("walk")
+		
 		#Creating AI World
+		
 		self.AIworld = AIWorld(render)
 
-		self.AIchar = AICharacter("enemy",self.enemyActor, 60, 0.05, 5)
+		self.AIchar = AICharacter("enemy",self.np, 60, 0.05, 5)
 		self.AIworld.addAiChar(self.AIchar)
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
 

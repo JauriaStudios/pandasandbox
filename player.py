@@ -9,6 +9,7 @@ from direct.task import Task
 from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletBoxShape
+from panda3d.bullet import BulletCylinderShape
 
 from panda3d.core import Point3
 from panda3d.core import CollisionTraverser,CollisionNode
@@ -24,14 +25,14 @@ class Player():
 		
 		self.app = app
 		
-		self.shape = BulletBoxShape(Vec3(2, 2, 1.5))
+		self.shape = BulletCylinderShape(1, 1, 2)
  
-		self.node = BulletRigidBodyNode('Box')
-		self.node.setMass(1.0)
+		self.node = BulletRigidBodyNode('Cyl')
+		self.node.setMass(80.0)
 		self.node.addShape(self.shape)
 		 
 		self.np = render.attachNewNode(self.node)
-		self.np.setPos(0, 0, 0)
+		self.np.setPos(0, 0, 5)
 		self.np.setCollideMask(BitMask32.allOn())
 		self.np.show()
 		
@@ -46,14 +47,14 @@ class Player():
 		self.cameraAngle = 80
 		self.cameraOrientation = 0
 		
-		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0}
+		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0, "jump":0}
 		
 		self.playerActor = Actor({	"body":"models/dt6",},
 							{"body":{"walk":"models/dt6-walk"},
 						})
 		
 		self.playerActor.setHpr(0,0,0)
-		self.playerActor.setPos(0,0,0)
+		self.playerActor.setPos(0,0,-1)
 		self.playerActor.setScale(0.1)
 		
 		self.playerActor.reparentTo(self.np)
@@ -95,43 +96,20 @@ class Player():
 		
 		self.floater = NodePath(PandaNode("floater"))
 		self.floater.reparentTo(render)
-		"""
-		self.playerGroundRay = CollisionRay()
-		self.playerGroundRay.setOrigin(0,0,1000)
-		self.playerGroundRay.setDirection(0,0,-1)
-		self.playerGroundCol = CollisionNode('playerRay')
-		self.playerGroundCol.addSolid(self.playerGroundRay)
-		self.playerGroundCol.setFromCollideMask(BitMask32.bit(0))
-		self.playerGroundCol.setIntoCollideMask(BitMask32.allOff())
-		self.playerGroundColNp = self.playerActor.attachNewNode(self.playerGroundCol)
-		self.playerGroundHandler = CollisionHandlerQueue()
-		self.cTrav.addCollider(self.playerGroundColNp, self.playerGroundHandler)
-		
-		
-		
-		self.camGroundRay = CollisionRay()
-		self.camGroundRay.setOrigin(0,0,1000)
-		self.camGroundRay.setDirection(0,0,-1)
-		self.camGroundCol = CollisionNode('camRay')
-		self.camGroundCol.addSolid(self.camGroundRay)
-		self.camGroundCol.setFromCollideMask(BitMask32.bit(0))
-		self.camGroundCol.setIntoCollideMask(BitMask32.allOff())
-		self.camGroundColNp = self.app.camera.attachNewNode(self.camGroundCol)
-		self.camGroundHandler = CollisionHandlerQueue()
-		self.cTrav.addCollider(self.camGroundColNp, self.camGroundHandler)
-		"""
 		
 		self.app.accept("arrow_left", self.setKey, ["left",1])
 		self.app.accept("arrow_right", self.setKey, ["right",1])
 		self.app.accept("arrow_up", self.setKey, ["forward",1])
 		self.app.accept("a", self.setKey, ["cam-left",1])
 		self.app.accept("s", self.setKey, ["cam-right",1])
+		self.app.accept("space", self.setKey, ["jump",1])
 		
 		self.app.accept("arrow_left-up", self.setKey, ["left",0])
 		self.app.accept("arrow_right-up", self.setKey, ["right",0])
 		self.app.accept("arrow_up-up", self.setKey, ["forward",0])
 		self.app.accept("a-up", self.setKey, ["cam-left",0])
 		self.app.accept("s-up", self.setKey, ["cam-right",0])
+		
 		
 		
 		self.app.accept("wheel_up", self.moveCam, [1])
@@ -179,7 +157,7 @@ class Player():
 		# If the camera-left key is pressed, move camera left.
 		# If the camera-right key is pressed, move camera right.
 		
-		self.app.camera.lookAt(self.playerActor)
+		self.app.camera.lookAt(self.np)
 		
 		
 		if (self.keyMap["cam-left"]!=0):
@@ -188,7 +166,7 @@ class Player():
 		if (self.keyMap["cam-right"]!=0):
 			self.cameraOrientation -= 1
 		
-		self.app.camera.setPos(self.playerActor.getX(),self.playerActor.getY()+self.cameraDistance, self.cameraAngle)
+		self.app.camera.setPos(self.np.getX(),self.np.getY()+self.cameraDistance, self.cameraAngle)
 		
 		#self.app.camera.setX(self.app.camera, self.cameraOrientation * globalClock.getDt())
 		
@@ -200,11 +178,13 @@ class Player():
 		# If a move-key is pressed, move dt6 in the specified direction.
 		
 		if (self.keyMap["left"]!=0):
-			self.playerActor.setH(self.playerActor.getH() + 200 * globalClock.getDt())
+			self.np.setH(self.np.getH() + 200 * globalClock.getDt())
 		if (self.keyMap["right"]!=0):
-			self.playerActor.setH(self.playerActor.getH() - 200 * globalClock.getDt())
+			self.np.setH(self.np.getH() - 200 * globalClock.getDt())
 		if (self.keyMap["forward"]!=0):
-			self.playerActor.setY(self.playerActor, -120 * globalClock.getDt())
+			self.np.setY(self.np, -10 * globalClock.getDt())
+		if (self.keyMap["jump"]!=0):
+			self.np.setZ(self.np, 5 * globalClock.getDt())
 		
 		# If dt6 is moving, loop the run animation.
 		# If he is standing still, stop the animation.
@@ -257,8 +237,8 @@ class Player():
 		# but it should also try to stay horizontal, so look at
 		# a floater which hovers above dt6's head.
 		
-		self.floater.setPos(self.playerActor.getPos())
-		self.floater.setZ(self.playerActor.getZ() + 2.0)
+		self.floater.setPos(self.np.getPos())
+		self.floater.setZ(self.np.getZ() + 2.0)
 		
 		self.app.camera.lookAt(self.floater)
 		
