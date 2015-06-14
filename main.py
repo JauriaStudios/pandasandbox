@@ -106,7 +106,8 @@ class World(ShowBase):
 		
         
 		self.dt6 = Player(self, 100, 50, 5, 2)
-		self.foe1 = Enemy(self, 100, 50, 5, 2)
+		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug")
+		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 		
 		self.crono = Crono(self)
 		self.cursorpos = CursorPos(self)
@@ -145,11 +146,12 @@ class World(ShowBase):
 		
 		self.taskMgr.add(self.crono.task, "cronoTask")
 		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
-		self.taskMgr.add(self.playerpos.task, "playerposTask")
+		#self.taskMgr.add(self.playerpos.task, "playerposTask")
         
 		self.taskMgr.add(self.dt6.updateCamera, "playerCameraTask",priority=1)
         
-		self.taskMgr.add(self.foe1.update, "enemyTask")
+		#self.taskMgr.add(self.foe1.update, "enemyTask")
+		self.taskMgr.add(self.nasgul.update, "enemyTask",priority=1)
 		
 		self.taskMgr.add(self.update, 'update')
 		

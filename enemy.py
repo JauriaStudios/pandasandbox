@@ -27,11 +27,12 @@ from direct.interval.IntervalGlobal import Sequence
 from panda3d.ai import *
 
 class Enemy():
-	def __init__(self, app, hp, mana, speed, attackSpeed):
+	def __init__(self, app, hp, mana, speed, attackSpeed, name):
 		
 		
 		self.app = app
 		
+		self.name = name
 		height = 1
 		radius = 1
 		
@@ -39,21 +40,23 @@ class Enemy():
 		
 		self.enemyNode = BulletCharacterControllerNode(shape, 0.4, 'Player')
 		self.enemyNP = self.app.worldNP.attachNewNode(self.enemyNode)
-		self.enemyNP.setPos(-2, 0, 14)
+		self.enemyNP.setPos(-2, 0, 0.22)
 		self.enemyNP.setH(45)
 		self.enemyNP.setCollideMask(BitMask32.allOn())
 
 		self.app.world.attachCharacter(self.enemyNP.node())
 
 		self.app.enemyShape = self.enemyNode
-				
+		
+		self.model = "models/%s" % self.name
+		self.modelWalk = "models/%s-walk" % self.name
 		self.hp = hp
 		self.mana = mana
 		self.speed = speed
 		self.attackSpeed = attackSpeed
 		
-		self.enemyActor = Actor({	"body":"models/bug",},
-							{"body":{"walk":"models/bug-walk"},
+		self.enemyActor = Actor({	"body":self.model,},
+							{"body":{"walk":self.modelWalk},
 						})
 		self.enemyActor.setHpr(0,0,0)
 		self.enemyActor.setPos(0,0,-0.5)
@@ -77,11 +80,12 @@ class Enemy():
 
 		#Path follow (note the order is reveresed)
 		self.AIbehaviors.pathFollow(1)
-		self.AIbehaviors.addToPath((0,-10,0))
-		self.AIbehaviors.addToPath((0,10,0))
-		self.AIbehaviors.addToPath((10,-10,0))
-		self.AIbehaviors.addToPath((10,-10,0))
-
+		self.AIbehaviors.addToPath((0,-20,0))
+		self.AIbehaviors.addToPath((0,20,0))
+		self.AIbehaviors.addToPath((20,-10,0))
+		self.AIbehaviors.addToPath((15,-20,0))
+		
+		
 		self.AIbehaviors.startFollow()
 		
 	def update(self, Task):
