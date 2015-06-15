@@ -6,8 +6,6 @@
 
 from direct.task import Task
 
-#from panda3d.core import OrthographicLens
-
 from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletBoxShape
@@ -16,13 +14,13 @@ from panda3d.bullet import BulletCapsuleShape
 from panda3d.bullet import BulletCharacterControllerNode
 from panda3d.bullet import ZUp
 
-from panda3d.core import Point3
 from panda3d.core import CollisionTraverser,CollisionNode
 from panda3d.core import CollisionHandlerQueue,CollisionRay
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.core import PandaNode,NodePath
 from panda3d.core import TransformState
+from panda3d.core import OrthographicLens
 
 from direct.actor.Actor import Actor
 
@@ -32,7 +30,7 @@ class Player():
 		self.app = app
 		
 		self.ori = 0.0
-		
+		self.zoomLevel = 5.0
 		self.nextAttack = 0.0
 		
 		height = 2.5
@@ -59,10 +57,6 @@ class Player():
 		attackSpeedPerDex = 0.2
 		attackSpeed = (attackSpeedPerDex * dex) / 60
 		self.attackSpeed = attackSpeed
-		
-		self.cameraDistance = 20
-		self.cameraAngle = 80
-		self.cameraOrientation = 0
 		
 		self.floater = NodePath(PandaNode("floater"))
 		self.floater.reparentTo(render)
@@ -106,13 +100,14 @@ class Player():
 		self.setObject(self.item)							#Make object 0 the first shown
 		
 		self.app.disableMouse()
-		self.app.camera.setPos(self.playerActor.getX(),self.playerActor.getY()+self.cameraDistance, self.cameraAngle)
+		self.app.camera.setPos(self.playerActor.getPos()+45)
 		
-		#lens = OrthographicLens()
-		#lens.setFilmSize(20, 15)  # Or whatever is appropriate for your scene
-		#self.app.cam.node().setLens(lens)
+		self.lens = OrthographicLens()
+		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)  # Or whatever is appropriate for your scene
+
+		self.app.cam.node().setLens(self.lens)
 		
-		#self.cTrav = CollisionTraverser()
+		self.app.camLens.setFov(120)
 		
 		
 		self.app.accept("a", self.setKey, ["left",1])
@@ -146,6 +141,23 @@ class Player():
 		
 		self.app.accept("i", self.toggleObject)
 		
+		
+	def moveCam(self, zoom):
+		
+		if zoom == 0:
+			self.zoomLevel += 5
+			if self.zoomLevel >= 30:
+				self.zoomLevel = 30
+		
+		elif zoom == 1:
+			self.zoomLevel -= 5
+			if self.zoomLevel <= -30:
+				self.zoomLevel = -30
+		
+		#print self.zoomLevel
+		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)  # Or whatever is appropriate for your scene
+		self.app.cam.node().setLens(self.lens)
+		
 	def checkAttack(self):
 		return self.attacked
 	
@@ -162,21 +174,6 @@ class Player():
 		self.playerNP.node().setMaxJumpHeight(3.0)
 		self.playerNP.node().setJumpSpeed(5.0)
 		self.playerNP.node().doJump()
-	
-	def moveCam(self, direction):
-		
-		if direction == 1 and self.cameraAngle < 100:
-			self.cameraDistance += 1
-			self.cameraAngle += 5
-		elif direction == 0 and self.cameraAngle > 10:
-			self.cameraDistance -= 1
-			self.cameraAngle -= 5
-		"""
-		print("###################")
-		print(self.cameraDistance)
-		print(self.cameraAngle)
-		print("###################")
-		"""
 		
 	def setKey(self, key, value):
 		self.keyMap[key] = value
@@ -200,53 +197,53 @@ class Player():
 	def move(self, task):
 		#print task.time
 		
-		# If a move-key is pressed, move dt6 in the specified direction.
+		# If a move-key is pressed, move in the specified direction.
 		
 		
 		speed = Vec3(0, 0, 0)
 		omega = 0.0
 		
 		
-		if (self.keyMap["left"]!=0):
-			self.ori = 90
-			#omega =  200.0
-			speed.setY( -10.0)
-		if (self.keyMap["right"]!=0):
-			self.ori = -90
-			#omega = -200.0
-			speed.setY( -10.0)
-		if (self.keyMap["forward"]!=0):
-			self.ori = 0
-			speed.setY( -10.0)
-		if (self.keyMap["backward"]!=0):
-			self.ori = 180
-			speed.setY( -10.0)
-			
-		
-		if (self.keyMap["left"]!=0) and (self.keyMap["forward"]!=0):
+		if (self.keyMap["left"]):
 			self.ori = 45
 			#omega =  200.0
 			speed.setY( -10.0)
-			
-		if (self.keyMap["right"]!=0) and (self.keyMap["forward"]!=0):
-			self.ori = -45
-			#omega =  200.0
-			speed.setY( -10.0)
-			
-		if (self.keyMap["left"]!=0) and (self.keyMap["backward"]!=0):
-			self.ori = 135
-			#omega =  200.0
-			speed.setY( -10.0)
-			
-		if (self.keyMap["right"]!=0) and (self.keyMap["backward"]!=0):
+		if (self.keyMap["right"]):
 			self.ori = -135
+			#omega = -200.0
+			speed.setY( -10.0)
+		if (self.keyMap["forward"]):
+			self.ori = -45
+			speed.setY( -10.0)
+		if (self.keyMap["backward"]):
+			self.ori = 135
+			speed.setY( -10.0)
+			
+		
+		if (self.keyMap["left"]) and (self.keyMap["forward"]):
+			self.ori = 0
 			#omega =  200.0
 			speed.setY( -10.0)
 			
-		if (self.keyMap["jump"]!=0):
+		if (self.keyMap["right"]) and (self.keyMap["forward"]):
+			self.ori = -90
+			#omega =  200.0
+			speed.setY( -10.0)
+			
+		if (self.keyMap["left"]) and (self.keyMap["backward"]):
+			self.ori = 90
+			#omega =  200.0
+			speed.setY( -10.0)
+			
+		if (self.keyMap["right"]) and (self.keyMap["backward"]):
+			self.ori = 180
+			#omega =  200.0
+			speed.setY( -10.0)
+			
+		if (self.keyMap["jump"]):
 			self.jump()
 		
-		if (self.keyMap["attack"]!=0)  and (task.time > self.nextAttack):
+		if (self.keyMap["attack"])  and (task.time > self.nextAttack):
 			self.attack()
 			self.nextAttack = task.time + self.attackSpeed
 		self.keyMap["attack"] = 0
@@ -273,20 +270,7 @@ class Player():
 		
 	def updateCamera(self, task):
 		
-		# If the camera-left key is pressed, move camera left.
-		# If the camera-right key is pressed, move camera right.
-		
-		#self.app.camera.lookAt(self.playerNP)
-		
-		#self.app.camera.setX(self.app.camera, self.cameraOrientation * globalClock.getDt())
-		
-		if (self.keyMap["cam-left"]!=0):
-			self.cameraOrientation += 1
-			
-		if (self.keyMap["cam-right"]!=0):
-			self.cameraOrientation -= 1
-		
-		self.app.camera.setPos(self.playerNP.getX(),self.playerNP.getY()+self.cameraDistance, self.cameraAngle)
+		self.app.camera.setPos(self.playerNP.getPos()+45)
 		# The camera should look in dt6's direction,
 		# but it should also try to stay horizontal, so look at
 		# a floater which hovers above dt6's head.

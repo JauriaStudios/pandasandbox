@@ -28,6 +28,7 @@ from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletDebugNode
 
+#from collision_geom import Entity
 from utils import Crono, CursorPos, PlayerPos
 from player import Player
 from enemy import Enemy
@@ -105,7 +106,8 @@ class World(ShowBase):
 		self.world.attachRigidBody(self.np.node())
 		
         
-		self.dt6 = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
+		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
+		
 		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 		
@@ -142,15 +144,15 @@ class World(ShowBase):
 		self.statusBar.setScale(0.15, 0.15, 0.15)
 		self.statusBar.setPos(-0.95, 0, 0.65)
 		
-		self.taskMgr.add(self.dt6.move, "moveTask")
+		self.taskMgr.add(self.player.move, "moveTask")
 		
 		self.taskMgr.add(self.crono.task, "cronoTask")
 		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
 		#self.taskMgr.add(self.playerpos.task, "playerposTask")
         
-		self.taskMgr.add(self.dt6.updateCamera, "playerCameraTask",priority=1)
+		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
         
-		#self.taskMgr.add(self.foe1.update, "enemyTask")
+		self.taskMgr.add(self.foe1.update, "enemyTask",priority=1)
 		self.taskMgr.add(self.nasgul.update, "enemyTask",priority=1)
 		
 		self.taskMgr.add(self.update, 'update')
@@ -183,7 +185,7 @@ class World(ShowBase):
 			#	print node0.getName(), node1.getName(), cp.getLocalPointA()
 				
 			if node1.getName() == "nasgul":
-				if self.dt6.checkAttack():
+				if self.player.checkAttack():
 					self.nasgul.attacked(10)
 			#print contact.getNode0(), cp.getPositionWorldOnA()
 			#print contact.getIdx0(), contact.getIdx1(), \

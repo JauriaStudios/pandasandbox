@@ -6,7 +6,6 @@
 
 from direct.task import Task
 
-from panda3d.core import Point3
 from panda3d.core import CollisionTraverser,CollisionNode
 from panda3d.core import CollisionHandlerQueue,CollisionRay
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
