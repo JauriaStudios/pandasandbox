@@ -155,7 +155,7 @@ class World(ShowBase):
 		self.taskMgr.add(self.foe1.update, "enemyTask",priority=1)
 		self.taskMgr.add(self.nasgul.update, "enemyTask",priority=1)
 		
-		self.taskMgr.add(self.update, 'update')
+		self.taskMgr.add(self.update, 'update',priority=1)
 		
 		# Accept the control keys
 		self.accept("escape", sys.exit)
@@ -183,10 +183,11 @@ class World(ShowBase):
 			node1 = contact.getNode1()
 			#if node1.getName() != "Ground":
 			#	print node0.getName(), node1.getName(), cp.getLocalPointA()
-				
-			if node1.getName() == "nasgul":
-				if self.player.checkAttack():
-					self.nasgul.attacked(10)
+			
+			if self.nasgul:
+				if node1.getName() == "nasgul":
+					if self.player.checkAttack():
+						self.nasgul.attacked(10)
 			#print contact.getNode0(), cp.getPositionWorldOnA()
 			#print contact.getIdx0(), contact.getIdx1(), \
 			#      contact.getPartId0(), contact.getPartId1()

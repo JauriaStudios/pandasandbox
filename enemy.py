@@ -72,7 +72,6 @@ class Enemy():
 		self.hp -= damage
 		if self.hp <= 0:
 			self.enemyNP.removeNode()
-			
 		
 	def setupAI(self):
 		

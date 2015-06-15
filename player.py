@@ -40,8 +40,8 @@ class Player():
 		
 		self.playerNode = BulletCharacterControllerNode(shape, 0.4, 'Player')
 		self.playerNP = self.app.worldNP.attachNewNode(self.playerNode)
-		self.playerNP.setPos(-2, 0, 14)
-		self.playerNP.setH(45)
+		self.playerNP.setPos(0, 0, 0.22)
+		#self.playerNP.setH(-90)
 		self.playerNP.setCollideMask(BitMask32.allOn())
 
 		self.app.world.attachCharacter(self.playerNP.node())
@@ -155,20 +155,20 @@ class Player():
 				self.zoomLevel = -30
 		
 		#print self.zoomLevel
-		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)  # Or whatever is appropriate for your scene
+		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)
 		self.app.cam.node().setLens(self.lens)
 		
 	def checkAttack(self):
-		return self.attacked
+		animControl = self.playerActor.getAnimControl('slash', "body")
+		
+		return animControl.isPlaying()
 	
 	def attack(self):
-		
 		if self.isAttacking is False:
 			self.playerActor.play("slash")
 			self.isAttacking = True
+			
 		self.isAttacking = False
-		
-		
 		
 	def jump(self):
 		self.playerNP.node().setMaxJumpHeight(3.0)
@@ -255,7 +255,7 @@ class Player():
 		# If dt6 is moving, loop the run animation.
 		# If he is standing still, stop the animation.
 		
-		if (self.keyMap["forward"]!=0) or (self.keyMap["left"]!=0) or (self.keyMap["right"]!=0) or (self.keyMap["backward"]!=0):
+		if (self.keyMap["forward"]) or (self.keyMap["left"]) or (self.keyMap["right"]) or (self.keyMap["backward"]):
 			if self.isMoving is False:
 				self.playerActor.loop("walk")
 				self.isMoving = True
