@@ -31,6 +31,8 @@ class Player():
 		
 		self.app = app
 		
+		self.ori = 0.0
+		
 		height = 2.5
 		radius = 0.4
 		
@@ -59,10 +61,11 @@ class Player():
 		self.floater = NodePath(PandaNode("floater"))
 		self.floater.reparentTo(render)
 		
-		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0, "jump":0}
+		self.keyMap = {"left":0, "right":0, "forward":0, "backward":0, "cam-left":0, "cam-right":0, "jump":0, "attack":0}
 		
-		self.playerActor = Actor({	"body":"models/dt6",},
-							{"body":{"walk":"models/dt6-walk"},
+		self.playerActor = Actor({"body":"models/dt6"}, {
+							"body":{"walk":"models/dt6-walk",
+							"slash":"models/dt6-slash"}
 						})
 		
 		self.playerActor.setHpr(0,0,0)
@@ -72,9 +75,9 @@ class Player():
 		self.playerActor.reparentTo(self.playerNP)
 		
 		self.playerHand = self.playerActor.exposeJoint(None, 'body', 'antebrazoder')
-		#self.playerLeg = self.player.controlJoint(None, 'body', 'piernader')
+		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
 		
-		#self.playerLeg.setScale(2,1,1)
+		#self.playerHead.setScale(10,10,10)
 		
 		self.models = []                 #A list that will store our models objects
 		items = [("models/sword1", (0,5.1,-4), (0,90,0), .6),
@@ -92,6 +95,7 @@ class Player():
 		
 		self.item = 0
 		self.isMoving = False
+		self.isAttacking = False
 		
 		self.setObject(self.item)							#Make object 0 the first shown
 		
@@ -105,18 +109,26 @@ class Player():
 		#self.cTrav = CollisionTraverser()
 		
 		
-		self.app.accept("arrow_left", self.setKey, ["left",1])
-		self.app.accept("arrow_right", self.setKey, ["right",1])
-		self.app.accept("arrow_up", self.setKey, ["forward",1])
-		self.app.accept("a", self.setKey, ["cam-left",1])
-		self.app.accept("s", self.setKey, ["cam-right",1])
+		self.app.accept("a", self.setKey, ["left",1])
+		self.app.accept("d", self.setKey, ["right",1])
+		self.app.accept("w", self.setKey, ["forward",1])
+		self.app.accept("s", self.setKey, ["backward",1])
+		
+		self.app.accept("x", self.setKey, ["attack",1])
+		
+		#self.app.accept("a", self.setKey, ["cam-left",1])
+		#self.app.accept("s", self.setKey, ["cam-right",1])
 		self.app.accept("space", self.setKey, ["jump",1])
 		
-		self.app.accept("arrow_left-up", self.setKey, ["left",0])
-		self.app.accept("arrow_right-up", self.setKey, ["right",0])
-		self.app.accept("arrow_up-up", self.setKey, ["forward",0])
-		self.app.accept("a-up", self.setKey, ["cam-left",0])
-		self.app.accept("s-up", self.setKey, ["cam-right",0])
+		self.app.accept("a-up", self.setKey, ["left",0])
+		self.app.accept("d-up", self.setKey, ["right",0])
+		self.app.accept("w-up", self.setKey, ["forward",0])
+		self.app.accept("s-up", self.setKey, ["backward",0])
+		
+		self.app.accept("x-up", self.setKey, ["attack",0])
+		
+		#self.app.accept("a-up", self.setKey, ["cam-left",0])
+		#self.app.accept("s-up", self.setKey, ["cam-right",0])
 		self.app.accept("space-up", self.setKey, ["jump",0])
 		
 		
@@ -126,9 +138,19 @@ class Player():
 		
 		self.app.accept("i", self.toggleObject)
 		
+	def attack(self):
+		if self.isAttacking is False:
+			self.playerActor.play("slash")
+			self.isAttacking = True
+		else:
+			if self.isAttacking:
+				self.playerActor.stop()
+				self.playerActor.pose("slash",1)
+				self.isAttacking = False
+		
 	def jump(self):
-		self.playerNP.node().setMaxJumpHeight(10.0)
-		self.playerNP.node().setJumpSpeed(10.0)
+		self.playerNP.node().setMaxJumpHeight(3.0)
+		self.playerNP.node().setJumpSpeed(5.0)
 		self.playerNP.node().doJump()
 	
 	def moveCam(self, direction):
@@ -173,31 +195,57 @@ class Player():
 		
 		speed = Vec3(0, 0, 0)
 		omega = 0.0
-		"""
-		if inputState.isSet('forward'): speed.setY( 3.0)
-		if inputState.isSet('reverse'): speed.setY(-3.0)
-		if inputState.isSet('left'):    speed.setX(-3.0)
-		if inputState.isSet('right'):   speed.setX( 3.0)
-		if inputState.isSet('turnLeft'):  omega =  120.0
-		if inputState.isSet('turnRight'): omega = -120.0
-		"""
+		
 		
 		if (self.keyMap["left"]!=0):
-			omega =  200.0
-		if (self.keyMap["right"]!=0):
-			omega = -200.0
-		if (self.keyMap["forward"]!=0):
+			self.ori = 90
+			#omega =  200.0
 			speed.setY( -10.0)
+		if (self.keyMap["right"]!=0):
+			self.ori = -90
+			#omega = -200.0
+			speed.setY( -10.0)
+		if (self.keyMap["forward"]!=0):
+			self.ori = 0
+			speed.setY( -10.0)
+		if (self.keyMap["backward"]!=0):
+			self.ori = 180
+			speed.setY( -10.0)
+			
+		
+		if (self.keyMap["left"]!=0) and (self.keyMap["forward"]!=0):
+			self.ori = 45
+			#omega =  200.0
+			speed.setY( -10.0)
+			
+		if (self.keyMap["right"]!=0) and (self.keyMap["forward"]!=0):
+			self.ori = -45
+			#omega =  200.0
+			speed.setY( -10.0)
+			
+		if (self.keyMap["left"]!=0) and (self.keyMap["backward"]!=0):
+			self.ori = 135
+			#omega =  200.0
+			speed.setY( -10.0)
+			
+		if (self.keyMap["right"]!=0) and (self.keyMap["backward"]!=0):
+			self.ori = -135
+			#omega =  200.0
+			speed.setY( -10.0)
+			
 		if (self.keyMap["jump"]!=0):
 			self.jump()
+		if (self.keyMap["attack"]!=0):
+			self.attack()
 
-		self.playerNP.node().setAngularMovement(omega)
+		#self.playerNP.node().setAngularMovement(omega)
+		self.playerNP.setH(self.ori)
 		self.playerNP.node().setLinearMovement(speed, True)
 		
 		# If dt6 is moving, loop the run animation.
 		# If he is standing still, stop the animation.
 		
-		if (self.keyMap["forward"]!=0) or (self.keyMap["left"]!=0) or (self.keyMap["right"]!=0):
+		if (self.keyMap["forward"]!=0) or (self.keyMap["left"]!=0) or (self.keyMap["right"]!=0) or (self.keyMap["backward"]!=0):
 			if self.isMoving is False:
 				self.playerActor.loop("walk")
 				self.isMoving = True

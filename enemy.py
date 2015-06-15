@@ -38,7 +38,7 @@ class Enemy():
 		
 		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
 		
-		self.enemyNode = BulletCharacterControllerNode(shape, 0.4, 'Player')
+		self.enemyNode = BulletCharacterControllerNode(shape, 0.4, 'Enemy')
 		self.enemyNP = self.app.worldNP.attachNewNode(self.enemyNode)
 		self.enemyNP.setPos(-2, 0, 0.22)
 		self.enemyNP.setH(45)
@@ -78,15 +78,17 @@ class Enemy():
 		self.AIworld.addAiChar(self.AIchar)
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
 
+		self.AIbehaviors.wander(10, 0, 15, 1.0)
+		
 		#Path follow (note the order is reveresed)
-		self.AIbehaviors.pathFollow(1)
+		"""self.AIbehaviors.pathFollow(1)
 		self.AIbehaviors.addToPath((0,-20,0))
 		self.AIbehaviors.addToPath((0,20,0))
 		self.AIbehaviors.addToPath((20,-10,0))
 		self.AIbehaviors.addToPath((15,-20,0))
 		
 		
-		self.AIbehaviors.startFollow()
+		self.AIbehaviors.startFollow()"""
 		
 	def update(self, Task):
 		

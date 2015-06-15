@@ -169,17 +169,18 @@ class World(ShowBase):
 		return task.cont
 	
 	def processContacts(self):
-		if not self.sphere: 
+		if not self.playerShape: 
 			return
 
-		result = self.world.contactTest(self.sphere)
+		result = self.world.contactTest(self.playerShape)
 
 		#print '-->', result.getNumContacts()
 		for contact in result.getContacts():
 			cp = contact.getManifoldPoint()
 			node0 = contact.getNode0()
 			node1 = contact.getNode1()
-			#print node0.getName(), node1.getName(), cp.getLocalPointA()
+			if node1.getName() != "Ground":
+				print node0.getName(), node1.getName(), cp.getLocalPointA()
 
 			#print contact.getNode0(), cp.getPositionWorldOnA()
 			#print contact.getIdx0(), contact.getIdx1(), \
