@@ -71,7 +71,9 @@ class Enemy():
 		print("man pegao")
 		self.hp -= damage
 		if self.hp <= 0:
+			self.enemyNP.detachNode()
 			self.enemyNP.removeNode()
+			self.app.taskMgr.remove("enemyTask")
 		
 	def setupAI(self):
 		
