@@ -155,7 +155,7 @@ class World(ShowBase):
 		self.taskMgr.add(self.foe1.update, "enemyTask",priority=1)
 		self.taskMgr.add(self.nasgul.update, "enemyTask",priority=1)
 		
-		self.taskMgr.add(self.update, 'update',priority=1)
+		self.taskMgr.add(self.update, 'update')
 		
 		# Accept the control keys
 		self.accept("escape", sys.exit)
