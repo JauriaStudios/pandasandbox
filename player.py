@@ -27,11 +27,13 @@ from panda3d.core import TransformState
 from direct.actor.Actor import Actor
 
 class Player():
-	def __init__(self, app, hp, mana, speed, attackSpeed):
+	def __init__(self, app, hp, mana, speed, dex):
 		
 		self.app = app
 		
 		self.ori = 0.0
+		
+		self.nextAttack = 0.0
 		
 		height = 2.5
 		radius = 0.4
@@ -48,10 +50,14 @@ class Player():
 
 		self.app.playerShape = self.playerNode
 		
-			
+		self.attacked = False
 		self.hp = hp
 		self.mana = mana
 		self.speed = speed
+		self.dex = dex
+		
+		attackSpeedPerDex = 0.2
+		attackSpeed = (attackSpeedPerDex * dex) / 60
 		self.attackSpeed = attackSpeed
 		
 		self.cameraDistance = 20
@@ -116,8 +122,9 @@ class Player():
 		
 		self.app.accept("x", self.setKey, ["attack",1])
 		
-		#self.app.accept("a", self.setKey, ["cam-left",1])
-		#self.app.accept("s", self.setKey, ["cam-right",1])
+		#self.app.accept("q", self.setKey, ["cam-left",1])
+		#self.app.accept("e", self.setKey, ["cam-right",1])
+		
 		self.app.accept("space", self.setKey, ["jump",1])
 		
 		self.app.accept("a-up", self.setKey, ["left",0])
@@ -127,8 +134,9 @@ class Player():
 		
 		self.app.accept("x-up", self.setKey, ["attack",0])
 		
-		#self.app.accept("a-up", self.setKey, ["cam-left",0])
-		#self.app.accept("s-up", self.setKey, ["cam-right",0])
+		#self.app.accept("q-up", self.setKey, ["cam-left",0])
+		#self.app.accept("e-up", self.setKey, ["cam-right",0])
+		
 		self.app.accept("space-up", self.setKey, ["jump",0])
 		
 		
@@ -138,15 +146,17 @@ class Player():
 		
 		self.app.accept("i", self.toggleObject)
 		
+	def checkAttack(self):
+		return self.attacked
+	
 	def attack(self):
+		
 		if self.isAttacking is False:
 			self.playerActor.play("slash")
 			self.isAttacking = True
-		else:
-			if self.isAttacking:
-				self.playerActor.stop()
-				self.playerActor.pose("slash",1)
-				self.isAttacking = False
+		self.isAttacking = False
+		
+		
 		
 	def jump(self):
 		self.playerNP.node().setMaxJumpHeight(3.0)
@@ -188,7 +198,7 @@ class Player():
 		self.models[self.item].show()
 		
 	def move(self, task):
-		
+		#print task.time
 		
 		# If a move-key is pressed, move dt6 in the specified direction.
 		
@@ -235,9 +245,12 @@ class Player():
 			
 		if (self.keyMap["jump"]!=0):
 			self.jump()
-		if (self.keyMap["attack"]!=0):
+		
+		if (self.keyMap["attack"]!=0)  and (task.time > self.nextAttack):
 			self.attack()
-
+			self.nextAttack = task.time + self.attackSpeed
+		self.keyMap["attack"] = 0
+		
 		#self.playerNP.node().setAngularMovement(omega)
 		self.playerNP.setH(self.ori)
 		self.playerNP.node().setLinearMovement(speed, True)

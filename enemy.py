@@ -38,7 +38,7 @@ class Enemy():
 		
 		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
 		
-		self.enemyNode = BulletCharacterControllerNode(shape, 0.4, 'Enemy')
+		self.enemyNode = BulletCharacterControllerNode(shape, 0.4, self.name)
 		self.enemyNP = self.app.worldNP.attachNewNode(self.enemyNode)
 		self.enemyNP.setPos(-2, 0, 0.22)
 		self.enemyNP.setH(45)
@@ -64,6 +64,16 @@ class Enemy():
 		self.enemyActor.reparentTo(self.enemyNP)
 		
 		self.setupAI()
+		
+	def getName(self):
+		return self.name
+		
+	def attacked(self, damage):
+		print("man pegao")
+		self.hp -= damage
+		if self.hp <= 0:
+			self.enemyNP.removeNode()
+			
 		
 	def setupAI(self):
 		

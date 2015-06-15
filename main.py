@@ -105,8 +105,8 @@ class World(ShowBase):
 		self.world.attachRigidBody(self.np.node())
 		
         
-		self.dt6 = Player(self, 100, 50, 5, 2)
-		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug")
+		self.dt6 = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
+		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 		
 		self.crono = Crono(self)
@@ -165,7 +165,7 @@ class World(ShowBase):
 		dt = globalClock.getDt()
 		
 		self.world.doPhysics(dt, 10, 0.008)
-		#self.processContacts()
+		self.processContacts()
 		return task.cont
 	
 	def processContacts(self):
@@ -179,9 +179,12 @@ class World(ShowBase):
 			cp = contact.getManifoldPoint()
 			node0 = contact.getNode0()
 			node1 = contact.getNode1()
-			if node1.getName() != "Ground":
-				print node0.getName(), node1.getName(), cp.getLocalPointA()
-
+			#if node1.getName() != "Ground":
+			#	print node0.getName(), node1.getName(), cp.getLocalPointA()
+				
+			if node1.getName() == "nasgul":
+				if self.dt6.checkAttack():
+					self.nasgul.attacked(10)
 			#print contact.getNode0(), cp.getPositionWorldOnA()
 			#print contact.getIdx0(), contact.getIdx1(), \
 			#      contact.getPartId0(), contact.getPartId1()
