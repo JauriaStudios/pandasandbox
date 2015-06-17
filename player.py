@@ -24,6 +24,8 @@ from panda3d.core import OrthographicLens
 
 from direct.actor.Actor import Actor
 
+from direct.interval.IntervalGlobal import LerpQuatInterval, Sequence
+
 class Player():
 	def __init__(self, app, hp, mana, speed, dex):
 		
@@ -262,7 +264,8 @@ class Player():
 		self.keyMap["attack"] = 0
 		
 		#self.playerNP.node().setAngularMovement(omega)
-		self.playerNP.setH(self.ori)
+		#self.playerNP.setH(self.playerNP, (self.ori)*globalClock.getDt()*10  )
+		turn = Sequence(LerpQuatInterval(self.playerNP, duration=0.1,  hpr=Vec3(self.ori, 0, 0), blendType='easeInOut')).start()
 		self.playerNP.node().setLinearMovement(speed, True)
 		
 		# If dt6 is moving, loop the run animation.
