@@ -42,7 +42,8 @@ class Player():
 		
 		self.playerNode = BulletCharacterControllerNode(shape, 0.4, 'Player')
 		self.playerNP = self.app.worldNP.attachNewNode(self.playerNode)
-		self.playerNP.setPos(0, 0, 0.22)
+		self.playerNP.setPos(0, 0, 0)
+		self.playerNP.setScale(2)
 		#self.playerNP.setH(-90)
 		self.playerNP.setCollideMask(BitMask32.allOn())
 
@@ -65,25 +66,27 @@ class Player():
 		
 		self.keyMap = {"left":0, "right":0, "forward":0, "backward":0, "cam-left":0, "cam-right":0, "jump":0, "attack":0}
 		
-		self.playerActor = Actor({"body":"models/dt6"}, {
-							"body":{"walk":"models/dt6-walk",
-							"slash":"models/dt6-slash"}
+		self.playerActor = Actor({"body":"models/guy2"}, {
+							"body":{
+							"walk":"models/guy2-walk",
+							"slash":"models/guy2-attack",
+							"standby":"models/guy2-standby"}
 						})
 		
 		self.playerActor.setHpr(0,0,0)
 		self.playerActor.setPos(0,0,-1)
-		self.playerActor.setScale(0.1)
+		self.playerActor.setScale(0.25)
 		
 		self.playerActor.reparentTo(self.playerNP)
 		
-		self.playerHand = self.playerActor.exposeJoint(None, 'body', 'antebrazoder')
+		self.playerHand = self.playerActor.exposeJoint(None, 'body', 'manod')
 		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
 		
 		#self.playerHead.setScale(10,10,10)
 		
 		self.models = []                 #A list that will store our models objects
-		items = [("models/sword1", (0.0, 5.0, -5), (0,90,0), .6),
-				("models/maze", (0.0, 5.0, -5.0), (0,90,0), .6)]
+		items = [("models/sword1", (0.0, 0.6, -1.5), (0,90,0), 0.2),
+				("models/maze", (0.0, 0.6, -1.5), (0,90,0), 0.2)]
 		
 		"""
 		weaponShape = BulletBoxShape(Vec3(0.1, 0.1, 1))# (x, y, z)
@@ -156,6 +159,7 @@ class Player():
 		
 		self.app.accept("i", self.toggleObject)
 		
+		self.playerActor.loop("standby")
 		
 	def moveCam(self, zoom):
 		
@@ -187,7 +191,7 @@ class Player():
 		
 	def jump(self):
 		self.playerNP.node().setMaxJumpHeight(3.0)
-		self.playerNP.node().setJumpSpeed(5.0)
+		self.playerNP.node().setJumpSpeed(3.0)
 		self.playerNP.node().doJump()
 		
 	def setKey(self, key, value):
@@ -265,7 +269,7 @@ class Player():
 		
 		#self.playerNP.node().setAngularMovement(omega)
 		#self.playerNP.setH(self.playerNP, (self.ori)*globalClock.getDt()*10  )
-		turn = Sequence(LerpQuatInterval(self.playerNP, duration=0.1,  hpr=Vec3(self.ori, 0, 0), blendType='easeInOut')).start()
+		turn = Sequence(LerpQuatInterval(self.playerNP, duration=0.05,  hpr=Vec3(self.ori, 0, 0), blendType='easeOut')).start()
 		self.playerNP.node().setLinearMovement(speed, True)
 		
 		# If dt6 is moving, loop the run animation.
@@ -275,10 +279,11 @@ class Player():
 			if self.isMoving is False:
 				self.playerActor.loop("walk")
 				self.isMoving = True
+				
 		else:
 			if self.isMoving:
 				self.playerActor.stop()
-				self.playerActor.pose("walk",1)
+				self.playerActor.loop("standby")
 				self.isMoving = False
 		
 		
