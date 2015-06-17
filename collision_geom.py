@@ -75,6 +75,7 @@ class Entity():
     @staticmethod
     def calcCollisionGeometryShapes(model):
         root = loader.loadModel(model)
+        root.ls()
         shapes = []
         # Find any collider geometry and transform it into a collision shape
         for shape in ["box", "sphere", "cylinder", "cone", "hull", "mesh"]:

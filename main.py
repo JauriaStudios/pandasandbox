@@ -28,7 +28,7 @@ from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletDebugNode
 
-#from collision_geom import Entity
+from collision_geom import Entity
 from utils import Crono, CursorPos, PlayerPos
 from player import Player
 from enemy import Enemy
@@ -39,6 +39,13 @@ class World(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		
+		#self.messenger.toggleVerbose()
+		#self.converter = Entity()
+		
+		#box = self.converter.calcCollisionGeometryShapes("models/box")
+		#print(box)
+		
+		#sys.exit()
 		#pdb.set_trace()
 		
 		# Window change event handler
@@ -87,8 +94,10 @@ class World(ShowBase):
 		self.debugNP.show()
 		self.debugNP.node().showWireframe(True)
 		self.debugNP.node().showConstraints(True)
-		self.debugNP.node().showBoundingBoxes(False)
+		self.debugNP.node().showBoundingBoxes(True)
 		self.debugNP.node().showNormals(False)
+		
+		#self.debugNP.hide()
 		
 		self.world = BulletWorld()
 		self.world.setGravity(Vec3(0, 0, -9.81))
@@ -105,7 +114,7 @@ class World(ShowBase):
 		
 		self.world.attachRigidBody(self.np.node())
 		
-        
+		
 		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
 		
 		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
@@ -140,7 +149,7 @@ class World(ShowBase):
 		# Apply scale and position transforms on the model.
 		self.environ.setScale(8, 8, 8)
 		self.environ.setPos(0, 0, -5)
-    
+	
 		self.statusBar.setScale(0.15, 0.15, 0.15)
 		self.statusBar.setPos(-0.95, 0, 0.65)
 		
@@ -149,9 +158,9 @@ class World(ShowBase):
 		self.taskMgr.add(self.crono.task, "cronoTask")
 		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
 		#self.taskMgr.add(self.playerpos.task, "playerposTask")
-        
+		
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
-        
+		
 		self.taskMgr.add(self.foe1.update, "enemyTask",priority=1)
 		self.taskMgr.add(self.nasgul.update, "enemyTask",priority=1)
 		
@@ -181,8 +190,8 @@ class World(ShowBase):
 			cp = contact.getManifoldPoint()
 			node0 = contact.getNode0()
 			node1 = contact.getNode1()
-			#if node1.getName() != "Ground":
-			#	print node0.getName(), node1.getName(), cp.getLocalPointA()
+			if node1.getName() != "Ground":
+				print node0.getName(), node1.getName(), cp.getLocalPointA()
 			
 			if self.nasgul:
 				if node1.getName() == "nasgul":

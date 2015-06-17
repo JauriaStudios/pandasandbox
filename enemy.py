@@ -32,7 +32,7 @@ class Enemy():
 		self.app = app
 		
 		self.name = name
-		height = 1
+		height = 3
 		radius = 1
 		
 		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
