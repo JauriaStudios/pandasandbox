@@ -24,6 +24,8 @@ from panda3d.core import OrthographicLens
 
 from direct.actor.Actor import Actor
 
+from direct.interval.IntervalGlobal import LerpQuatInterval, Sequence
+
 class Player():
 	def __init__(self, app, hp, mana, speed, dex):
 		
@@ -80,15 +82,28 @@ class Player():
 		#self.playerHead.setScale(10,10,10)
 		
 		self.models = []                 #A list that will store our models objects
-		items = [("models/sword1", (0,5.1,-4), (0,90,0), .6),
-				("models/maze", (0,5.1,-4), (0,90,0), .6)]
+		items = [("models/sword1", (0.0, 5.0, -5), (0,90,0), .6),
+				("models/maze", (0.0, 5.0, -5.0), (0,90,0), .6)]
 		
+		"""
+		weaponShape = BulletBoxShape(Vec3(0.1, 0.1, 1))# (x, y, z)
+		
+		weaponNP = self.app.worldNP.attachNewNode(BulletRigidBodyNode('weaponShape'))
+		weaponNP.node().addShape(weaponShape)
+		weaponNP.node().setMass(10.0)
+		weaponNP.setPos(0.0, 5.0, -5.0)
+		weaponNP.setCollideMask(BitMask32.allOn())
+		#self.app.world.attachRigidBody(weaponNP.node())
+		
+		self.app.weaponShape = weaponNP.node()
+		"""
 		for row in items:
 			np = self.app.loader.loadModel(row[0])				#Load the model
 			np.setPos(row[1][0], row[1][1], row[1][2])		#Position it
 			np.setHpr(row[2][0], row[2][1], row[2][2])		#Rotate it
 			np.setScale(row[3])								#Scale it
 			np.reparentTo(self.playerHand)
+			#weaponNP.reparentTo(self.playerHand)
 			self.models.append(np)							#Add it to our models list
 		
 		
@@ -249,7 +264,8 @@ class Player():
 		self.keyMap["attack"] = 0
 		
 		#self.playerNP.node().setAngularMovement(omega)
-		self.playerNP.setH(self.ori)
+		#self.playerNP.setH(self.playerNP, (self.ori)*globalClock.getDt()*10  )
+		turn = Sequence(LerpQuatInterval(self.playerNP, duration=0.1,  hpr=Vec3(self.ori, 0, 0), blendType='easeInOut')).start()
 		self.playerNP.node().setLinearMovement(speed, True)
 		
 		# If dt6 is moving, loop the run animation.
