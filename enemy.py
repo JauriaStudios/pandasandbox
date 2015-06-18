@@ -73,7 +73,7 @@ class Enemy():
 		if self.hp <= 0:
 			self.enemyNP.detachNode()
 			self.enemyNP.removeNode()
-			self.app.taskMgr.remove("enemyTask")
+			self.app.taskMgr.remove("%sTask" % self.name)
 		
 	def setupAI(self):
 		

@@ -128,7 +128,6 @@ class World(ShowBase):
 		self.cursorpos.draw(0.0, -0.85)
 		self.playerpos.draw(-0.7, -0.85)
 		
-		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0}
 		
 		# Load the models.
 		
@@ -161,8 +160,8 @@ class World(ShowBase):
 		
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
 		
-		self.taskMgr.add(self.foe1.update, "enemyTask",priority=1)
-		self.taskMgr.add(self.nasgul.update, "enemyTask",priority=1)
+		self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
+		self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
 		
 		self.taskMgr.add(self.update, 'update')
 		
