@@ -30,7 +30,7 @@ from panda3d.bullet import BulletDebugNode
 
 from startmenu import StartMenu
 
-#from collision_geom import Entity
+from collision_geom import Entity
 from utils import Crono, CursorPos, PlayerPos
 from player import Player
 from enemy import Enemy
@@ -41,15 +41,13 @@ class World(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		
-		#box = self.converter.calcCollisionGeometryShapes("models/box")
-		#print(box)
+		self.converter = Entity()
 		
 		self.menu = StartMenu(self)
 		
 		self.menu.show()
 		
 		#self.messenger.toggleVerbose()
-		#self.converter = Entity()
 		
 		
 		#sys.exit()
@@ -118,7 +116,7 @@ class World(ShowBase):
 		
 		self.debugNP.show()
 		self.debugNP.node().showWireframe(True)
-		self.debugNP.node().showConstraints(True)
+		self.debugNP.node().showConstraints(False)
 		self.debugNP.node().showBoundingBoxes(True)
 		self.debugNP.node().showNormals(False)
 		
@@ -128,6 +126,30 @@ class World(ShowBase):
 		self.world.setGravity(Vec3(0, 0, -9.81))
 		self.world.setDebugNode(self.debugNP.node())
 		
+		i = 0
+		self.testNP = []
+		for models in self.converter.calcCollisionShape("mesh", "models/entradacastillo"):
+			for shape in models:
+				self.testNP.append(self.worldNP.attachNewNode(BulletRigidBodyNode('worldShapes%s' % i)))
+				self.testNP[i].node().addShape(shape[0], shape[1])
+				i += 1
+		
+		# Terrain
+		
+		self.testNP[0].setScale(81.3,81.3,81.3)
+		self.testNP[0].setHpr(180, 0, 0)
+		self.testNP[0].setPos(-145.9, -40.8, 6)
+		self.world.attachRigidBody(self.testNP[0].node())
+		
+		# Arc
+		
+		self.testNP[1].setScale(1, 1,1)
+		self.testNP[1].setHpr(180, 90, 0)
+		self.testNP[1].setPos(0, 0, 6)
+		self.world.attachRigidBody(self.testNP[1].node())
+		
+			
+			
 		# Plane
 		shape = BulletPlaneShape(Vec3(0, 0, 1), 0)
 
@@ -138,7 +160,6 @@ class World(ShowBase):
 		self.np.setCollideMask(BitMask32.allOn())
 		
 		self.world.attachRigidBody(self.np.node())
-		
 		
 		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
 		
@@ -171,8 +192,9 @@ class World(ShowBase):
 		self.statusBar.reparentTo(self.render2d)
 		
 		# Apply scale and position transforms on the model.
-		self.environ.setScale(8, 8, 8)
-		self.environ.setPos(0, 0, -5)
+		self.environ.setScale(20, 20, 20)
+		self.environ.setHpr(0, 0, 0)
+		self.environ.setPos(0, 0, -1)
 	
 		self.statusBar.setScale(0.15, 0.15, 0.15)
 		self.statusBar.setPos(-0.95, 0, 0.65)
@@ -215,8 +237,8 @@ class World(ShowBase):
 			cp = contact.getManifoldPoint()
 			node0 = contact.getNode0()
 			node1 = contact.getNode1()
-			if node1.getName() != "Ground":
-				print node0.getName(), node1.getName(), cp.getLocalPointA()
+			#if node1.getName() != "Ground":
+				#print node0.getName(), node1.getName(), cp.getLocalPointA()
 			
 			if self.nasgul:
 				if node1.getName() == "nasgul":

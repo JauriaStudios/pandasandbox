@@ -179,8 +179,8 @@ class Player():
 		
 		if zoom == 0:
 			self.zoomLevel += 5
-			if self.zoomLevel >= 30:
-				self.zoomLevel = 30
+			#if self.zoomLevel >= 30:
+				#self.zoomLevel = 30
 		
 		elif zoom == 1:
 			self.zoomLevel -= 5
