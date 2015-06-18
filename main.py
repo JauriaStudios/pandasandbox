@@ -65,21 +65,35 @@ class World(ShowBase):
 		# Create some lighting
 		
 		ambientLight = AmbientLight("ambientLight")
-		ambientLight.setColor(Vec4(.1, .1, .1, 1))
+		ambientLight.setColor(Vec4(0.1, 0.1, 0.1, 1.8))
+		
 		directionalLight = DirectionalLight("directionalLight")
-		directionalLight.setDirection(Vec3(-10, -10, -10))
+		directionalLight.setDirection(Vec3(-10, -10, 5))
+		directionalLight.showFrustum()
 		directionalLight.setColor(Vec4(1, 1, 1, 1))
 		directionalLight.setSpecularColor(Vec4(1, 1, 1, 1))
+		dirnp = render.attachNewNode(directionalLight)
+		dirnp.setPos(10, 0, 6)
 		
 		plight1 = PointLight('plight1')
-		plight1.setColor(VBase4(1, 1, 1, 0.05))
+		plight1.setColor(VBase4(1, 1, 1, 1))
 		plight1.showFrustum()
 		plight1.setShadowCaster(True)
 		plnp1 = render.attachNewNode(plight1)
 		plnp1.setPos(26.71, -33.2, 6)
 		
+		plight2 = PointLight('plight2')
+		plight2.setColor(VBase4(0.2, 1.5, 1, 1))
+		plight2.showFrustum()
+		plight2.setShadowCaster(True)
+		plnp2 = render.attachNewNode(plight2)
+		plnp2.setPos(-25, 25, 5)
+		
 		render.setLight(plnp1)
+		render.setLight(plnp2)
 		render.setLight(render.attachNewNode(ambientLight))
+
+		render.setLight(dirnp)
 		
 		#self.environ.setShaderAuto()
 		
@@ -142,7 +156,7 @@ class World(ShowBase):
 		
 		# Load the models.
 		
-		self.environ = self.loader.loadModel("models/castillo")
+		self.environ = self.loader.loadModel("models/entradacastillo")
 		self.statusBar = self.loader.loadModel("models/statusbar")
 		
 		

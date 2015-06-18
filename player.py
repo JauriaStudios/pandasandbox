@@ -243,36 +243,33 @@ class Player():
 		
 		if (self.keyMap["left"]):
 			self.ori = 45
-			speed.setY( -10.0)
+			speed.setY( -20.0)
 		if (self.keyMap["right"]):
 			self.ori = -135
-			speed.setY( -10.0)
+			speed.setY( -20.0)
 		if (self.keyMap["forward"]):
 			self.ori = -45
-			speed.setY( -10.0)
+			speed.setY( -20.0)
 		if (self.keyMap["backward"]):
 			self.ori = 135
-			speed.setY( -10.0)
+			speed.setY( -20.0)
 		
 		
 		if (self.keyMap["left"]) and (self.keyMap["forward"]):
 			self.ori = 0
-			speed.setY( -10.0)
+			speed.setY( -20.0)
 			
 		if (self.keyMap["right"]) and (self.keyMap["forward"]):
 			self.ori = -90
-			speed.setY( -10.0)
+			speed.setY( -20.0)
 			
 		if (self.keyMap["left"]) and (self.keyMap["backward"]):
 			self.ori = 90
-			speed.setY( -10.0)
+			speed.setY( -20.0)
 			
 		if (self.keyMap["right"]) and (self.keyMap["backward"]):
 			self.ori = 180
-			speed.setY( -10.0)
-			
-			
-			
+			speed.setY( -20.0)
 			
 			
 		if (self.keyMap["jump"]):
