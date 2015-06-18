@@ -6,7 +6,7 @@
 
 #import pdb
 
-import sys, os
+import sys, os, time
 from math import pi, sin, cos
 
 from direct.showbase.ShowBase import ShowBase
@@ -28,6 +28,8 @@ from panda3d.bullet import BulletPlaneShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletDebugNode
 
+from startmenu import StartMenu
+
 from collision_geom import Entity
 from utils import Crono, CursorPos, PlayerPos
 from player import Player
@@ -38,6 +40,11 @@ class World(ShowBase):
 	
 	def __init__(self):
 		ShowBase.__init__(self)
+		
+		
+		self.menu = StartMenu(self)
+		
+		self.menu.show()
 		
 		#self.messenger.toggleVerbose()
 		#self.converter = Entity()
@@ -51,6 +58,10 @@ class World(ShowBase):
 		# Window change event handler
 		#self.windowEventSetup()
 		
+		
+		#self.setup()
+		
+	def initLights(self):
 		# Create some lighting
 		
 		ambientLight = AmbientLight("ambientLight")
@@ -95,8 +106,7 @@ class World(ShowBase):
 		self.light.node().getLens().setNearFar(10,100)
 		render.setLight(self.light)
 		"""
-		self.setup()
-		
+
 	def setup(self):
 		
 		self.worldNP = render.attachNewNode('World')
@@ -141,7 +151,6 @@ class World(ShowBase):
 		self.cursorpos.draw(0.0, -0.85)
 		self.playerpos.draw(-0.7, -0.85)
 		
-		self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0}
 		
 		# Load the models.
 		
@@ -174,8 +183,8 @@ class World(ShowBase):
 		
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
 		
-		self.taskMgr.add(self.foe1.update, "enemyTask",priority=1)
-		self.taskMgr.add(self.nasgul.update, "enemyTask",priority=1)
+		self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
+		self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
 		
 		self.taskMgr.add(self.update, 'update')
 		
@@ -184,7 +193,8 @@ class World(ShowBase):
 		
 		self.accept("c", self.crono.start)
 		
-	
+		self.initLights()
+		
 	def update(self, task):
 		dt = globalClock.getDt()
 		

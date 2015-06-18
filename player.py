@@ -32,6 +32,7 @@ class Player():
 		self.app = app
 		
 		self.ori = 0.0
+		self.lastori = -1
 		self.zoomLevel = 5.0
 		self.nextAttack = 0.0
 		
@@ -68,9 +69,10 @@ class Player():
 		
 		self.playerActor = Actor({"body":"models/guy2"}, {
 							"body":{
-							"walk":"models/guy2-walk",
-							"slash":"models/guy2-attack",
-							"standby":"models/guy2-standby"}
+								"walk":"models/guy2-walk",
+								"slash":"models/guy2-attack",
+								"standby":"models/guy2-standby"
+							}
 						})
 		
 		self.playerActor.setHpr(0,0,0)
@@ -269,7 +271,9 @@ class Player():
 		
 		#self.playerNP.node().setAngularMovement(omega)
 		#self.playerNP.setH(self.playerNP, (self.ori)*globalClock.getDt()*10  )
-		turn = Sequence(LerpQuatInterval(self.playerNP, duration=0.05,  hpr=Vec3(self.ori, 0, 0), blendType='easeOut')).start()
+		if self.lastori != self.ori :
+			turn = Sequence(LerpQuatInterval(self.playerNP, duration=0.05,  hpr=Vec3(self.ori, 0, 0), blendType='easeOut')).start()
+			self.lastori = self.ori
 		self.playerNP.node().setLinearMovement(speed, True)
 		
 		# If dt6 is moving, loop the run animation.

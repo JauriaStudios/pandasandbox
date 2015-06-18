@@ -1,0 +1,113 @@
+<Comment> {
+  "egg-texture-cards -o buttos_quit_maps.egg -p 240,240 quitready.png quitclicked.png quitrollover.png quitdisable.png"
+}
+<Texture> quitrollover {
+  quitrollover.png
+}
+<Texture> quitready {
+  quitready.png
+}
+<Texture> quitdisable {
+  quitdisable.png
+}
+<Texture> quitclicked {
+  quitclicked.png
+}
+<Group> {
+  <Switch> { 1 }
+  <Scalar> fps { 2 }
+  <VertexPool> vpool {
+    <Vertex> 0 {
+      -0.733333 0.252083 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 1 {
+      -0.733333 -0.252083 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 2 {
+      0.733333 -0.252083 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 3 {
+      0.733333 0.252083 0
+      <UV> { 1 1 }
+    }
+    <Vertex> 4 {
+      -0.733333 0.252083 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 5 {
+      -0.733333 -0.252083 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 6 {
+      0.733333 -0.252083 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 7 {
+      0.733333 0.252083 0
+      <UV> { 1 1 }
+    }
+    <Vertex> 8 {
+      -0.733333 0.252083 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 9 {
+      -0.733333 -0.252083 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 10 {
+      0.733333 -0.252083 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 11 {
+      0.733333 0.252083 0
+      <UV> { 1 1 }
+    }
+    <Vertex> 12 {
+      -0.733333 0.252083 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 13 {
+      -0.733333 -0.252083 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 14 {
+      0.733333 -0.252083 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 15 {
+      0.733333 0.252083 0
+      <UV> { 1 1 }
+    }
+  }
+  <Group> quitready {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { quitready }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> quitclicked {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { quitclicked }
+      <VertexRef> { 4 5 6 7 <Ref> { vpool } }
+    }
+  }
+  <Group> quitrollover {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { quitrollover }
+      <VertexRef> { 8 9 10 11 <Ref> { vpool } }
+    }
+  }
+  <Group> quitdisable {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { quitdisable }
+      <VertexRef> { 12 13 14 15 <Ref> { vpool } }
+    }
+  }
+}
