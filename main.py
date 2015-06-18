@@ -30,7 +30,7 @@ from panda3d.bullet import BulletDebugNode
 
 from startmenu import StartMenu
 
-from collision_geom import Entity
+#from collision_geom import Entity
 from utils import Crono, CursorPos, PlayerPos
 from player import Player
 from enemy import Enemy
@@ -41,6 +41,8 @@ class World(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		
+		#box = self.converter.calcCollisionGeometryShapes("models/box")
+		#print(box)
 		
 		self.menu = StartMenu(self)
 		
@@ -49,8 +51,6 @@ class World(ShowBase):
 		#self.messenger.toggleVerbose()
 		#self.converter = Entity()
 		
-		#box = self.converter.calcCollisionGeometryShapes("models/box")
-		#print(box)
 		
 		#sys.exit()
 		#pdb.set_trace()
@@ -80,6 +80,7 @@ class World(ShowBase):
 		
 		render.setLight(plnp1)
 		render.setLight(render.attachNewNode(ambientLight))
+		
 		#self.environ.setShaderAuto()
 		
 		#render.setLight(render.attachNewNode(directionalLight))
@@ -210,9 +211,9 @@ class World(ShowBase):
 			#print contact.getNode0(), cp.getPositionWorldOnA()
 			#print contact.getIdx0(), contact.getIdx1(), \
 			#      contact.getPartId0(), contact.getPartId1()
-
+			
 			#self.updateNode(node1)
-
+	
 	
 	def setKey(self, key, value):
 		self.keyMap[key] = value
@@ -251,17 +252,17 @@ class World(ShowBase):
 
 def main():
 	props = WindowProperties( )
-
+	
 	props.setTitle( 'El Juego Loco' )
 	props.setCursorFilename(Filename.binaryFilename("cursor.ico"))
 	props.setFullscreen(0)
 	props.setSize(1024, 768)
-
+	
 	app = World()
-
+	
 	app.win.requestProperties( props )
 	app.setFrameRateMeter(True)
-
+	
 	app.run()
 
 if __name__ == "__main__": main()

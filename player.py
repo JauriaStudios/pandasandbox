@@ -21,6 +21,7 @@ from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.core import PandaNode,NodePath
 from panda3d.core import TransformState
 from panda3d.core import OrthographicLens
+from panda3d.core import ModifierButtons
 
 from direct.actor.Actor import Actor
 
@@ -65,7 +66,18 @@ class Player():
 		self.floater = NodePath(PandaNode("floater"))
 		self.floater.reparentTo(render)
 		
-		self.keyMap = {"left":0, "right":0, "forward":0, "backward":0, "cam-left":0, "cam-right":0, "jump":0, "attack":0}
+		self.keyMap = {
+							"left":0,
+							"right":0,
+							"forward":0,
+							"backward":0,
+							
+							"cam-left":0,
+							"cam-right":0,
+							
+							"jump":0,
+							"attack":0
+						}
 		
 		self.playerActor = Actor({"body":"models/guy2"}, {
 							"body":{
@@ -142,10 +154,10 @@ class Player():
 		
 		self.app.accept("space", self.setKey, ["jump",1])
 		
-		self.app.accept("a-up", self.setKey, ["left",0])
-		self.app.accept("d-up", self.setKey, ["right",0])
-		self.app.accept("w-up", self.setKey, ["forward",0])
-		self.app.accept("s-up", self.setKey, ["backward",0])
+		self.app.accept("a-up", self.modKeys, ["left",0])
+		self.app.accept("d-up", self.modKeys, ["right",0])
+		self.app.accept("w-up", self.modKeys, ["forward",0])
+		self.app.accept("s-up", self.modKeys, ["backward",0])
 		
 		self.app.accept("x-up", self.setKey, ["attack",0])
 		
@@ -196,8 +208,13 @@ class Player():
 		self.playerNP.node().setJumpSpeed(3.0)
 		self.playerNP.node().doJump()
 		
+	def modKeys(self, key, value):
+		
+		self.keyMap[key] = value
+		
 	def setKey(self, key, value):
 		self.keyMap[key] = value
+		
 		
 		
 	def setObject(self, i):
@@ -222,16 +239,13 @@ class Player():
 		
 		
 		speed = Vec3(0, 0, 0)
-		omega = 0.0
 		
 		
 		if (self.keyMap["left"]):
 			self.ori = 45
-			#omega =  200.0
 			speed.setY( -10.0)
 		if (self.keyMap["right"]):
 			self.ori = -135
-			#omega = -200.0
 			speed.setY( -10.0)
 		if (self.keyMap["forward"]):
 			self.ori = -45
@@ -239,27 +253,27 @@ class Player():
 		if (self.keyMap["backward"]):
 			self.ori = 135
 			speed.setY( -10.0)
-			
+		
 		
 		if (self.keyMap["left"]) and (self.keyMap["forward"]):
 			self.ori = 0
-			#omega =  200.0
 			speed.setY( -10.0)
 			
 		if (self.keyMap["right"]) and (self.keyMap["forward"]):
 			self.ori = -90
-			#omega =  200.0
 			speed.setY( -10.0)
 			
 		if (self.keyMap["left"]) and (self.keyMap["backward"]):
 			self.ori = 90
-			#omega =  200.0
 			speed.setY( -10.0)
 			
 		if (self.keyMap["right"]) and (self.keyMap["backward"]):
 			self.ori = 180
-			#omega =  200.0
 			speed.setY( -10.0)
+			
+			
+			
+			
 			
 		if (self.keyMap["jump"]):
 			self.jump()
@@ -269,12 +283,11 @@ class Player():
 			self.nextAttack = task.time + self.attackSpeed
 		self.keyMap["attack"] = 0
 		
-		#self.playerNP.node().setAngularMovement(omega)
-		#self.playerNP.setH(self.playerNP, (self.ori)*globalClock.getDt()*10  )
 		if self.lastori != self.ori :
 			turn = Sequence(LerpQuatInterval(self.playerNP, duration=0.05,  hpr=Vec3(self.ori, 0, 0), blendType='easeOut')).start()
 			self.lastori = self.ori
 		self.playerNP.node().setLinearMovement(speed, True)
+		
 		
 		# If dt6 is moving, loop the run animation.
 		# If he is standing still, stop the animation.
