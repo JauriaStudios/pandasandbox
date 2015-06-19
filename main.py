@@ -186,7 +186,7 @@ class World(ShowBase):
 		self.world.setDebugNode(self.debugNP.node())
 		
 		
-		self.environ = self.loader.loadModel("models/piso")
+		self.environ = self.loader.loadModel("models/entradacastillo")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
