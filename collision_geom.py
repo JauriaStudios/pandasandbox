@@ -51,20 +51,6 @@ class Entity():
 		i = 0
 		for child in modelNode.findAllMatches('**/+GeomNode'):
 			
-			#child.ls()
-			
-			"""
-			print(child.getPos())
-			print(child.getScale())
-			print(child.getHpr())
-			"""
-			
-			"""
-			shape.setPos(child.getPos())
-			shape.setScale(child.getScale())
-			shape.setHpr(child.getHpr())
-			"""
-			
 			shapes.append(Entity.calcNodeCollisionShape(shape, child, None))
 			i += 1
 		return shapes

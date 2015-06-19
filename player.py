@@ -46,7 +46,6 @@ class Player():
 		self.playerNP = self.app.worldNP.attachNewNode(self.playerNode)
 		self.playerNP.setPos(0, 0, 0)
 		self.playerNP.setScale(2)
-		#self.playerNP.setH(-90)
 		self.playerNP.setCollideMask(BitMask32.allOn())
 
 		self.app.world.attachCharacter(self.playerNP.node())
