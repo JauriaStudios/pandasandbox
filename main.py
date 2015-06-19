@@ -39,8 +39,6 @@ class World(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		
-		self.converter = Entity()
-		
 		self.menu = StartMenu(self)
 		
 		self.menu.show()
@@ -168,6 +166,8 @@ class World(ShowBase):
 		
 	def initWorld(self):
 		
+		self.converter = Entity()
+		
 		self.worldNP = render.attachNewNode('World')
 		
 		# World
@@ -186,10 +186,10 @@ class World(ShowBase):
 		self.world.setDebugNode(self.debugNP.node())
 		
 		
-		self.environ = self.loader.loadModel("models/entradacastillo")
+		self.environ = self.loader.loadModel("models/piso")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
-		self.environ.setPos(0, 0, 2)
+		self.environ.setPos(0, 0, 0)
 		
 		i = 0
 		self.testNP = []
@@ -211,17 +211,18 @@ class World(ShowBase):
 		
 		
 		# Plane
+		"""
 		shape = BulletPlaneShape(Vec3(0, 0, -1), 0)
 		
 		self.np = self.worldNP.attachNewNode(BulletRigidBodyNode('Ground'))
 		self.np.node().addShape(shape)
 		self.np.setPos(0, 0, -2)
 		self.np.setCollideMask(BitMask32.allOn())
-		
 		self.world.attachRigidBody(self.np.node())
+		"""
 		
 		# Reparent the model to NodePath.
-		self.environ.reparentTo(self.np)
+		self.environ.reparentTo(render)
 		
 	def update(self, task):
 		dt = globalClock.getDt()
