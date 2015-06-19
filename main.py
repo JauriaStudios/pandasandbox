@@ -59,6 +59,67 @@ class World(ShowBase):
 		
 		#self.setup()
 		
+	def setup(self):
+		
+		
+		self.initWorld()
+		self.initLights()
+		self.initGui()
+		
+		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
+		
+		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
+		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
+		
+		self.initTasks()
+		
+		# Accept the control keys
+		self.accept("escape", sys.exit)
+		
+		self.accept("c", self.crono.start)
+		
+	def initGui(self):
+		
+		# Load the models.
+		
+		self.statusBar = self.loader.loadModel("models/statusbar")
+		
+		
+		self.statusBar.setDepthTest(True)
+		self.statusBar.setDepthWrite(True)
+		
+		
+		# Reparent the model to render2d.
+		self.statusBar.reparentTo(self.render2d)
+		
+		
+		self.statusBar.setScale(0.15, 0.15, 0.15)
+		self.statusBar.setPos(-0.95, 0, 0.65)
+		
+		
+		self.crono = Crono(self)
+		self.cursorpos = CursorPos(self)
+		self.playerpos = PlayerPos(self)
+		
+		self.crono.draw(0.7, -0.85)
+		self.cursorpos.draw(0.0, -0.85)
+		self.playerpos.draw(-0.7, -0.85)
+	
+	def initTasks(self):
+		
+		self.taskMgr.add(self.player.move, "moveTask")
+		
+		self.taskMgr.add(self.crono.task, "cronoTask")
+		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
+		#self.taskMgr.add(self.playerpos.task, "playerposTask")
+		
+		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
+		
+		self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
+		self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
+		
+		self.taskMgr.add(self.update, 'update')
+	
 	def initLights(self):
 		# Create some lighting
 		
@@ -106,8 +167,8 @@ class World(ShowBase):
 		self.light.node().getLens().setNearFar(10,100)
 		render.setLight(self.light)
 		"""
-
-	def setup(self):
+		
+	def initWorld(self):
 		
 		self.worldNP = render.attachNewNode('World')
 		
@@ -126,16 +187,21 @@ class World(ShowBase):
 		self.world.setGravity(Vec3(0, 0, -9.81))
 		self.world.setDebugNode(self.debugNP.node())
 		
+		
+		self.environ = self.loader.loadModel("models/entradacastillo")
+		#self.environ.setScale(20, 20, 20)
+		#self.environ.setHpr(0, 0, 0)
+		self.environ.setPos(0, 0, 2)
+		
 		i = 0
 		self.testNP = []
-		for models in self.converter.calcCollisionShape("mesh", "models/entradacastillo"):
+		for models in self.converter.calcCollisionShape("mesh", self.environ):
 			for shape in models:
 				self.testNP.append(self.worldNP.attachNewNode(BulletRigidBodyNode('worldShapes%s' % i)))
 				self.testNP[i].node().addShape(shape[0], shape[1])
 				#self.world.attachRigidBody(self.testNP[i].node())
 				i += 1
 		
-		self.environ = self.loader.loadModel("models/entradacastillo")
 		
 		i = 0
 		for model in self.environ.findAllMatches('**/+GeomNode'):
@@ -157,62 +223,8 @@ class World(ShowBase):
 		
 		self.world.attachRigidBody(self.np.node())
 		
-		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
-		
-		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
-		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
-		
-		self.crono = Crono(self)
-		self.cursorpos = CursorPos(self)
-		self.playerpos = PlayerPos(self)
-		
-		self.crono.draw(0.7, -0.85)
-		self.cursorpos.draw(0.0, -0.85)
-		self.playerpos.draw(-0.7, -0.85)
-		
-		
-		# Load the models.
-		
-		self.statusBar = self.loader.loadModel("models/statusbar")
-		
-		
-		self.statusBar.setDepthTest(True)
-		self.statusBar.setDepthWrite(True)
-		
 		# Reparent the model to NodePath.
 		self.environ.reparentTo(self.np)
-		
-		
-		# Reparent the model to render2d.
-		self.statusBar.reparentTo(self.render2d)
-		
-		# Apply scale and position transforms on the model.
-		#self.environ.setScale(20, 20, 20)
-		self.environ.setHpr(0, 0, 0)
-		self.environ.setPos(0, 0, 2)
-		
-		self.statusBar.setScale(0.15, 0.15, 0.15)
-		self.statusBar.setPos(-0.95, 0, 0.65)
-		
-		self.taskMgr.add(self.player.move, "moveTask")
-		
-		self.taskMgr.add(self.crono.task, "cronoTask")
-		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
-		#self.taskMgr.add(self.playerpos.task, "playerposTask")
-		
-		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
-		
-		self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
-		self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
-		
-		self.taskMgr.add(self.update, 'update')
-		
-		# Accept the control keys
-		self.accept("escape", sys.exit)
-		
-		self.accept("c", self.crono.start)
-		
-		self.initLights()
 		
 	def update(self, task):
 		dt = globalClock.getDt()

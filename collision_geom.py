@@ -45,8 +45,7 @@ class Entity():
 		if shape == "geometry":
 			return Entity.calcCollisionGeometryShapes(model)
 		
-		modelNode = loader.loadModel(model)
-		modelNode
+		modelNode = model
 		shapes = []
 		i = 0
 		for child in modelNode.findAllMatches('**/+GeomNode'):
