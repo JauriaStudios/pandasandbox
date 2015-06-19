@@ -17,7 +17,7 @@ class Entity():
 	def calcSize(model):
 		entityModel = loader.loadModel(model)
 		return Entity.calcNodeSize(entityModel)
-
+	
 	@staticmethod
 	def calcNodeSize(node):
 		bottomLeft, topRight = node.getTightBounds()
@@ -25,7 +25,7 @@ class Entity():
 		depth = topRight.y - bottomLeft.y
 		height = topRight.z - bottomLeft.z
 		return Vec3(width, depth, height)
-
+	
 	@staticmethod
 	def calcTransform(nodePath, root):
 		bottomLeft, topRight = nodePath.getTightBounds()
@@ -38,7 +38,7 @@ class Entity():
 			# Combine the shape offset with nodePath's transform to the root node
 			transform = nodePath.getTransform(root)
 			return transform.setPos(transform.getPos() + originOffset)
-
+	
 	@staticmethod
 	def calcCollisionShape(shape, model):
 		
@@ -46,14 +46,29 @@ class Entity():
 			return Entity.calcCollisionGeometryShapes(model)
 		
 		modelNode = loader.loadModel(model)
-		
+		modelNode
 		shapes = []
 		i = 0
 		for child in modelNode.findAllMatches('**/+GeomNode'):
+			
+			#child.ls()
+			
+			"""
+			print(child.getPos())
+			print(child.getScale())
+			print(child.getHpr())
+			"""
+			
+			"""
+			shape.setPos(child.getPos())
+			shape.setScale(child.getScale())
+			shape.setHpr(child.getHpr())
+			"""
+			
 			shapes.append(Entity.calcNodeCollisionShape(shape, child, None))
 			i += 1
 		return shapes
-
+	
 	@staticmethod
 	def calcNodeCollisionShape(shape, nodePath, root):
 		width, depth, height = Entity.calcNodeSize(nodePath)
@@ -78,7 +93,7 @@ class Entity():
 			return [(BulletTriangleMeshShape(mesh, dynamic=False), TransformState.makeIdentity())]
 		else:
 			raise AttributeError('Collision type ' + str(shape) + ' does not exist!')
-
+	
 	@staticmethod
 	def calcCollisionGeometryShapes(model):
 		root = loader.loadModel(model)
@@ -89,5 +104,5 @@ class Entity():
 			for child in root.findAllMatches('**/*'):
 				shapes = itertools.chain(shapes, Entity.calcNodeCollisionShape(shape, NodePath(child), root))
 				child.removeNode()
-
+		
 		return shapes

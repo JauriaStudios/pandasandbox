@@ -132,31 +132,27 @@ class World(ShowBase):
 			for shape in models:
 				self.testNP.append(self.worldNP.attachNewNode(BulletRigidBodyNode('worldShapes%s' % i)))
 				self.testNP[i].node().addShape(shape[0], shape[1])
+				#self.world.attachRigidBody(self.testNP[i].node())
 				i += 1
 		
-		# Terrain
+		self.environ = self.loader.loadModel("models/entradacastillo")
 		
-		self.testNP[0].setScale(81.3,81.3,81.3)
-		self.testNP[0].setHpr(180, 0, 0)
-		self.testNP[0].setPos(-145.9, -40.8, 6)
-		self.world.attachRigidBody(self.testNP[0].node())
-		
-		# Arc
-		
-		self.testNP[1].setScale(1, 1,1)
-		self.testNP[1].setHpr(180, 90, 0)
-		self.testNP[1].setPos(0, 0, 6)
-		self.world.attachRigidBody(self.testNP[1].node())
-		
+		i = 0
+		for model in self.environ.findAllMatches('**/+GeomNode'):
 			
-			
+			self.testNP[i].setScale(model.getScale())
+			self.testNP[i].setHpr(model.getHpr())
+			self.testNP[i].setPos(model.getPos())
+			self.world.attachRigidBody(self.testNP[i].node())
+			i += 1
+		
+		
 		# Plane
-		shape = BulletPlaneShape(Vec3(0, 0, 1), 0)
-
+		shape = BulletPlaneShape(Vec3(0, 0, -1), 0)
 		
 		self.np = self.worldNP.attachNewNode(BulletRigidBodyNode('Ground'))
 		self.np.node().addShape(shape)
-		self.np.setPos(0, 0, -1)
+		self.np.setPos(0, 0, -2)
 		self.np.setCollideMask(BitMask32.allOn())
 		
 		self.world.attachRigidBody(self.np.node())
@@ -177,7 +173,6 @@ class World(ShowBase):
 		
 		# Load the models.
 		
-		self.environ = self.loader.loadModel("models/entradacastillo")
 		self.statusBar = self.loader.loadModel("models/statusbar")
 		
 		
@@ -192,10 +187,10 @@ class World(ShowBase):
 		self.statusBar.reparentTo(self.render2d)
 		
 		# Apply scale and position transforms on the model.
-		self.environ.setScale(20, 20, 20)
+		#self.environ.setScale(20, 20, 20)
 		self.environ.setHpr(0, 0, 0)
-		self.environ.setPos(0, 0, -1)
-	
+		self.environ.setPos(0, 0, 2)
+		
 		self.statusBar.setScale(0.15, 0.15, 0.15)
 		self.statusBar.setPos(-0.95, 0, 0.65)
 		
@@ -229,9 +224,9 @@ class World(ShowBase):
 	def processContacts(self):
 		if not self.playerShape: 
 			return
-
+		
 		result = self.world.contactTest(self.playerShape)
-
+		
 		#print '-->', result.getNumContacts()
 		for contact in result.getContacts():
 			cp = contact.getManifoldPoint()
