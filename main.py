@@ -14,8 +14,6 @@ from direct.task import Task
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
 
-from panda3d.core import CollisionTraverser,CollisionNode
-from panda3d.core import CollisionHandlerQueue,CollisionRay
 from panda3d.core import PandaNode,NodePath,Camera,TextNode
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
@@ -62,9 +60,9 @@ class World(ShowBase):
 	def setup(self):
 		
 		
+		self.initGui()
 		self.initWorld()
 		self.initLights()
-		self.initGui()
 		
 		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
 		
@@ -199,7 +197,6 @@ class World(ShowBase):
 			for shape in models:
 				self.testNP.append(self.worldNP.attachNewNode(BulletRigidBodyNode('worldShapes%s' % i)))
 				self.testNP[i].node().addShape(shape[0], shape[1])
-				#self.world.attachRigidBody(self.testNP[i].node())
 				i += 1
 		
 		
