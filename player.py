@@ -75,7 +75,8 @@ class Player():
 							"cam-right":0,
 							
 							"jump":0,
-							"attack":0
+							"attack":0,
+							"run":0
 						}
 		
 		self.playerActor = Actor({"body":"models/guy2"}, {
@@ -142,9 +143,13 @@ class Player():
 		
 		
 		self.app.accept("a", self.setKey, ["left",1])
+		self.app.accept("shift-a", self.setKey, ["left",1])
 		self.app.accept("d", self.setKey, ["right",1])
+		self.app.accept("shift-d", self.setKey, ["right",1])
 		self.app.accept("w", self.setKey, ["forward",1])
+		self.app.accept("shift-w", self.setKey, ["forward",1])
 		self.app.accept("s", self.setKey, ["backward",1])
+		self.app.accept("shift-s", self.setKey, ["backward",1])
 		
 		self.app.accept("x", self.setKey, ["attack",1])
 		
@@ -166,6 +171,8 @@ class Player():
 		self.app.accept("space-up", self.setKey, ["jump",0])
 		
 		
+		self.app.accept("shift", self.setKey, ["run",1])
+		self.app.accept("shift-up", self.setKey, ["run",0])
 		
 		self.app.accept("wheel_up", self.moveCam, [1])
 		self.app.accept("wheel_down", self.moveCam, [0])
@@ -238,33 +245,80 @@ class Player():
 		
 		if (self.keyMap["left"]):
 			self.ori = 45
-			speed.setY( -20.0)
+			
+			if (self.keyMap["run"]):
+				speed.setY(-20.0)
+			else:
+				speed.setY(-10.0)
+				
 		if (self.keyMap["right"]):
 			self.ori = -135
-			speed.setY( -20.0)
+			
+			if (self.keyMap["run"]):
+				speed.setY(-20.0)
+			else:
+				speed.setY(-10.0)
+				
+		
 		if (self.keyMap["forward"]):
 			self.ori = -45
-			speed.setY( -20.0)
+			
+			if (self.keyMap["run"]):
+				speed.setY(-20.0)
+			else:
+				speed.setY(-10.0)
+				
+		
 		if (self.keyMap["backward"]):
 			self.ori = 135
-			speed.setY( -20.0)
+			
+			if (self.keyMap["run"]):
+				speed.setY(-20.0)
+			else:
+				speed.setY(-10.0)
+				
+		
 		
 		
 		if (self.keyMap["left"]) and (self.keyMap["forward"]):
 			self.ori = 0
-			speed.setY( -20.0)
+			
+			if (self.keyMap["run"]):
+				speed.setY(-20.0)
+			else:
+				speed.setY(-10.0)
+				
+		
 			
 		if (self.keyMap["right"]) and (self.keyMap["forward"]):
 			self.ori = -90
-			speed.setY( -20.0)
+			
+			if (self.keyMap["run"]):
+				speed.setY(-20.0)
+			else:
+				speed.setY(-10.0)
+				
+		
 			
 		if (self.keyMap["left"]) and (self.keyMap["backward"]):
 			self.ori = 90
-			speed.setY( -20.0)
+			
+			if (self.keyMap["run"]):
+				speed.setY(-20.0)
+			else:
+				speed.setY(-10.0)
+				
+		
 			
 		if (self.keyMap["right"]) and (self.keyMap["backward"]):
 			self.ori = 180
-			speed.setY( -20.0)
+			
+			if (self.keyMap["run"]):
+				speed.setY(-20.0)
+			else:
+				speed.setY(-10.0)
+				
+		
 			
 			
 		if (self.keyMap["jump"]):
