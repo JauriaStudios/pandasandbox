@@ -153,10 +153,10 @@ class Player():
 		
 		self.app.accept("space", self.setKey, ["jump",1])
 		
-		self.app.accept("a-up", self.modKeys, ["left",0])
-		self.app.accept("d-up", self.modKeys, ["right",0])
-		self.app.accept("w-up", self.modKeys, ["forward",0])
-		self.app.accept("s-up", self.modKeys, ["backward",0])
+		self.app.accept("a-up", self.setKey, ["left",0])
+		self.app.accept("d-up", self.setKey, ["right",0])
+		self.app.accept("w-up", self.setKey, ["forward",0])
+		self.app.accept("s-up", self.setKey, ["backward",0])
 		
 		self.app.accept("x-up", self.setKey, ["attack",0])
 		
@@ -206,10 +206,6 @@ class Player():
 		self.playerNP.node().setMaxJumpHeight(3.0)
 		self.playerNP.node().setJumpSpeed(3.0)
 		self.playerNP.node().doJump()
-		
-	def modKeys(self, key, value):
-		
-		self.keyMap[key] = value
 		
 	def setKey(self, key, value):
 		self.keyMap[key] = value
