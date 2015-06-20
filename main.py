@@ -18,6 +18,7 @@ from panda3d.core import PandaNode,NodePath,Camera,TextNode
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.core import Filename,AmbientLight,DirectionalLight, PointLight, Spotlight
+from panda3d.core import PerspectiveLens
 
 from pandac.PandaModules import WindowProperties
 
@@ -60,17 +61,16 @@ class World(ShowBase):
 		
 		self.initGui()
 		self.initWorld()
-		self.initLights()
 		
 		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
 		
 		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 		
+		self.initLights()
 		self.initTasks()
 		
 		# Accept the control keys
-		self.accept("escape", sys.exit)
 		
 		self.accept("c", self.crono.start)
 		
@@ -119,9 +119,10 @@ class World(ShowBase):
 	def initLights(self):
 		# Create some lighting
 		
-		ambientLight = AmbientLight("ambientLight")
-		ambientLight.setColor(Vec4(0.1, 0.1, 0.1, 1.8))
+		#ambientLight = AmbientLight("ambientLight")
+		#ambientLight.setColor(Vec4(0.1, 0.1, 0.1, 1.8))
 		
+		"""
 		directionalLight = DirectionalLight("directionalLight")
 		directionalLight.setDirection(Vec3(-10, -10, 5))
 		directionalLight.showFrustum()
@@ -129,28 +130,41 @@ class World(ShowBase):
 		directionalLight.setSpecularColor(Vec4(1, 1, 1, 1))
 		dirnp = render.attachNewNode(directionalLight)
 		dirnp.setPos(10, 0, 6)
+		"""
 		
 		plight1 = PointLight('plight1')
 		plight1.setColor(VBase4(1, 1, 1, 1))
 		plight1.showFrustum()
-		plight1.setShadowCaster(True)
+		#plight1.setShadowCaster(True)
 		plnp1 = render.attachNewNode(plight1)
 		plnp1.setPos(26.71, -33.2, 6)
 		
 		plight2 = PointLight('plight2')
 		plight2.setColor(VBase4(0.2, 1.5, 1, 1))
 		plight2.showFrustum()
-		plight2.setShadowCaster(True)
 		plnp2 = render.attachNewNode(plight2)
 		plnp2.setPos(-25, 25, 5)
 		
+		slight = Spotlight('slight')
+		slight.setColor(VBase4(1, 1, 1, 1))
+		lens = PerspectiveLens()
+		lens.setFilmSize(1, 1)  # Or whatever is appropriate for your scene
+		slight.setLens(lens)
+		slight.setShadowCaster(True, 512, 512)
+		slight.showFrustum()
+		slnp = render.attachNewNode(slight)
+		slnp.setPos(0, 0, 5)
+		
+		slnp.lookAt(Vec3(0,0,0))
+		
+		render.setLight(slnp)
 		render.setLight(plnp1)
 		render.setLight(plnp2)
-		render.setLight(render.attachNewNode(ambientLight))
+		#render.setLight(render.attachNewNode(ambientLight))
 
-		render.setLight(dirnp)
+		#render.setLight(dirnp)
 		
-		#self.environ.setShaderAuto()
+		render.setShaderAuto()
 		
 		#render.setLight(render.attachNewNode(directionalLight))
 		
@@ -179,7 +193,7 @@ class World(ShowBase):
 		self.debugNP.node().showBoundingBoxes(True)
 		self.debugNP.node().showNormals(False)
 		
-		#self.debugNP.hide()
+		self.debugNP.hide()
 		
 		self.world = BulletWorld()
 		self.world.setGravity(Vec3(0, 0, -9.81))

@@ -85,6 +85,7 @@ class StartMenu(DirectObject.DirectObject):
 										#clickSound=self.soundManager.click))
 		
 		
+		self.accept("escape", sys.exit)
 		
 	def show(self): 
 		self.frame.show()        

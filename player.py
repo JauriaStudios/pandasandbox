@@ -87,7 +87,7 @@ class Player():
 						})
 		
 		self.playerActor.setHpr(0,0,0)
-		self.playerActor.setPos(0,0,-1)
+		self.playerActor.setPos(0,0,-1.3)
 		self.playerActor.setScale(0.25)
 		
 		self.playerActor.reparentTo(self.playerNP)
