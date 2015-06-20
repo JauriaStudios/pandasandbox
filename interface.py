@@ -54,7 +54,7 @@ class Status(DirectObject.DirectObject):
 		self.frame = DirectFrame()
 		self.frame['frameColor']=(0.8, 0.8, 0.8, 0)
 		self.frame['image'] = "hud/statuspanel.png"
-		self.frame['image_scale'] = (0.5, 0.5, 0.7)
+		self.frame['image_scale'] = (0.5, 0.5, 0.5)
 		self.frame.setPos(0.6, 0, 0)
 		
 		self.frame.setTransparency(TransparencyAttrib.MAlpha)
@@ -72,18 +72,15 @@ class Status(DirectObject.DirectObject):
 											frameColor=(0.8,0.8,0.8,0)
 										)
 		
-		mapsClose = loader.loadModel('hud/mainMenu/buttons_close_maps.egg')
+		mapsClose = loader.loadModel('hud/interface/buttons_close_maps.egg')
 		self.closeButton = DirectButton(
 											parent=self.frame,
-											pos=(0.43,0,0.64),
+											pos=(0.44,0,0.64),
 											image = (
-												mapsClose.find('**/closeready'),
-												mapsClose.find('**/closeclicked'),
-												mapsClose.find('**/closerollover'),
-												mapsClose.find('**/closedisable')
+												mapsClose.find('**/close'),
 											),
 											command=self.hide,
-											scale=(0.1,0.1,0.21),
+											scale=0.1,
 											borderWidth=(0.01,0.01),
 											frameSize=(-0.55, 0.55, -0.2, 0.2),  
 											frameColor=(0.8,0.8,0.8,0)
