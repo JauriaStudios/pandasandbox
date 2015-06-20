@@ -15,10 +15,10 @@
   <Scalar> emitb { 0.000000 }
 }
 
-<Material> muralla {
-  <Scalar> diffr { 0.287072 }
-  <Scalar> diffg { 0.287072 }
-  <Scalar> diffb { 0.287072 }
+<Material> hierba {
+  <Scalar> diffr { 0.000000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.002584 }
   <Scalar> specr { 0.500000 }
   <Scalar> specg { 0.500000 }
   <Scalar> specb { 0.500000 }
@@ -31,10 +31,10 @@
   <Scalar> emitb { 0.000000 }
 }
 
-<Material> hojas {
-  <Scalar> diffr { 0.002994 }
-  <Scalar> diffg { 0.640000 }
-  <Scalar> diffb { 0.000000 }
+<Material> muralla {
+  <Scalar> diffr { 0.287072 }
+  <Scalar> diffg { 0.287072 }
+  <Scalar> diffb { 0.287072 }
   <Scalar> specr { 0.500000 }
   <Scalar> specg { 0.500000 }
   <Scalar> specb { 0.500000 }
@@ -63,22 +63,6 @@
   <Scalar> emitb { 0.000000 }
 }
 
-<Material> hierba {
-  <Scalar> diffr { 0.000000 }
-  <Scalar> diffg { 0.640000 }
-  <Scalar> diffb { 0.002584 }
-  <Scalar> specr { 0.500000 }
-  <Scalar> specg { 0.500000 }
-  <Scalar> specb { 0.500000 }
-  <Scalar> shininess { 12.5 }
-  <Scalar> ambr { 1.000000 }
-  <Scalar> ambg { 1.000000 }
-  <Scalar> ambb { 1.000000 }
-  <Scalar> emitr { 0.000000 }
-  <Scalar> emitg { 0.000000 }
-  <Scalar> emitb { 0.000000 }
-}
-
 <Material> suelo {
   <Scalar> diffr { 0.337850 }
   <Scalar> diffg { 0.568442 }
@@ -93,6 +77,36 @@
   <Scalar> emitr { 0.000000 }
   <Scalar> emitg { 0.000000 }
   <Scalar> emitb { 0.000000 }
+}
+
+<Material> hojas {
+  <Scalar> diffr { 0.002994 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.000000 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Texture> muralla {
+  "./tex/brick_medieval_4193_5404_Small.jpg"
+  <Scalar> uv-name { ORCO }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Transform> {
+    <Translate> { -0.5 -0.5 -0.5 }
+    <Scale> { 3.0 1.0 1.0 }
+    <Translate> { 0.5 0.5 0.5 }
+  }
 }
 
 <Texture> Texture {
@@ -123,31 +137,6 @@
   }
 }
 
-<Texture> muralla {
-  "./tex/brick_medieval_4193_5404_Small.jpg"
-  <Scalar> uv-name { ORCO }
-  <Scalar> envtype { MODULATE }
-  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
-  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
-  <Scalar> wrap { REPEAT }
-  <Transform> {
-    <Translate> { -0.5 -0.5 -0.5 }
-    <Scale> { 3.0 1.0 1.0 }
-    <Translate> { 0.5 0.5 0.5 }
-  }
-}
-
-  <Group> Sun {
-    <Transform> {
-      <Matrix4> {
-        -2.6901650428771973 4.062036396135227e-07 -1.9065868580213987e-16 0.0 
-        -3.8495667809002043e-07 -2.549453020095825 0.8586505055427551 0.0 
-        1.2965261930730776e-07 0.8586505055427551 2.549453020095825 0.0 
-        71.30133819580078 2.493051052093506 153.79698181152344 1.0 
-      }
-    }
-    
-  }
   <Group> Circle {
     <Transform> {
       <Matrix4> {
@@ -6675,7 +6664,7 @@
       <VertexRef> { 996 997 998 999 <Ref> { Circle }} 
     }
   }
-  <Group> Plane.001 {
+  <Group> barranco {
     <Transform> {
       <Matrix4> {
         -11.88067626953125 1.7939322560778237e-06 0.0 0.0 
@@ -6685,7 +6674,7 @@
       }
     }
     
-    <VertexPool> Plane.001 {
+    <VertexPool> barranco {
     
       <Vertex> 0 {-75.012779 -93.691948 -31.680405
         <UV> ORCO {
@@ -7932,326 +7921,326 @@
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 0 1 2 3 <Ref> { Plane.001 }} 
+      <VertexRef> { 0 1 2 3 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 4 5 6 7 <Ref> { Plane.001 }} 
+      <VertexRef> { 4 5 6 7 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 8 9 10 11 <Ref> { Plane.001 }} 
+      <VertexRef> { 8 9 10 11 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 12 13 14 15 <Ref> { Plane.001 }} 
+      <VertexRef> { 12 13 14 15 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 16 17 18 19 <Ref> { Plane.001 }} 
+      <VertexRef> { 16 17 18 19 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 20 21 22 23 <Ref> { Plane.001 }} 
+      <VertexRef> { 20 21 22 23 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 24 25 26 27 <Ref> { Plane.001 }} 
+      <VertexRef> { 24 25 26 27 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 28 29 30 31 <Ref> { Plane.001 }} 
+      <VertexRef> { 28 29 30 31 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 32 33 34 35 <Ref> { Plane.001 }} 
+      <VertexRef> { 32 33 34 35 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 36 37 38 39 <Ref> { Plane.001 }} 
+      <VertexRef> { 36 37 38 39 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 40 41 42 43 <Ref> { Plane.001 }} 
+      <VertexRef> { 40 41 42 43 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 44 45 46 47 <Ref> { Plane.001 }} 
+      <VertexRef> { 44 45 46 47 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 48 49 50 51 <Ref> { Plane.001 }} 
+      <VertexRef> { 48 49 50 51 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 0.000000 -1.000000}
-      <VertexRef> { 52 53 54 55 <Ref> { Plane.001 }} 
+      <VertexRef> { 52 53 54 55 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.000000 -1.000000 0.000000}
-      <VertexRef> { 56 57 58 59 <Ref> { Plane.001 }} 
+      <VertexRef> { 56 57 58 59 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 60 61 62 63 <Ref> { Plane.001 }} 
+      <VertexRef> { 60 61 62 63 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 64 65 66 67 <Ref> { Plane.001 }} 
+      <VertexRef> { 64 65 66 67 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.842475 -0.511006 0.170611}
-      <VertexRef> { 68 69 70 71 <Ref> { Plane.001 }} 
+      <VertexRef> { 68 69 70 71 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 72 73 74 75 <Ref> { Plane.001 }} 
+      <VertexRef> { 72 73 74 75 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 76 77 78 79 <Ref> { Plane.001 }} 
+      <VertexRef> { 76 77 78 79 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.148501 -0.988455 0.030073}
-      <VertexRef> { 80 81 82 83 <Ref> { Plane.001 }} 
+      <VertexRef> { 80 81 82 83 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.980104 0.000000 -0.198482}
-      <VertexRef> { 84 85 86 87 <Ref> { Plane.001 }} 
+      <VertexRef> { 84 85 86 87 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.980104 0.000000 -0.198482}
-      <VertexRef> { 88 89 90 91 <Ref> { Plane.001 }} 
+      <VertexRef> { 88 89 90 91 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.980104 0.000000 -0.198482}
-      <VertexRef> { 92 93 94 95 <Ref> { Plane.001 }} 
+      <VertexRef> { 92 93 94 95 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 96 97 98 99 <Ref> { Plane.001 }} 
+      <VertexRef> { 96 97 98 99 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 100 101 102 103 <Ref> { Plane.001 }} 
+      <VertexRef> { 100 101 102 103 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.845185 -0.506327 0.171160}
-      <VertexRef> { 104 105 106 107 <Ref> { Plane.001 }} 
+      <VertexRef> { 104 105 106 107 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 108 109 110 111 <Ref> { Plane.001 }} 
+      <VertexRef> { 108 109 110 111 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.390106 -0.917743 0.074594}
-      <VertexRef> { 112 113 114 115 <Ref> { Plane.001 }} 
+      <VertexRef> { 112 113 114 115 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 1.000000 0.000000}
-      <VertexRef> { 116 117 118 119 <Ref> { Plane.001 }} 
+      <VertexRef> { 116 117 118 119 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.982205 0.000000 -0.187813}
-      <VertexRef> { 120 121 122 123 <Ref> { Plane.001 }} 
+      <VertexRef> { 120 121 122 123 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.361738 0.929710 0.069170}
-      <VertexRef> { 124 125 126 127 <Ref> { Plane.001 }} 
+      <VertexRef> { 124 125 126 127 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.982205 0.000000 -0.187813}
-      <VertexRef> { 128 129 130 131 <Ref> { Plane.001 }} 
+      <VertexRef> { 128 129 130 131 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.982205 0.000000 -0.187813}
-      <VertexRef> { 132 133 134 135 <Ref> { Plane.001 }} 
+      <VertexRef> { 132 133 134 135 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.817628 0.554112 0.156343}
-      <VertexRef> { 136 137 138 139 <Ref> { Plane.001 }} 
+      <VertexRef> { 136 137 138 139 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.583963 0.804064 0.111663}
-      <VertexRef> { 140 141 142 143 <Ref> { Plane.001 }} 
+      <VertexRef> { 140 141 142 143 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.982205 0.000000 -0.187813}
-      <VertexRef> { 144 145 146 147 <Ref> { Plane.001 }} 
+      <VertexRef> { 144 145 146 147 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.982205 0.000000 -0.187813}
-      <VertexRef> { 148 149 150 151 <Ref> { Plane.001 }} 
+      <VertexRef> { 148 149 150 151 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.982205 0.000000 -0.187813}
-      <VertexRef> { 152 153 154 155 <Ref> { Plane.001 }} 
+      <VertexRef> { 152 153 154 155 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.352766 -0.933277 0.067454}
-      <VertexRef> { 156 157 158 159 <Ref> { Plane.001 }} 
+      <VertexRef> { 156 157 158 159 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.410758 -0.908355 0.078543}
-      <VertexRef> { 160 161 162 163 <Ref> { Plane.001 }} 
+      <VertexRef> { 160 161 162 163 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.000000 -1.000000 0.000000}
-      <VertexRef> { 164 165 166 167 <Ref> { Plane.001 }} 
+      <VertexRef> { 164 165 166 167 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 1.000000 0.000000}
-      <VertexRef> { 168 169 170 171 <Ref> { Plane.001 }} 
+      <VertexRef> { 168 169 170 171 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.000000 -1.000000 0.000000}
-      <VertexRef> { 172 173 174 175 <Ref> { Plane.001 }} 
+      <VertexRef> { 172 173 174 175 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.499155 -0.861240 0.095446}
-      <VertexRef> { 176 177 178 179 <Ref> { Plane.001 }} 
+      <VertexRef> { 176 177 178 179 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.982205 0.000000 -0.187813}
-      <VertexRef> { 180 181 182 183 <Ref> { Plane.001 }} 
+      <VertexRef> { 180 181 182 183 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 184 185 186 187 <Ref> { Plane.001 }} 
+      <VertexRef> { 184 185 186 187 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 188 189 190 191 <Ref> { Plane.001 }} 
+      <VertexRef> { 188 189 190 191 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 192 193 194 195 <Ref> { Plane.001 }} 
+      <VertexRef> { 192 193 194 195 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 196 197 198 199 <Ref> { Plane.001 }} 
+      <VertexRef> { 196 197 198 199 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 200 201 202 203 <Ref> { Plane.001 }} 
+      <VertexRef> { 200 201 202 203 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 204 205 206 207 <Ref> { Plane.001 }} 
+      <VertexRef> { 204 205 206 207 <Ref> { barranco }} 
     }
     <Polygon> {
       <TRef> { Texture.001 }
       <MRef> { hierba }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 208 209 210 211 <Ref> { Plane.001 }} 
+      <VertexRef> { 208 209 210 211 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.578074 0.807543 0.117067}
-      <VertexRef> { 212 213 214 215 <Ref> { Plane.001 }} 
+      <VertexRef> { 212 213 214 215 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.347018 0.935222 0.070275}
-      <VertexRef> { 216 217 218 219 <Ref> { Plane.001 }} 
+      <VertexRef> { 216 217 218 219 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.980104 0.000000 -0.198482}
-      <VertexRef> { 220 221 222 223 <Ref> { Plane.001 }} 
+      <VertexRef> { 220 221 222 223 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.000000 1.000000 0.000000}
-      <VertexRef> { 224 225 226 227 <Ref> { Plane.001 }} 
+      <VertexRef> { 224 225 226 227 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.980104 0.000000 -0.198482}
-      <VertexRef> { 228 229 230 231 <Ref> { Plane.001 }} 
+      <VertexRef> { 228 229 230 231 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.980104 0.000000 -0.198482}
-      <VertexRef> { 232 233 234 235 <Ref> { Plane.001 }} 
+      <VertexRef> { 232 233 234 235 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.550395 -0.827431 0.111461}
-      <VertexRef> { 236 237 238 239 <Ref> { Plane.001 }} 
+      <VertexRef> { 236 237 238 239 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {-0.980104 0.000000 -0.198482}
-      <VertexRef> { 240 241 242 243 <Ref> { Plane.001 }} 
+      <VertexRef> { 240 241 242 243 <Ref> { barranco }} 
     }
     <Polygon> {
       <MRef> { Material }
       <Normal> {0.576505 0.808710 0.116749}
-      <VertexRef> { 244 245 246 247 <Ref> { Plane.001 }} 
+      <VertexRef> { 244 245 246 247 <Ref> { barranco }} 
     }
   }
   <Group> arbol {

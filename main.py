@@ -28,6 +28,7 @@ from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletDebugNode
 
 from startmenu import StartMenu
+from interface import Inventory, Status, Skills
 
 from collision_geom import Entity
 from utils import Crono, CursorPos, PlayerPos
@@ -72,11 +73,15 @@ class World(ShowBase):
 		
 		# Accept the control keys
 		
-		self.accept("c", self.crono.start)
+		self.accept("h", self.crono.start)
 		
 	def initGui(self):
 		
 		# Load the models.
+		
+		self.inventory = Inventory(self)
+		self.status = Status(self)
+		self.skills = Skills(self)
 		
 		self.statusBar = self.loader.loadModel("models/statusbar")
 		
@@ -100,6 +105,11 @@ class World(ShowBase):
 		self.crono.draw(0.7, -0.85)
 		self.cursorpos.draw(0.0, -0.85)
 		self.playerpos.draw(-0.7, -0.85)
+		
+		
+		self.accept("i", self.inventory.toggle)
+		self.accept("c", self.status.toggle)
+		self.accept("k", self.skills.toggle)
 	
 	def initTasks(self):
 		

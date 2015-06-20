@@ -170,7 +170,7 @@ class Player():
 		self.app.accept("wheel_up", self.moveCam, [1])
 		self.app.accept("wheel_down", self.moveCam, [0])
 		
-		self.app.accept("i", self.toggleObject)
+		self.app.accept("t", self.toggleObject)
 		
 		self.playerActor.loop("standby")
 		

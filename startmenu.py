@@ -18,6 +18,7 @@ from pandac.PandaModules import AntialiasAttrib
 class StartMenu(DirectObject.DirectObject):
 	def __init__( self, app):
 		self.app = app
+		
 		self.frame = DirectFrame()
 		self.frame['frameColor']=(0.8, 0.8, 0.8, 0)
 		self.frame['image'] = "hud/startMenu.png"
