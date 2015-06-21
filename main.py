@@ -61,6 +61,7 @@ class World(ShowBase):
 		
 		
 		self.initGui()
+		
 		self.initWorld()
 		
 		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):

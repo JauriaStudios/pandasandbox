@@ -1,32 +1,32 @@
 <Comment> {
-  "egg-texture-cards -o buttons_close_maps.egg -p 64,64 close.png"
+  "egg-texture-cards -o labels_attr_maps.egg -p 18,22 attr.png"
 }
-<Texture> close {
-  close.png
+<Texture> attr {
+  attr.png
 }
 <Group> {
   <VertexPool> vpool {
     <Vertex> 0 {
-      -0.5 0.5 0
+      -0.611111 0.409091 0
       <UV> { 0 1 }
     }
     <Vertex> 1 {
-      -0.5 -0.5 0
+      -0.611111 -0.409091 0
       <UV> { 0 0 }
     }
     <Vertex> 2 {
-      0.5 -0.5 0
+      0.611111 -0.409091 0
       <UV> { 1 0 }
     }
     <Vertex> 3 {
-      0.5 0.5 0
+      0.611111 0.409091 0
       <UV> { 1 1 }
     }
   }
-  <Group> close {
+  <Group> attr {
     <Polygon> {
       <RGBA> { 1 1 1 1 }
-      <TRef> { close }
+      <TRef> { attr }
       <VertexRef> { 0 1 2 3 <Ref> { vpool } }
     }
   }
