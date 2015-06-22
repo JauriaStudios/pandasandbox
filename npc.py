@@ -36,12 +36,12 @@ class Npc():
 		height = 6
 		radius = 3
 		
-		#shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
+		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
 		#talkShape = BulletCapsuleShape(5, height - 2*radius, ZUp)
 		
-		points = [Point3(0, 0, 0), Point3(0, 0, 0)]
-		radii = [1, 2]
-		shape = BulletMultiSphereShape(points, radii)
+		#points = [Point3(0, 0, 0), Point3(0, 0, 0)]
+		#radii = [1, 2]
+		#shape = BulletMultiSphereShape(points, radii)
 		
 		
 		self.npcNode = BulletCharacterControllerNode(shape, 0.4, self.name)
