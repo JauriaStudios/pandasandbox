@@ -44,7 +44,7 @@ class Player():
 		
 		self.playerNode = BulletCharacterControllerNode(shape, 0.4, 'Player')
 		self.playerNP = self.app.worldNP.attachNewNode(self.playerNode)
-		self.playerNP.setPos(0, 0, 1)
+		self.playerNP.setPos(0, 0, -15)
 		self.playerNP.setScale(2)
 		self.playerNP.setCollideMask(BitMask32.allOn())
 

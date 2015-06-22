@@ -39,7 +39,7 @@ class Enemy():
 		
 		self.enemyNode = BulletCharacterControllerNode(shape, 0.4, self.name)
 		self.enemyNP = self.app.worldNP.attachNewNode(self.enemyNode)
-		self.enemyNP.setPos(-2, 0, 0.22)
+		self.enemyNP.setPos(0, 0, -15)
 		self.enemyNP.setH(45)
 		self.enemyNP.setCollideMask(BitMask32.allOn())
 
