@@ -16,9 +16,10 @@ from panda3d.bullet import BulletRigidBodyNode
 from panda3d.bullet import BulletBoxShape
 from panda3d.bullet import BulletCylinderShape
 from panda3d.bullet import BulletCapsuleShape
+from panda3d.bullet import BulletSphereShape
+from panda3d.bullet import BulletMultiSphereShape
 from panda3d.bullet import BulletCharacterControllerNode
 from panda3d.bullet import ZUp
-
 from direct.actor.Actor import Actor
 
 from direct.interval.IntervalGlobal import Sequence
@@ -32,12 +33,19 @@ class Npc():
 		self.app = app
 		
 		self.name = name
-		height = 3
-		radius = 1
+		height = 6
+		radius = 3
 		
-		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
+		#shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
+		#talkShape = BulletCapsuleShape(5, height - 2*radius, ZUp)
+		
+		points = [Point3(0, 0, 0), Point3(0, 0, 0)]
+		radii = [1, 2]
+		shape = BulletMultiSphereShape(points, radii)
+		
 		
 		self.npcNode = BulletCharacterControllerNode(shape, 0.4, self.name)
+		
 		self.npcNP = self.app.worldNP.attachNewNode(self.npcNode)
 		self.npcNP.setPos(0, 0, -15)
 		self.npcNP.setH(45)
@@ -60,7 +68,7 @@ class Npc():
 						})
 		
 		self.npcActor.setHpr(0,0,0)
-		self.npcActor.setPos(0,0,-0.5)
+		self.npcActor.setPos(0,0,-2.5)
 		self.npcActor.setScale(0.5)
 		self.npcActor.reparentTo(self.npcNP)
 		
@@ -85,7 +93,7 @@ class Npc():
 		
 		self.AIworld = AIWorld(render)
 		
-		self.AIchar = AICharacter("npc",self.npcNP, 60, 0.05, 5)
+		self.AIchar = AICharacter("npc",self.npcNP, 100, 0.05, 5)
 		self.AIworld.addAiChar(self.AIchar)
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
 		
