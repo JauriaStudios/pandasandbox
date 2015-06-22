@@ -4,6 +4,9 @@
 
 # Just sandboxing
 
+
+from random import randint as random
+
 from direct.task import Task
 
 from panda3d.bullet import BulletPlaneShape
@@ -28,7 +31,7 @@ from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import LerpQuatInterval, Sequence
 
 class Player():
-	def __init__(self, app, hp, mana, speed, dex):
+	def __init__(self, app, hp, mana, strength, dexterity, vigor, magic):
 		
 		self.app = app
 		
@@ -53,14 +56,35 @@ class Player():
 		self.app.playerShape = self.playerNode
 		
 		self.attacked = False
+		
+		# Atributos
+		
 		self.hp = hp
 		self.mana = mana
-		self.speed = speed
-		self.dex = dex
 		
-		attackSpeedPerDex = 0.2
-		attackSpeed = (attackSpeedPerDex * dex) / 60
-		self.attackSpeed = attackSpeed
+		self.strength = strength
+		self.dexterity = dexterity
+		self.vigor = vigor
+		self.magic = magic
+		
+		# Atributos calculados
+		
+		self.attackDamage = random(1, 7) + self.strength/100				# physical dmg = weapon damage * %str
+		
+		self.magicDamage = random(3, 12) + self.magic/100					# magic dmg = skill damage * %magic
+		
+		self.speed = 5 + 0													# speed = base speed + item
+		
+		self.defense = 5 + self.vigor/2										# defense = armour + 1/2 vigor
+		
+		self.criticalChance = 10 + 0										# crit chance = base item + skill
+		
+		self.criticalMultiplier = self.attackDamage*1.5						# crit mult = base item + skill
+		
+		self.magicDefense = 2 + self.magic/2								# magic def = base item + 1/2 magic
+		
+		self.attackSpeed = (0.2 * dex) / 60									# attack speed = base * dex / 60
+		
 		
 		self.floater = NodePath(PandaNode("floater"))
 		self.floater.reparentTo(render)

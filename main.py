@@ -64,7 +64,7 @@ class World(ShowBase):
 		
 		self.initWorld()
 		
-		self.player = Player(self, 100, 50, 5, 10) #(self, app, hp, mana, speed, dex):
+		self.player = Player(self, 10, 10, 10, 10, 10, 10) #( app, hp, mana, strength, dexterity, vigor, magic)
 		
 		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
