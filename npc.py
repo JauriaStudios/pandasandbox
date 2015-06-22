@@ -32,33 +32,29 @@ class Npc():
 		
 		self.app = app
 		
+		self.hp = hp
+		self.mana = mana
+		self.speed = speed
+		self.attackSpeed = attackSpeed
+		
 		self.name = name
+		
 		height = 6
-		radius = 3
+		radius = 1
 		
 		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
-		#talkShape = BulletCapsuleShape(5, height - 2*radius, ZUp)
-		
-		#points = [Point3(0, 0, 0), Point3(0, 0, 0)]
-		#radii = [1, 2]
-		#shape = BulletMultiSphereShape(points, radii)
 		
 		
 		self.npcNode = BulletCharacterControllerNode(shape, 0.4, self.name)
 		
 		self.npcNP = self.app.worldNP.attachNewNode(self.npcNode)
 		self.npcNP.setPos(0, 0, -15)
-		self.npcNP.setH(45)
 		self.npcNP.setCollideMask(BitMask32.allOn())
 		
 		self.app.world.attachCharacter(self.npcNP.node())
 		
 		self.app.npcShape = self.npcNode
 		
-		self.hp = hp
-		self.mana = mana
-		self.speed = speed
-		self.attackSpeed = attackSpeed
 		
 		self.model = "models/%s" % self.name
 		self.modelWalk = "models/%s-walk" % self.name
@@ -67,8 +63,8 @@ class Npc():
 							{"body":{"walk":self.modelWalk},
 						})
 		
-		self.npcActor.setHpr(0,0,0)
-		self.npcActor.setPos(0,0,-2.5)
+		self.npcActor.setHpr(45,0,0)
+		self.npcActor.setPos(0,0,-3.3)
 		self.npcActor.setScale(0.5)
 		self.npcActor.reparentTo(self.npcNP)
 		
@@ -93,13 +89,28 @@ class Npc():
 		
 		self.AIworld = AIWorld(render)
 		
-		self.AIchar = AICharacter("npc",self.npcNP, 100, 0.05, 5)
+		self.AIchar = AICharacter("npc", self.npcNP, 100, 0.05, 5)
 		self.AIworld.addAiChar(self.AIchar)
+		
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
+		
+		
 		
 		self.AIbehaviors.wander(10, 0, 15, 1.0)
 		
-		self.npcActor.loop("walk")
+		
+		#Path follow (note the order is reveresed)
+		"""
+		self.AIbehaviors.pathFollow(1)
+		self.AIbehaviors.addToPath((0,-20,0))
+		self.AIbehaviors.addToPath((0,20,0))
+		self.AIbehaviors.addToPath((20,-10,0))
+		self.AIbehaviors.addToPath((15,-20,0))
+		
+		self.AIbehaviors.startFollow()
+		"""
+		
+		#self.npcActor.loop("walk")
 		
 	def update(self, Task):
 		

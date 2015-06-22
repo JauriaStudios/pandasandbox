@@ -212,7 +212,7 @@ class World(ShowBase):
 		self.debugNP.node().showBoundingBoxes(True)
 		self.debugNP.node().showNormals(False)
 		
-		self.debugNP.hide()
+		#self.debugNP.hide()
 		
 		self.world = BulletWorld()
 		self.world.setGravity(Vec3(0, 0, -9.81))
