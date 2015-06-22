@@ -1,5 +1,5 @@
 <Comment> {
-  "egg-texture-cards -o buttons_arrows_maps.egg -p 16,16 arrowleft.png arrowright.png arrowrightclick.png arrowleftclick.png arrowrightover.png arrowleftover.png"
+  "egg-texture-cards -o buttons_arrows_maps.egg -p 16,16 arrowleft.png arrowleftclick.png arrowleftover.png arrowright.png arrowrightclick.png arrowrightover.png"
 }
 <Texture> arrowrightover {
   arrowrightover.png
@@ -127,38 +127,38 @@
       <VertexRef> { 0 1 2 3 <Ref> { vpool } }
     }
   }
-  <Group> arrowright {
-    <Polygon> {
-      <RGBA> { 1 1 1 1 }
-      <TRef> { arrowright }
-      <VertexRef> { 4 5 6 7 <Ref> { vpool } }
-    }
-  }
-  <Group> arrowrightclick {
-    <Polygon> {
-      <RGBA> { 1 1 1 1 }
-      <TRef> { arrowrightclick }
-      <VertexRef> { 8 9 10 11 <Ref> { vpool } }
-    }
-  }
   <Group> arrowleftclick {
     <Polygon> {
       <RGBA> { 1 1 1 1 }
       <TRef> { arrowleftclick }
-      <VertexRef> { 12 13 14 15 <Ref> { vpool } }
-    }
-  }
-  <Group> arrowrightover {
-    <Polygon> {
-      <RGBA> { 1 1 1 1 }
-      <TRef> { arrowrightover }
-      <VertexRef> { 16 17 18 19 <Ref> { vpool } }
+      <VertexRef> { 4 5 6 7 <Ref> { vpool } }
     }
   }
   <Group> arrowleftover {
     <Polygon> {
       <RGBA> { 1 1 1 1 }
       <TRef> { arrowleftover }
+      <VertexRef> { 8 9 10 11 <Ref> { vpool } }
+    }
+  }
+  <Group> arrowright {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { arrowright }
+      <VertexRef> { 12 13 14 15 <Ref> { vpool } }
+    }
+  }
+  <Group> arrowrightclick {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { arrowrightclick }
+      <VertexRef> { 16 17 18 19 <Ref> { vpool } }
+    }
+  }
+  <Group> arrowrightover {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { arrowrightover }
       <VertexRef> { 20 21 22 23 <Ref> { vpool } }
     }
   }

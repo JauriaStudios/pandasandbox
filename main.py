@@ -34,6 +34,7 @@ from collision_geom import Entity
 from utils import Crono, CursorPos, PlayerPos
 from player import Player
 from enemy import Enemy
+from npc import Npc
 
 
 class World(ShowBase):
@@ -63,11 +64,7 @@ class World(ShowBase):
 		self.initGui()
 		
 		self.initWorld()
-		
-		self.player = Player(self, 10, 10, 10, 10, 10, 10) #( app, hp, mana, strength, dexterity, vigor, magic)
-		
-		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
-		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
+		self.initActors()
 		
 		self.initLights()
 		self.initTasks()
@@ -75,6 +72,15 @@ class World(ShowBase):
 		# Accept the control keys
 		
 		self.accept("h", self.crono.start)
+		
+	def initActors(self):
+		
+		self.player = Player(self, 20, 10, 10, 10, 10, 10) #app, hp, mana, strength, dexterity, vigor, magic):
+		
+		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
+		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
+		
+		self.npc1 = Npc(self, 100, 50, 5, 2, "guy2")
 		
 	def initGui(self):
 		
@@ -124,6 +130,7 @@ class World(ShowBase):
 		
 		self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
 		self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
+		self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
 		
 		self.taskMgr.add(self.update, 'update')
 	
@@ -204,7 +211,7 @@ class World(ShowBase):
 		self.debugNP.node().showBoundingBoxes(True)
 		self.debugNP.node().showNormals(False)
 		
-		self.debugNP.hide()
+		#self.debugNP.hide()
 		
 		self.world = BulletWorld()
 		self.world.setGravity(Vec3(0, 0, -9.81))

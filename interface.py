@@ -24,8 +24,8 @@ class Inventory(DirectObject.DirectObject):
 		
 		self.frame = DirectFrame()
 		self.frame['frameColor']=(0.8, 0.8, 0.8, 0)
-		self.frame['image'] = "hud/startMenu.png"
-		self.frame['image_scale'] = (1.0, 1.0, 1.0)
+		self.frame['image'] = "hud/statuspanel.png"
+		self.frame['image_scale'] = (0.5, 0.5, 0.5)
 		self.frame.setPos(-0.6, 0, 0)
 		
 		self.frame.setTransparency(TransparencyAttrib.MAlpha)
@@ -155,6 +155,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowleftover'),
 											),
 											#command=self.hide,
+                                            image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -168,6 +169,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowleftover'),
 											),
 											#command=self.hide,
+                                            image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01),  
 											frameColor=(0.8,0.8,0.8,0)
@@ -181,6 +183,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowleftover'),
 											),
 											#command=self.hide,
+                                            image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01),
 											frameColor=(0.8,0.8,0.8,0)
@@ -194,6 +197,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowleftover'),
 											),
 											#command=self.hide,
+                                            image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01),
 											frameColor=(0.8,0.8,0.8,0)
@@ -210,6 +214,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowrightover'),
 											),
 											#command=self.hide,
+                                            image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -223,6 +228,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowrightover'),
 											),
 											#command=self.hide,
+                                            image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -236,6 +242,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowrightover'),
 											),
 											#command=self.hide,
+                                            image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -249,6 +256,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowrightover'),
 											),
 											#command=self.hide,
+                                            image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -330,7 +338,7 @@ class Skills(DirectObject.DirectObject):
 		self.frame = DirectFrame()
 		self.frame['frameColor']=(0.8, 0.8, 0.8, 0)
 		self.frame['image'] = "hud/startMenu.png"
-		self.frame['image_scale'] = (1.0, 1.0, 1.0)
+		self.frame['image_scale'] = (0.5, 0.5, 0.5)
 		self.frame.setPos(0.6, 0, 0)
 		
 		self.frame.setTransparency(TransparencyAttrib.MAlpha)
