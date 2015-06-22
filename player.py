@@ -83,7 +83,7 @@ class Player():
 		
 		self.magicDefense = 2 + self.magic/2								# magic def = base item + 1/2 magic
 		
-		self.attackSpeed = (0.2 * dex) / 60									# attack speed = base * dex / 60
+		self.attackSpeed = (0.2 * self.dexterity) / 60									# attack speed = base * dex / 60
 		
 		
 		self.floater = NodePath(PandaNode("floater"))

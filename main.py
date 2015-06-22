@@ -60,13 +60,14 @@ class World(ShowBase):
 		
 	def setup(self):
 		
+		self.initWorld()
+		
+		self.initActors()
 		
 		self.initGui()
 		
-		self.initWorld()
-		self.initActors()
-		
 		self.initLights()
+		
 		self.initTasks()
 		
 		# Accept the control keys
@@ -211,7 +212,7 @@ class World(ShowBase):
 		self.debugNP.node().showBoundingBoxes(True)
 		self.debugNP.node().showNormals(False)
 		
-		#self.debugNP.hide()
+		self.debugNP.hide()
 		
 		self.world = BulletWorld()
 		self.world.setGravity(Vec3(0, 0, -9.81))

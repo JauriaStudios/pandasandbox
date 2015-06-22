@@ -141,6 +141,22 @@ class Status(DirectObject.DirectObject):
 											scale=0.065,
 											frameColor=(0.8,0.8,0.8,0)
 										)
+		self.vigorLabel = DirectLabel(
+											parent=self.frame,
+											pos=(-0.12,0,0),
+											text="Vigor",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		self.magicLabel = DirectLabel(
+											parent=self.frame,
+											pos=(-0.12,0,-0.07),
+											text="Magic",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
 		
 		# Arrow left buttons
 		
@@ -155,7 +171,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowleftover'),
 											),
 											#command=self.hide,
-                                            image_scale=0.5,
+											image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -169,7 +185,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowleftover'),
 											),
 											#command=self.hide,
-                                            image_scale=0.5,
+											image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01),  
 											frameColor=(0.8,0.8,0.8,0)
@@ -183,7 +199,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowleftover'),
 											),
 											#command=self.hide,
-                                            image_scale=0.5,
+											image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01),
 											frameColor=(0.8,0.8,0.8,0)
@@ -197,7 +213,35 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowleftover'),
 											),
 											#command=self.hide,
-                                            image_scale=0.5,
+											image_scale=0.5,
+											scale=0.1,
+											borderWidth=(0.01,0.01),
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		self.minusVigorButton = DirectButton(
+											parent=self.frame,
+											pos=(0.2,0,0.02),
+											image = (
+												mapsArrows.find('**/arrowleft'),
+												mapsArrows.find('**/arrowleftclick'),
+												mapsArrows.find('**/arrowleftover'),
+											),
+											#command=self.hide,
+											image_scale=0.5,
+											scale=0.1,
+											borderWidth=(0.01,0.01),
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		self.minusMagicButton = DirectButton(
+											parent=self.frame,
+											pos=(0.2,0,-0.05),
+											image = (
+												mapsArrows.find('**/arrowleft'),
+												mapsArrows.find('**/arrowleftclick'),
+												mapsArrows.find('**/arrowleftover'),
+											),
+											#command=self.hide,
+											image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01),
 											frameColor=(0.8,0.8,0.8,0)
@@ -214,7 +258,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowrightover'),
 											),
 											#command=self.hide,
-                                            image_scale=0.5,
+											image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -228,7 +272,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowrightover'),
 											),
 											#command=self.hide,
-                                            image_scale=0.5,
+											image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -242,7 +286,7 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowrightover'),
 											),
 											#command=self.hide,
-                                            image_scale=0.5,
+											image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -256,7 +300,35 @@ class Status(DirectObject.DirectObject):
 												mapsArrows.find('**/arrowrightover'),
 											),
 											#command=self.hide,
-                                            image_scale=0.5,
+											image_scale=0.5,
+											scale=0.1,
+											borderWidth=(0.01,0.01), 
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		self.plusVigorButton = DirectButton(
+											parent=self.frame,
+											pos=(0.4,0,0.02),
+											image = (
+												mapsArrows.find('**/arrowright'),
+												mapsArrows.find('**/arrowrightclick'),
+												mapsArrows.find('**/arrowrightover'),
+											),
+											#command=self.hide,
+											image_scale=0.5,
+											scale=0.1,
+											borderWidth=(0.01,0.01), 
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		self.plusMagicButton = DirectButton(
+											parent=self.frame,
+											pos=(0.4,0,-0.05),
+											image = (
+												mapsArrows.find('**/arrowright'),
+												mapsArrows.find('**/arrowrightclick'),
+												mapsArrows.find('**/arrowrightover'),
+											),
+											#command=self.hide,
+											image_scale=0.5,
 											scale=0.1,
 											borderWidth=(0.01,0.01), 
 											frameColor=(0.8,0.8,0.8,0)
@@ -268,7 +340,7 @@ class Status(DirectObject.DirectObject):
 		self.attrHpLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.30),
-											text="20",
+											text=str(self.app.player.hp),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -280,7 +352,7 @@ class Status(DirectObject.DirectObject):
 		self.attrManaLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.23),
-											text="10",
+											text=str(self.app.player.mana),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -292,7 +364,7 @@ class Status(DirectObject.DirectObject):
 		self.attrStrLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.16),
-											text="25",
+											text=str(self.app.player.strength),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -304,7 +376,236 @@ class Status(DirectObject.DirectObject):
 		self.attrDexLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.09),
-											text="15",
+											text=str(self.app.player.dexterity),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		self.attrVigorLabel = DirectLabel(
+											parent=self.frame,
+											pos=(0.3,0,0.02),
+											text=str(self.app.player.vigor),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		self.attrMagicLabel = DirectLabel(
+											parent=self.frame,
+											pos=(0.3,0,-0.05),
+											text=str(self.app.player.magic),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		# Attr Results
+		
+		
+		
+		self.scrollFrame = DirectScrolledFrame(
+											parent = self.frame,
+											canvasSize = (-0.4,0.4,-0.3,0.3),
+											frameSize = (-0.486,0.486,-0.193,0.193)
+											) 
+		self.scrollFrame.setPos(0.0, 0.0, -0.3)
+		
+		self.scrollNP = self.scrollFrame.getCanvas()
+		
+		# Total damage
+		
+		self.damageLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(-0.3,0,0.23),
+											text="Damage",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		self.attrDamageLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(0.3,0,0.25),
+											text=str(self.app.player.attackDamage),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		# Total magic damage
+		
+		self.magicDamageLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(-0.3,0,0.16),
+											text="Magic Damage",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		self.attrMagicDamageLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(0.3,0,0.18),
+											text=str(self.app.player.magicDamage),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		# Total speed
+		
+		self.speedLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(-0.3,0,0.09),
+											text="Speed",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		self.attrSpeedLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(0.3,0,0.11),
+											text=str(self.app.player.speed),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		# Total attack speed
+		
+		self.attackSpeedLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(-0.3,0,0.02),
+											text="Attack Speed",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		self.attrAttackSpeedLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(0.3,0,0.04),
+											text=str("%0.2f" % self.app.player.attackSpeed),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		# Total defense
+		
+		self.defenseLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(-0.3,0,-0.05),
+											text="Defense",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		self.attrDefenseLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(0.3,0,-0.03),
+											text=str(self.app.player.defense),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		# Total critical chanse
+		
+		self.criticalChanceLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(-0.3,0,-0.12),
+											text="Critical",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		self.attrCriticalChanceLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(0.3,0,-0.10),
+											text=str(self.app.player.criticalChance),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		# Total critical multiplier
+		
+		self.criticalMultiplierLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(-0.3,0,-0.19),
+											text="Critical Multi",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		self.attrCriticalMultiplierLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(0.3,0,-0.17),
+											text=str(self.app.player.criticalMultiplier),
+											text_pos=(0,-0.23),
+											text_scale=(0.8,0.8),
+											image = (
+												mapsAttr.find('**/attr'),
+											),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		# Total magical defense
+		
+		self.magicDefenseLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(-0.3,0,-0.26),
+											text="Magic Defense",
+											text_align = TextNode.ALeft,
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+		self.attrMagicDefenseLabel = DirectLabel(
+											parent=self.scrollNP,
+											pos=(0.3,0,-0.24),
+											text=str(self.app.player.magicDefense),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
