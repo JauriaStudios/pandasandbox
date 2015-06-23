@@ -9,8 +9,10 @@ from random import randint as random
 
 from direct.task import Task
 
-from panda3d.core import CollisionTraverser,CollisionNode
-from panda3d.core import CollisionHandlerQueue,CollisionRay
+from panda3d.core import CollisionTraverser, CollisionNode
+from panda3d.core import CollisionHandlerQueue, CollisionRay
+from panda3d.core import CollideMask
+
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.core import PandaNode,NodePath
@@ -83,7 +85,7 @@ class Player():
 
 		self.playerActor.setHpr(0,0,0)
 		self.playerActor.setPos(0,0,-1.3)
-		self.playerActor.setScale(0.25)
+		self.playerActor.setScale(0.5)
 
 		self.playerActor.reparentTo(render)
 
@@ -162,9 +164,38 @@ class Player():
 		self.app.accept("t", self.toggleObject)
 
 		self.playerActor.loop("standby")
+		self.setupCollision()
+	
+	
+	def setupCollision(self):
+		
+		# We will detect the height of the terrain by creating a collision
+		# ray and casting it downward toward the terrain.  One ray will
+		# start above ralph's head, and the other will start above the camera.
+		# A ray may hit the terrain, or it may hit a rock or a tree.  If it
+		# hits the terrain, we can detect the height.  If it hits anything
+		# else, we rule that the move is illegal.
+		self.cTrav = CollisionTraverser()
+
+		self.playerGroundRay = CollisionRay()
+		self.playerGroundRay.setOrigin(0, 0, 9)
+		self.playerGroundRay.setDirection(0, 0, -1)
+		self.playerGroundCol = CollisionNode('ralphRay')
+		self.playerGroundCol.addSolid(self.playerGroundRay)
+		self.playerGroundCol.setFromCollideMask(CollideMask.bit(0))
+		self.playerGroundCol.setIntoCollideMask(CollideMask.allOff())
+		self.playerGroundColNp = self.playerActor.attachNewNode(self.playerGroundCol)
+		self.playerGroundHandler = CollisionHandlerQueue()
+		self.cTrav.addCollider(self.playerGroundColNp, self.playerGroundHandler)
+
+		# Uncomment this line to see the collision rays
+		self.playerGroundColNp.show()
+
+		# Uncomment this line to show a visual representation of the
+		# collisions occuring
+		self.cTrav.showCollisions(render)
 
 	def moveCam(self, zoom):
-
 		if zoom == 0:
 			self.zoomLevel += 5
 			#if self.zoomLevel >= 30:

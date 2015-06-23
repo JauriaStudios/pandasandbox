@@ -6,20 +6,13 @@
 
 from direct.task import Task
 
-from panda3d.core import CollisionTraverser,CollisionNode
-from panda3d.core import CollisionHandlerQueue,CollisionRay
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
 
-from panda3d.bullet import BulletPlaneShape
-from panda3d.bullet import BulletRigidBodyNode
-from panda3d.bullet import BulletBoxShape
-from panda3d.bullet import BulletCylinderShape
-from panda3d.bullet import BulletCapsuleShape
-from panda3d.bullet import BulletSphereShape
-from panda3d.bullet import BulletMultiSphereShape
-from panda3d.bullet import BulletCharacterControllerNode
-from panda3d.bullet import ZUp
+from panda3d.core import CollisionTraverser, CollisionNode
+from panda3d.core import CollisionHandlerQueue, CollisionRay
+from panda3d.core import CollideMask
+
 from direct.actor.Actor import Actor
 
 from direct.interval.IntervalGlobal import Sequence
@@ -93,6 +86,7 @@ class Npc():
 		
 		self.AIbehaviors.startFollow()
 		"""
+		self.npcActor.loop("walk")
 		
 		
 	def update(self, Task):

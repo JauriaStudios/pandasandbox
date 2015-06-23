@@ -16,6 +16,7 @@ from direct.interval.IntervalGlobal import Sequence
 
 from panda3d.core import CollisionTraverser, CollisionNode
 from panda3d.core import CollisionHandlerQueue, CollisionRay
+from panda3d.core import CollideMask
 
 from panda3d.core import PandaNode,NodePath,Camera,TextNode
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
@@ -33,7 +34,6 @@ from panda3d.bullet import BulletDebugNode
 from startmenu import StartMenu
 from interface import Inventory, Status, Skills
 
-from collision_geom import Entity
 from utils import Crono, CursorPos, PlayerPos
 from player import Player
 from enemy import Enemy
