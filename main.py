@@ -14,6 +14,9 @@ from direct.task import Task
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
 
+from panda3d.core import CollisionTraverser, CollisionNode
+from panda3d.core import CollisionHandlerQueue, CollisionRay
+
 from panda3d.core import PandaNode,NodePath,Camera,TextNode
 from panda3d.core import Vec3,Vec4,BitMask32, VBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
@@ -82,6 +85,7 @@ class World(ShowBase):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 		
 		self.npc1 = Npc(self, 100, 50, 5, 2, "guy2")
+		self.npc2 = Npc(self, 100, 50, 5, 2, "ralph")
 		
 	def initGui(self):
 		
@@ -132,7 +136,8 @@ class World(ShowBase):
 		self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
 		self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
 		self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
-		
+		self.taskMgr.add(self.npc2.update, "npc2Task",priority=1)
+
 		self.taskMgr.add(self.update, 'update')
 	
 	def initLights(self):
@@ -199,95 +204,19 @@ class World(ShowBase):
 		
 	def initWorld(self):
 		
-		self.converter = Entity()
-		
-		self.worldNP = render.attachNewNode('World')
-		
-		# World
-		self.debugNP = self.worldNP.attachNewNode(BulletDebugNode('Debug'))
-		
-		self.debugNP.show()
-		self.debugNP.node().showWireframe(True)
-		self.debugNP.node().showConstraints(False)
-		self.debugNP.node().showBoundingBoxes(True)
-		self.debugNP.node().showNormals(False)
-		
-		#self.debugNP.hide()
-		
-		self.world = BulletWorld()
-		self.world.setGravity(Vec3(0, 0, -9.81))
-		self.world.setDebugNode(self.debugNP.node())
-		
-		
 		self.environ = self.loader.loadModel("models/entradacastillo")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
 		
-		i = 0
-		self.testNP = []
-		for models in self.converter.calcCollisionShape("mesh", self.environ):
-			for shape in models:
-				self.testNP.append(self.worldNP.attachNewNode(BulletRigidBodyNode('worldShapes%s' % i)))
-				self.testNP[i].node().addShape(shape[0], shape[1])
-				i += 1
+		# Reparent the model to render
 		
-		
-		i = 0
-		for model in self.environ.findAllMatches('**/+GeomNode'):
-			
-			self.testNP[i].setScale(model.getScale())
-			self.testNP[i].setHpr(model.getHpr())
-			self.testNP[i].setPos(model.getPos())
-			self.world.attachRigidBody(self.testNP[i].node())
-			i += 1
-		
-		
-		# Plane
-		"""
-		shape = BulletPlaneShape(Vec3(0, 0, -1), 0)
-		
-		self.np = self.worldNP.attachNewNode(BulletRigidBodyNode('Ground'))
-		self.np.node().addShape(shape)
-		self.np.setPos(0, 0, -2)
-		self.np.setCollideMask(BitMask32.allOn())
-		self.world.attachRigidBody(self.np.node())
-		"""
-		
-		# Reparent the model to NodePath.
 		self.environ.reparentTo(render)
 		
 	def update(self, task):
 		dt = globalClock.getDt()
 		
-		self.world.doPhysics(dt, 10, 0.008)
-		self.processContacts()
 		return task.cont
-	
-	def processContacts(self):
-		if not self.playerShape: 
-			return
-		
-		result = self.world.contactTest(self.playerShape)
-		
-		#print '-->', result.getNumContacts()
-		for contact in result.getContacts():
-			cp = contact.getManifoldPoint()
-			node0 = contact.getNode0()
-			node1 = contact.getNode1()
-			#if node1.getName() != "Ground":
-				#print node0.getName(), node1.getName(), cp.getLocalPointA()
-			
-			if self.nasgul:
-				if node1.getName() == "nasgul":
-					if self.player.checkAttack():
-						self.nasgul.attacked(10)
-			#print contact.getNode0(), cp.getPositionWorldOnA()
-			#print contact.getIdx0(), contact.getIdx1(), \
-			#      contact.getPartId0(), contact.getPartId1()
-			
-			#self.updateNode(node1)
-	
 	
 	def setKey(self, key, value):
 		self.keyMap[key] = value
@@ -334,6 +263,7 @@ def main():
 	
 	app = World()
 	
+	app.win.setClearColor((0, 0, 0, 1))
 	app.win.requestProperties( props )
 	app.setFrameRateMeter(True)
 	

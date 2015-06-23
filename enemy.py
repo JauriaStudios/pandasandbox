@@ -32,20 +32,6 @@ class Enemy():
 		self.app = app
 		
 		self.name = name
-		height = 3
-		radius = 1
-		
-		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
-		
-		self.enemyNode = BulletCharacterControllerNode(shape, 0.4, self.name)
-		self.enemyNP = self.app.worldNP.attachNewNode(self.enemyNode)
-		self.enemyNP.setPos(0, 0, -15)
-		self.enemyNP.setH(45)
-		self.enemyNP.setCollideMask(BitMask32.allOn())
-
-		self.app.world.attachCharacter(self.enemyNP.node())
-
-		self.app.enemyShape = self.enemyNode
 		
 		self.model = "models/%s" % self.name
 		self.modelWalk = "models/%s-walk" % self.name
@@ -57,10 +43,11 @@ class Enemy():
 		self.enemyActor = Actor({	"body":self.model,},
 							{"body":{"walk":self.modelWalk},
 						})
+		
 		self.enemyActor.setHpr(0,0,0)
 		self.enemyActor.setPos(0,0,-0.5)
 		self.enemyActor.setScale(0.5)
-		self.enemyActor.reparentTo(self.enemyNP)
+		self.enemyActor.reparentTo(render)
 		
 		self.setupAI()
 		
@@ -71,8 +58,8 @@ class Enemy():
 		print("man pegao")
 		self.hp -= damage
 		if self.hp <= 0:
-			self.enemyNP.detachNode()
-			self.enemyNP.removeNode()
+			self.enemyActor.detachNode()
+			self.enemyActor.removeNode()
 			self.app.taskMgr.remove("%sTask" % self.name)
 		
 	def setupAI(self):
@@ -84,21 +71,23 @@ class Enemy():
 		
 		self.AIworld = AIWorld(render)
 
-		self.AIchar = AICharacter("enemy",self.enemyNP, 60, 0.05, 5)
+		self.AIchar = AICharacter("enemy",self.enemyActor, 60, 0.05, 5)
 		self.AIworld.addAiChar(self.AIchar)
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
 
 		self.AIbehaviors.wander(10, 0, 15, 1.0)
 		
 		#Path follow (note the order is reveresed)
-		"""self.AIbehaviors.pathFollow(1)
+		"""
+		self.AIbehaviors.pathFollow(1)
 		self.AIbehaviors.addToPath((0,-20,0))
 		self.AIbehaviors.addToPath((0,20,0))
 		self.AIbehaviors.addToPath((20,-10,0))
 		self.AIbehaviors.addToPath((15,-20,0))
 		
 		
-		self.AIbehaviors.startFollow()"""
+		self.AIbehaviors.startFollow()
+		"""
 		
 	def update(self, Task):
 		

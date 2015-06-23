@@ -39,23 +39,6 @@ class Npc():
 		
 		self.name = name
 		
-		height = 6
-		radius = 1
-		
-		shape = BulletCapsuleShape(radius, height - 2*radius, ZUp)
-		
-		
-		self.npcNode = BulletCharacterControllerNode(shape, 0.4, self.name)
-		
-		self.npcNP = self.app.worldNP.attachNewNode(self.npcNode)
-		self.npcNP.setPos(0, 0, -15)
-		self.npcNP.setH(45)
-		self.npcNP.setCollideMask(BitMask32.allOn())
-		
-		self.app.world.attachCharacter(self.npcNP.node())
-		
-		self.app.npcShape = self.npcNode
-		
 		
 		self.model = "models/%s" % self.name
 		self.modelWalk = "models/%s-walk" % self.name
@@ -64,10 +47,10 @@ class Npc():
 							{"body":{"walk":self.modelWalk},
 						})
 		
-		self.npcActor.setHpr(45,0,0)
+		self.npcActor.setHpr(0,0,0)
 		self.npcActor.setPos(0,0,-3.3)
 		self.npcActor.setScale(0.5)
-		self.npcActor.reparentTo(self.npcNP)
+		self.npcActor.reparentTo(render)
 		
 		self.setupAI()
 		
@@ -78,8 +61,8 @@ class Npc():
 		print("man pegao")
 		self.hp -= damage
 		if self.hp <= 0:
-			self.npcNP.detachNode()
-			self.npcNP.removeNode()
+			self.npcActor.detachNode()
+			self.npcActor.removeNode()
 			self.app.taskMgr.remove("%sTask" % self.name)
 		
 	def setupAI(self):
@@ -90,7 +73,7 @@ class Npc():
 		
 		self.AIworld = AIWorld(render)
 		
-		self.AIchar = AICharacter("npc", self.npcNP, 100, 0.05, 5)
+		self.AIchar = AICharacter("npc", self.npcActor, 100, 0.05, 5)
 		self.AIworld.addAiChar(self.AIchar)
 		
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
@@ -111,7 +94,6 @@ class Npc():
 		self.AIbehaviors.startFollow()
 		"""
 		
-		self.npcActor.loop("walk")
 		
 	def update(self, Task):
 		
