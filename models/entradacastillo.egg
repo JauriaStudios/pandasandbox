@@ -1,52 +1,4 @@
 <CoordinateSystem> { Z-up } 
-<Material> muralla {
-  <Scalar> diffr { 0.287072 }
-  <Scalar> diffg { 0.287072 }
-  <Scalar> diffb { 0.287072 }
-  <Scalar> specr { 0.500000 }
-  <Scalar> specg { 0.500000 }
-  <Scalar> specb { 0.500000 }
-  <Scalar> shininess { 12.5 }
-  <Scalar> ambr { 1.000000 }
-  <Scalar> ambg { 1.000000 }
-  <Scalar> ambb { 1.000000 }
-  <Scalar> emitr { 0.000000 }
-  <Scalar> emitg { 0.000000 }
-  <Scalar> emitb { 0.000000 }
-}
-
-<Material> suelo {
-  <Scalar> diffr { 0.337850 }
-  <Scalar> diffg { 0.568442 }
-  <Scalar> diffb { 0.157798 }
-  <Scalar> specr { 0.500000 }
-  <Scalar> specg { 0.500000 }
-  <Scalar> specb { 0.500000 }
-  <Scalar> shininess { 12.5 }
-  <Scalar> ambr { 1.000000 }
-  <Scalar> ambg { 1.000000 }
-  <Scalar> ambb { 1.000000 }
-  <Scalar> emitr { 0.000000 }
-  <Scalar> emitg { 0.000000 }
-  <Scalar> emitb { 0.000000 }
-}
-
-<Material> hierba {
-  <Scalar> diffr { 0.000000 }
-  <Scalar> diffg { 0.640000 }
-  <Scalar> diffb { 0.002584 }
-  <Scalar> specr { 0.500000 }
-  <Scalar> specg { 0.500000 }
-  <Scalar> specb { 0.500000 }
-  <Scalar> shininess { 12.5 }
-  <Scalar> ambr { 1.000000 }
-  <Scalar> ambg { 1.000000 }
-  <Scalar> ambb { 1.000000 }
-  <Scalar> emitr { 0.000000 }
-  <Scalar> emitg { 0.000000 }
-  <Scalar> emitb { 0.000000 }
-}
-
 <Material> hojas {
   <Scalar> diffr { 0.002994 }
   <Scalar> diffg { 0.640000 }
@@ -63,10 +15,10 @@
   <Scalar> emitb { 0.000000 }
 }
 
-<Material> tronco {
-  <Scalar> diffr { 0.336019 }
-  <Scalar> diffg { 0.101707 }
-  <Scalar> diffb { 0.015460 }
+<Material> muralla {
+  <Scalar> diffr { 0.287072 }
+  <Scalar> diffg { 0.287072 }
+  <Scalar> diffb { 0.287072 }
   <Scalar> specr { 0.500000 }
   <Scalar> specg { 0.500000 }
   <Scalar> specb { 0.500000 }
@@ -95,6 +47,54 @@
   <Scalar> emitb { 0.000000 }
 }
 
+<Material> tronco {
+  <Scalar> diffr { 0.336019 }
+  <Scalar> diffg { 0.101707 }
+  <Scalar> diffb { 0.015460 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> hierba {
+  <Scalar> diffr { 0.000000 }
+  <Scalar> diffg { 0.640000 }
+  <Scalar> diffb { 0.002584 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
+<Material> suelo {
+  <Scalar> diffr { 0.337850 }
+  <Scalar> diffg { 0.568442 }
+  <Scalar> diffb { 0.157798 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
 <Texture> muralla {
   "./tex/brick_medieval_4193_5404_Small.jpg"
   <Scalar> uv-name { ORCO }
@@ -105,20 +105,6 @@
   <Transform> {
     <Translate> { -0.5 -0.5 -0.5 }
     <Scale> { 3.0 1.0 1.0 }
-    <Translate> { 0.5 0.5 0.5 }
-  }
-}
-
-<Texture> Texture {
-  "./tex/tierraverde.png"
-  <Scalar> uv-name { ORCO }
-  <Scalar> envtype { MODULATE }
-  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
-  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
-  <Scalar> wrap { REPEAT }
-  <Transform> {
-    <Translate> { -0.5 -0.5 -0.5 }
-    <Scale> { 3.0 3.0 1.0 }
     <Translate> { 0.5 0.5 0.5 }
   }
 }
@@ -137,8 +123,33 @@
   }
 }
 
+<Texture> Texture {
+  "./tex/tierraverde.png"
+  <Scalar> uv-name { ORCO }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Transform> {
+    <Translate> { -0.5 -0.5 -0.5 }
+    <Scale> { 3.0 3.0 1.0 }
+    <Translate> { 0.5 0.5 0.5 }
+  }
+}
+
+  <Group> startPos {
+    <Transform> {
+      <Matrix4> {
+        1.0 0.0 0.0 0.0 
+        0.0 1.0 0.0 0.0 
+        0.0 0.0 1.0 0.0 
+        281.8410339355469 112.07605743408203 -26.963254928588867 1.0 
+      }
+    }
+    
+  }
   <Group> Circle {
-    <Collide> { Polysetkeepdescend }
+    <Collide> { Polyset keep descend }
     <Transform> {
       <Matrix4> {
         -13.459604263305664 2.0323436729086097e-06 -2.9886325110929732e-15 0.0 
@@ -6666,7 +6677,7 @@
     }
   }
   <Group> barranco {
-    <Collide> { Polysetkeepdescend }
+    <Collide> { Polyset keep descend }
     <Transform> {
       <Matrix4> {
         -11.88067626953125 1.7939322560778237e-06 0.0 0.0 
@@ -8246,7 +8257,7 @@
     }
   }
   <Group> arbol {
-    <Collide> { Polysetkeepdescend }
+    <Collide> { Polyset keep descend }
     <Transform> {
       <Matrix4> {
         -0.8412691354751587 1.270281018150854e-07 0.0 0.0 
@@ -28590,7 +28601,7 @@
     }
   }
   <Group> suelo {
-    <Collide> { Polysetkeepdescend }
+    <Collide> { Polyset keep descend }
     <Transform> {
       <Matrix4> {
         -96.81327056884766 1.461839747207705e-05 0.0 0.0 

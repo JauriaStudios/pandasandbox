@@ -58,9 +58,6 @@ class Player():
 		self.attackSpeed = (0.2 * self.dexterity) / 60						# attack speed = base * dex / 60
 
 
-		self.floater = NodePath(PandaNode("floater"))
-		self.floater.reparentTo(render)
-
 		self.keyMap = {
 							"left":0,
 							"right":0,
@@ -84,10 +81,13 @@ class Player():
 						})
 
 		self.playerActor.setHpr(0,0,0)
-		self.playerActor.setPos(0,0,-1.3)
+		self.playerActor.setPos(self.app.playerStartPos)
 		self.playerActor.setScale(0.5)
 
 		self.playerActor.reparentTo(render)
+
+		self.floater = NodePath(PandaNode("floater"))
+		self.floater.reparentTo(render)
 
 		self.playerHand = self.playerActor.exposeJoint(None, 'body', 'manod')
 		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
@@ -164,6 +164,7 @@ class Player():
 		self.app.accept("t", self.toggleObject)
 
 		self.playerActor.loop("standby")
+		
 		self.setupCollision()
 	
 	
@@ -180,7 +181,7 @@ class Player():
 		self.playerGroundRay = CollisionRay()
 		self.playerGroundRay.setOrigin(0, 0, 9)
 		self.playerGroundRay.setDirection(0, 0, -1)
-		self.playerGroundCol = CollisionNode('ralphRay')
+		self.playerGroundCol = CollisionNode('playerRay')
 		self.playerGroundCol.addSolid(self.playerGroundRay)
 		self.playerGroundCol.setFromCollideMask(CollideMask.bit(0))
 		self.playerGroundCol.setIntoCollideMask(CollideMask.allOff())
@@ -349,7 +350,25 @@ class Player():
 				self.playerActor.stop()
 				self.playerActor.loop("standby")
 				self.isMoving = False
+		
+		# Normally, we would have to call traverse() to check for collisions.
+		# However, the class ShowBase that we inherit from has a task to do
+		# this for us, if we assign a CollisionTraverser to self.cTrav.
+		#self.cTrav.traverse(render)
 
+		# Adjust ralph's Z coordinate.  If ralph's ray hit terrain,
+		# update his Z. If it hit anything else, or didn't hit anything, put
+		# him back where he was last frame.
+
+		startpos = self.playerActor.getPos()
+		
+		entries = list(self.playerGroundHandler.getEntries())
+		entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
+		
+		if len(entries) > 0 and entries[0].getIntoNode().getName() == "suelo":
+			self.playerActor.setZ(entries[0].getSurfacePoint(render).getZ())
+		else:
+			self.playerActor.setPos(startpos)
 
 		return task.cont
 

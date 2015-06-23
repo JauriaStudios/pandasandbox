@@ -209,6 +209,8 @@ class World(ShowBase):
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
 		
+		self.playerStartPos = self.environ.find("**/startPos").getPos()
+        
 		# Reparent the model to render
 		
 		self.environ.reparentTo(render)
