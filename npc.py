@@ -49,6 +49,7 @@ class Npc():
 		
 		self.npcNP = self.app.worldNP.attachNewNode(self.npcNode)
 		self.npcNP.setPos(0, 0, -15)
+		self.npcNP.setH(45)
 		self.npcNP.setCollideMask(BitMask32.allOn())
 		
 		self.app.world.attachCharacter(self.npcNP.node())
@@ -110,7 +111,7 @@ class Npc():
 		self.AIbehaviors.startFollow()
 		"""
 		
-		#self.npcActor.loop("walk")
+		self.npcActor.loop("walk")
 		
 	def update(self, Task):
 		
