@@ -26,10 +26,7 @@ from panda3d.core import PerspectiveLens
 
 from pandac.PandaModules import WindowProperties
 
-from panda3d.bullet import BulletWorld
-from panda3d.bullet import BulletPlaneShape
-from panda3d.bullet import BulletRigidBodyNode
-from panda3d.bullet import BulletDebugNode
+
 
 from startmenu import StartMenu
 from interface import Inventory, Status, Skills
@@ -221,7 +218,7 @@ class World(ShowBase):
 		
 	def initWorld(self):
 		
-		self.environ = self.loader.loadModel("models/torreantigua")
+		self.environ = self.loader.loadModel("models/entradacastillo")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
@@ -279,6 +276,7 @@ class World(ShowBase):
 		# A ray may hit the terrain, or it may hit a rock or a tree.  If it
 		# hits the terrain, we can detect the height.  If it hits anything
 		# else, we rule that the move is illegal.
+		
 		self.cTrav = CollisionTraverser()
 		
 		self.playerGroundRay = CollisionRay()
