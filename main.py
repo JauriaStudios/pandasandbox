@@ -26,8 +26,6 @@ from panda3d.core import PerspectiveLens
 
 from pandac.PandaModules import WindowProperties
 
-
-
 from startmenu import StartMenu
 from interface import Inventory, Status, Skills
 
@@ -60,19 +58,25 @@ class World(ShowBase):
 		
 	def setup(self):
 		
-		
+		print("Init World ...")
 		self.initWorld()
 		
+		print("Init Actors ...")
 		self.initActors()
 		
+		print("Init GUI ...")
 		self.initGui()
 		
+		print("Init Lights ...")
 		self.initLights()
 		
+		print("Init Collisions ...")
 		self.initCollision()
 		
+		print("Init Tasks ...")
 		self.initTasks()
 		
+		print("Launching World")
 		
 		# Accept the control keys
 		
@@ -141,7 +145,7 @@ class World(ShowBase):
 		
 		#self.taskMgr.add(self.playerpos.task, "playerposTask")
 		
-		self.taskMgr.add(self.checkCollision, "playerCollisionTask")
+		self.taskMgr.add(self.checkCollision, "collisionTask")
 		
 		self.taskMgr.add(self.player.move, "moveTask")
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
@@ -151,7 +155,7 @@ class World(ShowBase):
 		
 		self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
 		self.taskMgr.add(self.npc2.update, "npc2Task",priority=1)
-
+		
 		self.taskMgr.add(self.update, 'update')
 	
 	def initLights(self):
@@ -175,13 +179,13 @@ class World(ShowBase):
 		plight1.showFrustum()
 		#plight1.setShadowCaster(True)
 		plnp1 = render.attachNewNode(plight1)
-		plnp1.setPos(26.71, -33.2, 6)
+		plnp1.setPos(26.71, -33.2, 26)
 		
 		plight2 = PointLight('plight2')
 		plight2.setColor(VBase4(0.2, 1.5, 1, 1))
 		plight2.showFrustum()
 		plnp2 = render.attachNewNode(plight2)
-		plnp2.setPos(-25, 25, 5)
+		plnp2.setPos(-25, 25, 25)
 		
 		slight = Spotlight('slight')
 		slight.setColor(VBase4(1, 1, 1, 1))
@@ -191,7 +195,7 @@ class World(ShowBase):
 		slight.setShadowCaster(True, 512, 512)
 		slight.showFrustum()
 		slnp = render.attachNewNode(slight)
-		slnp.setPos(0, 0, 5)
+		slnp.setPos(0, 0, 25)
 		
 		slnp.lookAt(Vec3(0,0,0))
 		
@@ -377,7 +381,6 @@ class World(ShowBase):
 					npc.npcActor.setZ(entry.getSurfacePoint(render).getZ())
 				else:
 					npc.npcActor.setPos(startpos)
-		
 		return task.cont
 
 def main():

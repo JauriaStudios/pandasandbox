@@ -56,7 +56,7 @@ class StartMenu(DirectObject.DirectObject):
 												mapsCredits.find('**/creditsrollover'),
 												mapsCredits.find('**/creditsdisable')
 											),
-											#,command=self.showCredits,
+											command=self.hide,
 											scale=0.2,
 											borderWidth=(0.01,0.01),
 											frameSize=(-0.55, 0.55, -0.2, 0.2),  
@@ -95,7 +95,8 @@ class StartMenu(DirectObject.DirectObject):
 		self.frame.hide()
 	
 	def doStartGame(self):
-		self.hide()
+		
+		self.frame.hide()
 		self.app.setup()
 		
 	def endGame(self):

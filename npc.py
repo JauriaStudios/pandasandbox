@@ -41,7 +41,7 @@ class Npc():
 						})
 		
 		self.npcActor.setHpr(0,0,0)
-		self.npcActor.setPos(0,0,-3.3)
+		self.npcActor.setPos(0,0,5)
 		self.npcActor.setScale(0.5)
 		self.npcActor.reparentTo(render)
 		
@@ -49,14 +49,6 @@ class Npc():
 		
 	def getName(self):
 		return self.name
-		
-	def attacked(self, damage):
-		print("man pegao")
-		self.hp -= damage
-		if self.hp <= 0:
-			self.npcActor.detachNode()
-			self.npcActor.removeNode()
-			self.app.taskMgr.remove("%sTask" % self.name)
 		
 	def setupAI(self):
 		
