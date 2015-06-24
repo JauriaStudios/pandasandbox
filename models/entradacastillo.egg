@@ -1,40 +1,24 @@
 <CoordinateSystem> { Z-up } 
+<Material> suelo {
+  <Scalar> diffr { 0.337850 }
+  <Scalar> diffg { 0.568442 }
+  <Scalar> diffb { 0.157798 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
+}
+
 <Material> hojas {
   <Scalar> diffr { 0.002994 }
   <Scalar> diffg { 0.640000 }
   <Scalar> diffb { 0.000000 }
-  <Scalar> specr { 0.500000 }
-  <Scalar> specg { 0.500000 }
-  <Scalar> specb { 0.500000 }
-  <Scalar> shininess { 12.5 }
-  <Scalar> ambr { 1.000000 }
-  <Scalar> ambg { 1.000000 }
-  <Scalar> ambb { 1.000000 }
-  <Scalar> emitr { 0.000000 }
-  <Scalar> emitg { 0.000000 }
-  <Scalar> emitb { 0.000000 }
-}
-
-<Material> muralla {
-  <Scalar> diffr { 0.287072 }
-  <Scalar> diffg { 0.287072 }
-  <Scalar> diffb { 0.287072 }
-  <Scalar> specr { 0.500000 }
-  <Scalar> specg { 0.500000 }
-  <Scalar> specb { 0.500000 }
-  <Scalar> shininess { 12.5 }
-  <Scalar> ambr { 1.000000 }
-  <Scalar> ambg { 1.000000 }
-  <Scalar> ambb { 1.000000 }
-  <Scalar> emitr { 0.000000 }
-  <Scalar> emitg { 0.000000 }
-  <Scalar> emitb { 0.000000 }
-}
-
-<Material> Material {
-  <Scalar> diffr { 0.640000 }
-  <Scalar> diffg { 0.404519 }
-  <Scalar> diffb { 0.147434 }
   <Scalar> specr { 0.500000 }
   <Scalar> specg { 0.500000 }
   <Scalar> specb { 0.500000 }
@@ -79,10 +63,10 @@
   <Scalar> emitb { 0.000000 }
 }
 
-<Material> suelo {
-  <Scalar> diffr { 0.337850 }
-  <Scalar> diffg { 0.568442 }
-  <Scalar> diffb { 0.157798 }
+<Material> muralla {
+  <Scalar> diffr { 0.287072 }
+  <Scalar> diffg { 0.287072 }
+  <Scalar> diffb { 0.287072 }
   <Scalar> specr { 0.500000 }
   <Scalar> specg { 0.500000 }
   <Scalar> specb { 0.500000 }
@@ -95,18 +79,20 @@
   <Scalar> emitb { 0.000000 }
 }
 
-<Texture> muralla {
-  "./tex/brick_medieval_4193_5404_Small.jpg"
-  <Scalar> uv-name { ORCO }
-  <Scalar> envtype { MODULATE }
-  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
-  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
-  <Scalar> wrap { REPEAT }
-  <Transform> {
-    <Translate> { -0.5 -0.5 -0.5 }
-    <Scale> { 3.0 1.0 1.0 }
-    <Translate> { 0.5 0.5 0.5 }
-  }
+<Material> Material {
+  <Scalar> diffr { 0.640000 }
+  <Scalar> diffg { 0.404519 }
+  <Scalar> diffb { 0.147434 }
+  <Scalar> specr { 0.500000 }
+  <Scalar> specg { 0.500000 }
+  <Scalar> specb { 0.500000 }
+  <Scalar> shininess { 12.5 }
+  <Scalar> ambr { 1.000000 }
+  <Scalar> ambg { 1.000000 }
+  <Scalar> ambb { 1.000000 }
+  <Scalar> emitr { 0.000000 }
+  <Scalar> emitg { 0.000000 }
+  <Scalar> emitb { 0.000000 }
 }
 
 <Texture> Texture.001 {
@@ -119,6 +105,20 @@
   <Transform> {
     <Translate> { -0.5 -0.5 -0.5 }
     <Scale> { 1.0 2.8999998569488525 1.0 }
+    <Translate> { 0.5 0.5 0.5 }
+  }
+}
+
+<Texture> muralla {
+  "./tex/brick_medieval_4193_5404_Small.jpg"
+  <Scalar> uv-name { ORCO }
+  <Scalar> envtype { MODULATE }
+  <Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> magfilter { LINEAR_MIPMAP_LINEAR }
+  <Scalar> wrap { REPEAT }
+  <Transform> {
+    <Translate> { -0.5 -0.5 -0.5 }
+    <Scale> { 3.0 1.0 1.0 }
     <Translate> { 0.5 0.5 0.5 }
   }
 }
@@ -28613,204 +28613,304 @@
     
     <VertexPool> suelo {
     
-      <Vertex> 0 {320.871399 33.795593 -27.426205
-        <UV> ORCO {
-          0.000000 0.391136 
-        }
-      }
-      <Vertex> 1 {71.301346 33.795631 -27.426205
+      <Vertex> 0 {71.301346 33.795631 -27.426205
         <UV> ORCO {
           0.634491 0.391136 
         }
       }
-      <Vertex> 2 {71.301338 2.493051 -16.665546
+      <Vertex> 1 {71.301338 2.493051 -16.665546
         <UV> ORCO {
           0.634491 0.500000 
         }
       }
-      <Vertex> 3 {320.871399 2.493013 -16.665546
+      <Vertex> 2 {320.871399 2.493013 -16.665546
         <UV> ORCO {
           0.000000 0.500000 
         }
       }
-      <Vertex> 4 {71.301346 33.795631 -27.426205
-        <UV> ORCO {
-          0.634491 0.391136 
-        }
-      }
-      <Vertex> 5 {-72.467621 33.795654 -27.426205
+      <Vertex> 3 {-72.467621 33.795654 -27.426205
         <UV> ORCO {
           1.000000 0.391136 
         }
       }
-      <Vertex> 6 {-72.467628 2.493073 -16.665546
+      <Vertex> 4 {-72.467628 2.493073 -16.665546
         <UV> ORCO {
           1.000000 0.500000 
         }
       }
-      <Vertex> 7 {71.301338 2.493051 -16.665546
+      <Vertex> 5 {71.301338 2.493051 -16.665546
         <UV> ORCO {
           0.634491 0.500000 
         }
       }
-      <Vertex> 8 {320.871399 146.261978 -27.426205
-        <UV> ORCO {
-          0.000000 0.000000 
-        }
-      }
-      <Vertex> 9 {71.301361 146.262024 -27.426205
+      <Vertex> 6 {71.301361 146.262024 -27.426205
         <UV> ORCO {
           0.634491 0.000000 
         }
       }
-      <Vertex> 10 {71.301346 33.795631 -27.426205
+      <Vertex> 7 {71.301346 33.795631 -27.426205
         <UV> ORCO {
           0.634491 0.391136 
         }
       }
-      <Vertex> 11 {320.871399 33.795593 -27.426205
+      <Vertex> 8 {320.871399 33.795593 -27.426205
         <UV> ORCO {
           0.000000 0.391136 
         }
       }
-      <Vertex> 12 {71.301361 146.262024 -27.426205
-        <UV> ORCO {
-          0.634491 0.000000 
-        }
-      }
-      <Vertex> 13 {-72.467606 146.262039 -27.426205
+      <Vertex> 9 {-72.467606 146.262039 -27.426205
         <UV> ORCO {
           1.000000 0.000000 
         }
       }
-      <Vertex> 14 {-72.467621 33.795654 -27.426205
+      <Vertex> 10 {-72.467621 33.795654 -27.426205
         <UV> ORCO {
           1.000000 0.391136 
         }
       }
-      <Vertex> 15 {71.301346 33.795631 -27.426205
+      <Vertex> 11 {71.301346 33.795631 -27.426205
         <UV> ORCO {
           0.634491 0.391136 
         }
       }
-      <Vertex> 16 {71.301338 2.493051 -16.665546
-        <UV> ORCO {
-          0.634491 0.500000 
-        }
-      }
-      <Vertex> 17 {-72.467628 2.493073 -16.665546
+      <Vertex> 12 {-72.467628 2.493073 -16.665546
         <UV> ORCO {
           1.000000 0.500000 
         }
       }
-      <Vertex> 18 {-72.467651 -141.275894 -16.665546
+      <Vertex> 13 {-72.467651 -141.275894 -16.665546
         <UV> ORCO {
           1.000000 1.000000 
         }
       }
-      <Vertex> 19 {71.301315 -141.275909 -16.665546
+      <Vertex> 14 {71.301315 -141.275909 -16.665546
         <UV> ORCO {
           0.634491 1.000000 
         }
       }
-      <Vertex> 20 {320.871399 2.493013 -16.665546
-        <UV> ORCO {
-          0.000000 0.500000 
-        }
-      }
-      <Vertex> 21 {71.301338 2.493051 -16.665546
+      <Vertex> 15 {71.301338 2.493051 -16.665546
         <UV> ORCO {
           0.634491 0.500000 
         }
       }
-      <Vertex> 22 {71.301315 -141.275909 -16.665546
+      <Vertex> 16 {71.301315 -141.275909 -16.665546
         <UV> ORCO {
           0.634491 1.000000 
         }
       }
-      <Vertex> 23 {320.871368 -141.275955 -16.665546
+      <Vertex> 17 {320.871368 -141.275955 -16.665546
         <UV> ORCO {
           0.000000 1.000000 
         }
       }
-      <Vertex> 24 {33.333431 -141.275909 -27.426205
+      <Vertex> 18 {33.333431 -141.275909 -27.426205
         <UV> ORCO {
           0.731018 1.000000 
         }
       }
-      <Vertex> 25 {177.102402 -141.275925 -27.426205
+      <Vertex> 19 {177.102402 -141.275925 -27.426205
         <UV> ORCO {
           0.365509 1.000000 
         }
       }
-      <Vertex> 26 {71.301315 -141.275909 -16.665546
+      <Vertex> 20 {71.301315 -141.275909 -16.665546
         <UV> ORCO {
           0.634491 1.000000 
         }
       }
-      <Vertex> 27 {-72.467651 -141.275894 -16.665546
-        <UV> ORCO {
-          1.000000 1.000000 
-        }
-      }
-      <Vertex> 28 {320.871368 -141.275955 -27.426205
+      <Vertex> 21 {320.871368 -141.275955 -27.426205
         <UV> ORCO {
           0.000000 1.000000 
         }
       }
-      <Vertex> 29 {320.871399 33.795593 -27.426205
+      <Vertex> 22 {320.871399 33.795593 -27.426205
         <UV> ORCO {
           0.000000 0.391136 
         }
       }
-      <Vertex> 30 {320.871399 2.493013 -16.665546
+      <Vertex> 23 {320.871399 2.493013 -16.665546
         <UV> ORCO {
           0.000000 0.500000 
         }
       }
-      <Vertex> 31 {320.871368 -141.275955 -16.665546
-        <UV> ORCO {
-          0.000000 1.000000 
-        }
-      }
-      <Vertex> 32 {177.102402 -141.275925 -27.426205
+      <Vertex> 24 {177.102402 -141.275925 -27.426205
         <UV> ORCO {
           0.365509 1.000000 
         }
       }
-      <Vertex> 33 {320.871368 -141.275955 -27.426205
+      <Vertex> 25 {320.871368 -141.275955 -27.426205
         <UV> ORCO {
           0.000000 1.000000 
         }
       }
-      <Vertex> 34 {320.871368 -141.275955 -16.665546
+      <Vertex> 26 {320.871368 -141.275955 -16.665546
         <UV> ORCO {
           0.000000 1.000000 
         }
       }
-      <Vertex> 35 {71.301315 -141.275909 -16.665546
-        <UV> ORCO {
-          0.634491 1.000000 
-        }
-      }
-      <Vertex> 36 {-72.467621 33.795654 -27.426205
+      <Vertex> 27 {-72.467621 33.795654 -27.426205
         <UV> ORCO {
           1.000000 0.391136 
         }
       }
-      <Vertex> 37 {33.333431 -141.275909 -27.426205
+      <Vertex> 28 {33.333431 -141.275909 -27.426205
         <UV> ORCO {
           0.731018 1.000000 
         }
       }
-      <Vertex> 38 {-72.467651 -141.275894 -16.665546
+      <Vertex> 29 {-72.467651 -141.275894 -16.665546
         <UV> ORCO {
           1.000000 1.000000 
         }
       }
-      <Vertex> 39 {-72.467628 2.493073 -16.665546
+      <Vertex> 30 {320.871399 33.795593 -27.426205
+        <UV> ORCO {
+          0.000000 0.391136 
+        }
+      }
+      <Vertex> 31 {71.301346 33.795631 -27.426205
+        <UV> ORCO {
+          0.634491 0.391136 
+        }
+      }
+      <Vertex> 32 {320.871399 2.493013 -16.665546
+        <UV> ORCO {
+          0.000000 0.500000 
+        }
+      }
+      <Vertex> 33 {71.301346 33.795631 -27.426205
+        <UV> ORCO {
+          0.634491 0.391136 
+        }
+      }
+      <Vertex> 34 {-72.467621 33.795654 -27.426205
+        <UV> ORCO {
+          1.000000 0.391136 
+        }
+      }
+      <Vertex> 35 {71.301338 2.493051 -16.665546
+        <UV> ORCO {
+          0.634491 0.500000 
+        }
+      }
+      <Vertex> 36 {320.871399 146.261978 -27.426205
+        <UV> ORCO {
+          0.000000 0.000000 
+        }
+      }
+      <Vertex> 37 {71.301361 146.262024 -27.426205
+        <UV> ORCO {
+          0.634491 0.000000 
+        }
+      }
+      <Vertex> 38 {320.871399 33.795593 -27.426205
+        <UV> ORCO {
+          0.000000 0.391136 
+        }
+      }
+      <Vertex> 39 {71.301361 146.262024 -27.426205
+        <UV> ORCO {
+          0.634491 0.000000 
+        }
+      }
+      <Vertex> 40 {-72.467606 146.262039 -27.426205
+        <UV> ORCO {
+          1.000000 0.000000 
+        }
+      }
+      <Vertex> 41 {71.301346 33.795631 -27.426205
+        <UV> ORCO {
+          0.634491 0.391136 
+        }
+      }
+      <Vertex> 42 {71.301338 2.493051 -16.665546
+        <UV> ORCO {
+          0.634491 0.500000 
+        }
+      }
+      <Vertex> 43 {-72.467628 2.493073 -16.665546
         <UV> ORCO {
           1.000000 0.500000 
+        }
+      }
+      <Vertex> 44 {71.301315 -141.275909 -16.665546
+        <UV> ORCO {
+          0.634491 1.000000 
+        }
+      }
+      <Vertex> 45 {320.871399 2.493013 -16.665546
+        <UV> ORCO {
+          0.000000 0.500000 
+        }
+      }
+      <Vertex> 46 {71.301338 2.493051 -16.665546
+        <UV> ORCO {
+          0.634491 0.500000 
+        }
+      }
+      <Vertex> 47 {320.871368 -141.275955 -16.665546
+        <UV> ORCO {
+          0.000000 1.000000 
+        }
+      }
+      <Vertex> 48 {-72.467651 -141.275894 -16.665546
+        <UV> ORCO {
+          1.000000 1.000000 
+        }
+      }
+      <Vertex> 49 {33.333431 -141.275909 -27.426205
+        <UV> ORCO {
+          0.731018 1.000000 
+        }
+      }
+      <Vertex> 50 {71.301315 -141.275909 -16.665546
+        <UV> ORCO {
+          0.634491 1.000000 
+        }
+      }
+      <Vertex> 51 {320.871368 -141.275955 -16.665546
+        <UV> ORCO {
+          0.000000 1.000000 
+        }
+      }
+      <Vertex> 52 {320.871368 -141.275955 -27.426205
+        <UV> ORCO {
+          0.000000 1.000000 
+        }
+      }
+      <Vertex> 53 {320.871399 2.493013 -16.665546
+        <UV> ORCO {
+          0.000000 0.500000 
+        }
+      }
+      <Vertex> 54 {71.301315 -141.275909 -16.665546
+        <UV> ORCO {
+          0.634491 1.000000 
+        }
+      }
+      <Vertex> 55 {177.102402 -141.275925 -27.426205
+        <UV> ORCO {
+          0.365509 1.000000 
+        }
+      }
+      <Vertex> 56 {320.871368 -141.275955 -16.665546
+        <UV> ORCO {
+          0.000000 1.000000 
+        }
+      }
+      <Vertex> 57 {-72.467628 2.493073 -16.665546
+        <UV> ORCO {
+          1.000000 0.500000 
+        }
+      }
+      <Vertex> 58 {-72.467621 33.795654 -27.426205
+        <UV> ORCO {
+          1.000000 0.391136 
+        }
+      }
+      <Vertex> 59 {-72.467651 -141.275894 -16.665546
+        <UV> ORCO {
+          1.000000 1.000000 
         }
       }}
     
@@ -28819,60 +28919,120 @@
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {0.000000 0.325090 0.945683}
-      <VertexRef> { 0 1 2 3 <Ref> { suelo }} 
+      <VertexRef> { 0 1 2 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {0.000000 0.325090 0.945683}
-      <VertexRef> { 4 5 6 7 <Ref> { suelo }} 
+      <VertexRef> { 3 4 5 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 8 9 10 11 <Ref> { suelo }} 
+      <VertexRef> { 6 7 8 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 12 13 14 15 <Ref> { suelo }} 
+      <VertexRef> { 9 10 11 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 16 17 18 19 <Ref> { suelo }} 
+      <VertexRef> { 12 13 14 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {0.000000 0.000000 1.000000}
-      <VertexRef> { 20 21 22 23 <Ref> { suelo }} 
+      <VertexRef> { 15 16 17 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {-0.000000 -1.000000 0.000000}
-      <VertexRef> { 24 25 26 27 <Ref> { suelo }} 
+      <VertexRef> { 18 19 20 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {1.000000 -0.000000 0.000000}
-      <VertexRef> { 28 29 30 31 <Ref> { suelo }} 
+      <VertexRef> { 21 22 23 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
       <Normal> {-0.000000 -1.000000 0.000000}
-      <VertexRef> { 32 33 34 35 <Ref> { suelo }} 
+      <VertexRef> { 24 25 26 <Ref> { suelo }} 
     }
     <Polygon> {
       <TRef> { Texture }
       <MRef> { suelo }
-      <Normal> {-0.181798 -0.060326 -0.981484}
-      <VertexRef> { 36 37 38 39 <Ref> { suelo }} 
+      <Normal> {-0.100996 -0.061035 -0.993013}
+      <VertexRef> { 27 28 29 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {0.000000 0.325090 0.945683}
+      <VertexRef> { 30 31 32 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {0.000000 0.325090 0.945683}
+      <VertexRef> { 33 34 35 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 36 37 38 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 39 40 41 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 42 43 44 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {0.000000 0.000000 1.000000}
+      <VertexRef> { 45 46 47 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 48 49 50 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {1.000000 -0.000000 0.000000}
+      <VertexRef> { 51 52 53 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {-0.000000 -1.000000 0.000000}
+      <VertexRef> { 54 55 56 <Ref> { suelo }} 
+    }
+    <Polygon> {
+      <TRef> { Texture }
+      <MRef> { suelo }
+      <Normal> {-1.000000 0.000000 0.000000}
+      <VertexRef> { 57 58 59 <Ref> { suelo }} 
     }
   }

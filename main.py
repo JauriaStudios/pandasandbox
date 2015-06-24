@@ -63,6 +63,7 @@ class World(ShowBase):
 		
 	def setup(self):
 		
+		
 		self.initWorld()
 		
 		self.initActors()
@@ -71,7 +72,10 @@ class World(ShowBase):
 		
 		self.initLights()
 		
+		self.initCollision()
+		
 		self.initTasks()
+		
 		
 		# Accept the control keys
 		
@@ -125,16 +129,19 @@ class World(ShowBase):
 	
 	def initTasks(self):
 		
-		self.taskMgr.add(self.player.move, "moveTask")
-		
 		self.taskMgr.add(self.crono.task, "cronoTask")
 		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
+		
 		#self.taskMgr.add(self.playerpos.task, "playerposTask")
 		
+		self.taskMgr.add(self.checkCollision, "playerCollisionTask")
+		
+		self.taskMgr.add(self.player.move, "moveTask")
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
 		
 		self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
 		self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
+		
 		self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
 		self.taskMgr.add(self.npc2.update, "npc2Task",priority=1)
 
@@ -210,7 +217,7 @@ class World(ShowBase):
 		self.environ.setPos(0, 0, 0)
 		
 		self.playerStartPos = self.environ.find("**/startPos").getPos()
-        
+		
 		# Reparent the model to render
 		
 		self.environ.reparentTo(render)
@@ -254,6 +261,47 @@ class World(ShowBase):
 		self.camera.setHpr(angleDegrees, 0, 0)
 		return Task.cont
 		
+	def initCollision(self):
+		
+		# We will detect the height of the terrain by creating a collision
+		# ray and casting it downward toward the terrain.  One ray will
+		# start above ralph's head, and the other will start above the camera.
+		# A ray may hit the terrain, or it may hit a rock or a tree.  If it
+		# hits the terrain, we can detect the height.  If it hits anything
+		# else, we rule that the move is illegal.
+		self.cTrav = CollisionTraverser()
+		
+		self.playerGroundRay = CollisionRay()
+		self.playerGroundRay.setOrigin(0, 0, 9)
+		self.playerGroundRay.setDirection(0, 0, -1)
+		self.playerGroundCol = CollisionNode('playerRay')
+		self.playerGroundCol.addSolid(self.playerGroundRay)
+		self.playerGroundCol.setFromCollideMask(CollideMask.bit(0))
+		self.playerGroundCol.setIntoCollideMask(CollideMask.allOff())
+		self.playerGroundColNp = self.player.playerActor.attachNewNode(self.playerGroundCol)
+		self.playerGroundHandler = CollisionHandlerQueue()
+		self.cTrav.addCollider(self.playerGroundColNp, self.playerGroundHandler)
+		
+		# Uncomment this line to see the collision rays
+		#self.playerGroundColNp.show()
+		
+		# Uncomment this line to show a visual representation of the
+		# collisions occuring
+		#self.cTrav.showCollisions(render)
+		
+	def checkCollision(self, task):
+		
+		startpos = self.player.playerActor.getPos()
+		
+		entries = list(self.playerGroundHandler.getEntries())
+		entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
+		
+		if len(entries) > 0 and entries[0].getIntoNode().getName() == "suelo":
+			self.player.playerActor.setZ(entries[0].getSurfacePoint(render).getZ())
+		else:
+			self.player.playerActor.setPos(startpos)
+		
+		return task.cont
 
 def main():
 	props = WindowProperties( )

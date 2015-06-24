@@ -20,34 +20,35 @@ from panda3d.core import TransformState
 from panda3d.core import OrthographicLens
 from panda3d.core import ModifierButtons
 
+
 from direct.actor.Actor import Actor
 
 from direct.interval.IntervalGlobal import LerpQuatInterval, Sequence
 
 class Player():
 	def __init__(self, app, hp, mana, strength, dexterity, vigor, magic):
-
+		
 		self.app = app
-
+		
 		self.ori = 0.0
 		self.lastori = -1
 		self.zoomLevel = 5.0
 		self.nextAttack = 0.0
-
+		
 		self.attacked = False
-
+		
 		# Atributes
-
+		
 		self.hp = hp
 		self.mana = mana
-
+		
 		self.strength = strength
 		self.dexterity = dexterity
 		self.vigor = vigor
 		self.magic = magic
-
+		
 		# Atributes calculated
-
+		
 		self.attackDamage = random(1, 7) + self.strength/100				# physical dmg = weapon damage * %str
 		self.magicDamage = random(3, 12) + self.magic/100					# magic dmg = skill damage * %magic
 		self.speed = 5 + 0													# speed = base speed + item
@@ -56,22 +57,22 @@ class Player():
 		self.criticalMultiplier = self.attackDamage*1.5						# crit mult = base item + skill
 		self.magicDefense = 2 + self.magic/2								# magic def = base item + 1/2 magic
 		self.attackSpeed = (0.2 * self.dexterity) / 60						# attack speed = base * dex / 60
-
-
+		
+		
 		self.keyMap = {
 							"left":0,
 							"right":0,
 							"forward":0,
 							"backward":0,
-
+							
 							"cam-left":0,
 							"cam-right":0,
-
+							
 							"jump":0,
 							"attack":0,
 							"run":0
 						}
-
+		
 		self.playerActor = Actor({"body":"models/guy2"}, {
 							"body":{
 								"walk":"models/guy2-walk",
@@ -79,25 +80,25 @@ class Player():
 								"standby":"models/guy2-standby"
 							}
 						})
-
+		
 		self.playerActor.setHpr(0,0,0)
-		self.playerActor.setPos(self.app.playerStartPos)
 		self.playerActor.setScale(0.5)
-
+		self.playerActor.setPos(self.app.playerStartPos)
+		
 		self.playerActor.reparentTo(render)
-
+		
 		self.floater = NodePath(PandaNode("floater"))
 		self.floater.reparentTo(render)
-
+		self.floater.setZ(2.0)
+		
 		self.playerHand = self.playerActor.exposeJoint(None, 'body', 'manod')
 		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
-
 		#self.playerHead.setScale(10,10,10)
-
+		
 		self.models = []                 #A list that will store our models objects
 		items = [("models/sword1", (0.0, 0.6, -1.5), (0,90,0), 0.2),
 				("models/maze", (0.0, 0.6, -1.5), (0,90,0), 0.2)]
-
+		
 		for row in items:
 			np = self.app.loader.loadModel(row[0])				#Load the model
 			np.setPos(row[1][0], row[1][1], row[1][2])		#Position it
@@ -106,26 +107,26 @@ class Player():
 			np.reparentTo(self.playerHand)
 			#weaponNP.reparentTo(self.playerHand)
 			self.models.append(np)							#Add it to our models list
-
-
-
+		
+		
+		
 		self.item = 0
 		self.isMoving = False
 		self.isAttacking = False
-
+		
 		self.setObject(self.item)							#Make object 0 the first shown
-
+		
 		self.app.disableMouse()
 		self.app.camera.setPos(self.playerActor.getPos()+45)
-
+		
 		self.lens = OrthographicLens()
 		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)  # Or whatever is appropriate for your scene
-
+		
 		self.app.cam.node().setLens(self.lens)
-
+		
 		self.app.camLens.setFov(120)
-
-
+		
+		
 		self.app.accept("a", self.setKey, ["left",1])
 		self.app.accept("shift-a", self.setKey, ["left",1])
 		self.app.accept("d", self.setKey, ["right",1])
@@ -134,123 +135,94 @@ class Player():
 		self.app.accept("shift-w", self.setKey, ["forward",1])
 		self.app.accept("s", self.setKey, ["backward",1])
 		self.app.accept("shift-s", self.setKey, ["backward",1])
-
+		
 		self.app.accept("x", self.setKey, ["attack",1])
-
+		
 		#self.app.accept("q", self.setKey, ["cam-left",1])
 		#self.app.accept("e", self.setKey, ["cam-right",1])
-
+		
 		self.app.accept("space", self.setKey, ["jump",1])
-
+		
 		self.app.accept("a-up", self.setKey, ["left",0])
 		self.app.accept("d-up", self.setKey, ["right",0])
 		self.app.accept("w-up", self.setKey, ["forward",0])
 		self.app.accept("s-up", self.setKey, ["backward",0])
-
+		
 		self.app.accept("x-up", self.setKey, ["attack",0])
-
+		
 		#self.app.accept("q-up", self.setKey, ["cam-left",0])
 		#self.app.accept("e-up", self.setKey, ["cam-right",0])
-
+		
 		self.app.accept("space-up", self.setKey, ["jump",0])
-
-
+		
+		
 		self.app.accept("shift", self.setKey, ["run",1])
 		self.app.accept("shift-up", self.setKey, ["run",0])
-
+		
 		self.app.accept("wheel_up", self.moveCam, [1])
 		self.app.accept("wheel_down", self.moveCam, [0])
-
+		
 		self.app.accept("t", self.toggleObject)
-
+		
 		self.playerActor.loop("standby")
 		
-		self.setupCollision()
-	
-	
-	def setupCollision(self):
 		
-		# We will detect the height of the terrain by creating a collision
-		# ray and casting it downward toward the terrain.  One ray will
-		# start above ralph's head, and the other will start above the camera.
-		# A ray may hit the terrain, or it may hit a rock or a tree.  If it
-		# hits the terrain, we can detect the height.  If it hits anything
-		# else, we rule that the move is illegal.
-		self.cTrav = CollisionTraverser()
-
-		self.playerGroundRay = CollisionRay()
-		self.playerGroundRay.setOrigin(0, 0, 9)
-		self.playerGroundRay.setDirection(0, 0, -1)
-		self.playerGroundCol = CollisionNode('playerRay')
-		self.playerGroundCol.addSolid(self.playerGroundRay)
-		self.playerGroundCol.setFromCollideMask(CollideMask.bit(0))
-		self.playerGroundCol.setIntoCollideMask(CollideMask.allOff())
-		self.playerGroundColNp = self.playerActor.attachNewNode(self.playerGroundCol)
-		self.playerGroundHandler = CollisionHandlerQueue()
-		self.cTrav.addCollider(self.playerGroundColNp, self.playerGroundHandler)
-
-		# Uncomment this line to see the collision rays
-		self.playerGroundColNp.show()
-
-		# Uncomment this line to show a visual representation of the
-		# collisions occuring
-		self.cTrav.showCollisions(render)
-
+		
 	def moveCam(self, zoom):
 		if zoom == 0:
 			self.zoomLevel += 5
 			#if self.zoomLevel >= 30:
 				#self.zoomLevel = 30
-
+		
 		elif zoom == 1:
 			self.zoomLevel -= 5
 			if self.zoomLevel <= -30:
 				self.zoomLevel = -30
-
+		
 		#print self.zoomLevel
 		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)
 		self.app.cam.node().setLens(self.lens)
-
+		
 	def checkAttack(self):
 		animControl = self.playerActor.getAnimControl('slash', "body")
-
+		
 		return animControl.isPlaying()
-
+		
 	def attack(self):
 		if self.isAttacking is False:
 			self.playerActor.play("slash")
 			self.isAttacking = True
-
+		
 		self.isAttacking = False
-
-
+		
+		
 	def setKey(self, key, value):
 		self.keyMap[key] = value
-
-
-
+		
+		
+		
 	def setObject(self, i):
 		for np in self.models: np.hide()
 		self.models[i].show()
 		self.item = i
-
+		
 	def toggleObject(self):
-
+		
 		if self.item == 1:
 			self.item = 0
 		else:
 			self.item = 1
-
+		
 		for np in self.models: np.hide()
 		self.models[self.item].show()
-
+		
 	def move(self, task):
 		#print task.time
-
+		
 		# If a move-key is pressed, move in the specified direction.
 		dt = globalClock.getDt()
 		speed = 0
-
+		
 		if (self.keyMap["left"]):
 			self.ori = 45
 			
@@ -258,7 +230,7 @@ class Player():
 				speed = -20.0
 			else:
 				speed = -10.0
-
+				
 		if (self.keyMap["right"]):
 			self.ori = -135
 			
@@ -266,8 +238,8 @@ class Player():
 				speed = -20.0
 			else:
 				speed = -10.0
-
-
+				
+		
 		if (self.keyMap["forward"]):
 			self.ori = -45
 			
@@ -275,8 +247,8 @@ class Player():
 				speed = -20.0
 			else:
 				speed = -10.0
-
-
+				
+		
 		if (self.keyMap["backward"]):
 			self.ori = 135
 			
@@ -284,10 +256,7 @@ class Player():
 				speed = -20.0
 			else:
 				speed = -10.0
-
-
-
-
+		
 		if (self.keyMap["left"]) and (self.keyMap["forward"]):
 			self.ori = 0
 			
@@ -295,9 +264,7 @@ class Player():
 				speed = -20.0
 			else:
 				speed = -10.0
-
-
-
+		
 		if (self.keyMap["right"]) and (self.keyMap["forward"]):
 			self.ori = -90
 			
@@ -305,9 +272,7 @@ class Player():
 				speed = -20.0
 			else:
 				speed = -10.0
-
-
-
+		
 		if (self.keyMap["left"]) and (self.keyMap["backward"]):
 			self.ori = 90
 			
@@ -315,9 +280,7 @@ class Player():
 				speed = -20.0
 			else:
 				speed = -10.0
-
-
-
+		
 		if (self.keyMap["right"]) and (self.keyMap["backward"]):
 			self.ori = 180
 			
@@ -325,62 +288,43 @@ class Player():
 				speed = -20.0
 			else:
 				speed = -10.0
-
+		
 		if (self.keyMap["attack"])  and (task.time > self.nextAttack):
 			self.attack()
 			self.nextAttack = task.time + self.attackSpeed
 		self.keyMap["attack"] = 0
-
+		
 		if self.lastori != self.ori :
 			turn = Sequence(LerpQuatInterval(self.playerActor, duration=0.05,  hpr=Vec3(self.ori, 0, 0), blendType='easeOut')).start()
 			self.lastori = self.ori
-
+		
 		self.playerActor.setY(self.playerActor, speed * dt)
-
+		
 		# If dt6 is moving, loop the run animation.
 		# If he is standing still, stop the animation.
-
+		
 		if (self.keyMap["forward"]) or (self.keyMap["left"]) or (self.keyMap["right"]) or (self.keyMap["backward"]):
 			if self.isMoving is False:
 				self.playerActor.loop("walk")
 				self.isMoving = True
-
+		
 		else:
 			if self.isMoving:
 				self.playerActor.stop()
 				self.playerActor.loop("standby")
 				self.isMoving = False
-		
-		# Normally, we would have to call traverse() to check for collisions.
-		# However, the class ShowBase that we inherit from has a task to do
-		# this for us, if we assign a CollisionTraverser to self.cTrav.
-		#self.cTrav.traverse(render)
-
-		# Adjust ralph's Z coordinate.  If ralph's ray hit terrain,
-		# update his Z. If it hit anything else, or didn't hit anything, put
-		# him back where he was last frame.
-
-		startpos = self.playerActor.getPos()
-		
-		entries = list(self.playerGroundHandler.getEntries())
-		entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
-		
-		if len(entries) > 0 and entries[0].getIntoNode().getName() == "suelo":
-			self.playerActor.setZ(entries[0].getSurfacePoint(render).getZ())
-		else:
-			self.playerActor.setPos(startpos)
-
 		return task.cont
-
+	
+		
 	def updateCamera(self, task):
-
+		
 		self.app.camera.setPos(self.playerActor.getPos()+45)
 		# The camera should look in dt6's direction,
 		# but it should also try to stay horizontal, so look at
 		# a floater which hovers above dt6's head.
-
+		
 		self.floater.setPos(self.playerActor.getPos())
 		self.floater.setZ(self.playerActor.getZ() + 2.0)
-
+		
 		self.app.camera.lookAt(self.floater)
 		return task.cont
