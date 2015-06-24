@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Authors: ep0s TurBoss
 # Models: ep0s TurBoss
@@ -26,11 +27,7 @@ from panda3d.core import PerspectiveLens
 
 from pandac.PandaModules import WindowProperties
 
-from panda3d.bullet import BulletWorld
-from panda3d.bullet import BulletPlaneShape
-from panda3d.bullet import BulletRigidBodyNode
-from panda3d.bullet import BulletDebugNode
-
+from loadbar import Bar
 from startmenu import StartMenu
 from interface import Inventory, Status, Skills
 
@@ -46,8 +43,7 @@ class World(ShowBase):
 		ShowBase.__init__(self)
 		
 		self.menu = StartMenu(self)
-		
-		self.menu.show()
+		self.bar = Bar()
 		
 		#self.messenger.toggleVerbose()
 		
@@ -61,22 +57,42 @@ class World(ShowBase):
 		
 		#self.setup()
 		
+	def loading(self):
+		self.bar.show()
+		
 	def setup(self):
 		
 		
+		self.bar.show()
+		
+		print("Init World ...")
+		self.bar.incBar(15)
 		self.initWorld()
 		
+		print("Init Actors ...")
+		self.bar.incBar(30)
 		self.initActors()
 		
+		print("Init GUI ...")
+		self.bar.incBar(45)
 		self.initGui()
 		
+		print("Init Lights ...")
+		self.bar.incBar(60)
 		self.initLights()
 		
+		print("Init Collisions ...")
+		self.bar.incBar(75)
 		self.initCollision()
 		
+		print("Init Tasks ...")
+		self.bar.incBar(95)
 		self.initTasks()
 		
+		print("Launching World")
+		self.bar.incBar(100)
 		
+		self.bar.hide()
 		# Accept the control keys
 		
 		self.accept("h", self.crono.start)
@@ -85,11 +101,21 @@ class World(ShowBase):
 		
 		self.player = Player(self, 20, 10, 10, 10, 10, 10) #app, hp, mana, strength, dexterity, vigor, magic):
 		
+		self.enemies = []
+		self.npcs = []
+		
 		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 		
+		self.enemies.append(self.foe1)
+		self.enemies.append(self.nasgul)
+		
 		self.npc1 = Npc(self, 100, 50, 5, 2, "guy2")
 		self.npc2 = Npc(self, 100, 50, 5, 2, "ralph")
+		
+		self.npcs.append(self.npc1)
+		self.npcs.append(self.npc2)
+		
 		
 	def initGui(self):
 		
@@ -134,7 +160,7 @@ class World(ShowBase):
 		
 		#self.taskMgr.add(self.playerpos.task, "playerposTask")
 		
-		self.taskMgr.add(self.checkCollision, "playerCollisionTask")
+		self.taskMgr.add(self.checkCollision, "collisionTask")
 		
 		self.taskMgr.add(self.player.move, "moveTask")
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
@@ -144,7 +170,7 @@ class World(ShowBase):
 		
 		self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
 		self.taskMgr.add(self.npc2.update, "npc2Task",priority=1)
-
+		
 		self.taskMgr.add(self.update, 'update')
 	
 	def initLights(self):
@@ -168,13 +194,13 @@ class World(ShowBase):
 		plight1.showFrustum()
 		#plight1.setShadowCaster(True)
 		plnp1 = render.attachNewNode(plight1)
-		plnp1.setPos(26.71, -33.2, 6)
+		plnp1.setPos(26.71, -33.2, 26)
 		
 		plight2 = PointLight('plight2')
 		plight2.setColor(VBase4(0.2, 1.5, 1, 1))
 		plight2.showFrustum()
 		plnp2 = render.attachNewNode(plight2)
-		plnp2.setPos(-25, 25, 5)
+		plnp2.setPos(-25, 25, 25)
 		
 		slight = Spotlight('slight')
 		slight.setColor(VBase4(1, 1, 1, 1))
@@ -184,7 +210,7 @@ class World(ShowBase):
 		slight.setShadowCaster(True, 512, 512)
 		slight.showFrustum()
 		slnp = render.attachNewNode(slight)
-		slnp.setPos(0, 0, 5)
+		slnp.setPos(0, 0, 25)
 		
 		slnp.lookAt(Vec3(0,0,0))
 		
@@ -211,7 +237,7 @@ class World(ShowBase):
 		
 	def initWorld(self):
 		
-		self.environ = self.loader.loadModel("models/torreantigua")
+		self.environ = self.loader.loadModel("models/entradacastillo")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
@@ -269,22 +295,67 @@ class World(ShowBase):
 		# A ray may hit the terrain, or it may hit a rock or a tree.  If it
 		# hits the terrain, we can detect the height.  If it hits anything
 		# else, we rule that the move is illegal.
+		
 		self.cTrav = CollisionTraverser()
 		
 		self.playerGroundRay = CollisionRay()
 		self.playerGroundRay.setOrigin(0, 0, 9)
 		self.playerGroundRay.setDirection(0, 0, -1)
+		
 		self.playerGroundCol = CollisionNode('playerRay')
 		self.playerGroundCol.addSolid(self.playerGroundRay)
 		self.playerGroundCol.setFromCollideMask(CollideMask.bit(0))
 		self.playerGroundCol.setIntoCollideMask(CollideMask.allOff())
+		
 		self.playerGroundColNp = self.player.playerActor.attachNewNode(self.playerGroundCol)
+		
 		self.playerGroundHandler = CollisionHandlerQueue()
+		
 		self.cTrav.addCollider(self.playerGroundColNp, self.playerGroundHandler)
 		
 		# Uncomment this line to see the collision rays
 		#self.playerGroundColNp.show()
 		
+		
+		for enemy in self.enemies:
+			
+			self.enemyGroundRay = CollisionRay()
+			self.enemyGroundRay.setOrigin(0, 0, 9)
+			self.enemyGroundRay.setDirection(0, 0, -1)
+			
+			self.enemyGroundCol = CollisionNode('%sRay' % enemy.name)
+			self.enemyGroundCol.addSolid(self.playerGroundRay)
+			self.enemyGroundCol.setFromCollideMask(CollideMask.bit(0))
+			self.enemyGroundCol.setIntoCollideMask(CollideMask.allOff())
+			
+			self.enemyGroundColNp = enemy.enemyActor.attachNewNode(self.enemyGroundCol)
+			
+			self.enemyGroundHandler = CollisionHandlerQueue()
+			
+			self.cTrav.addCollider(self.enemyGroundColNp, self.enemyGroundHandler)
+			
+			#self.enemyGroundColNp.show()
+		
+		
+		for npc in self.npcs:
+			
+			self.npcGroundRay = CollisionRay()
+			self.npcGroundRay.setOrigin(0, 0, 9)
+			self.npcGroundRay.setDirection(0, 0, -1)
+			
+			self.npcGroundCol = CollisionNode('%sRay' % npc.name)
+			self.npcGroundCol.addSolid(self.playerGroundRay)
+			self.npcGroundCol.setFromCollideMask(CollideMask.bit(0))
+			self.npcGroundCol.setIntoCollideMask(CollideMask.allOff())
+			
+			self.npcGroundColNp = npc.npcActor.attachNewNode(self.npcGroundCol)
+			
+			self.npcGroundHandler = CollisionHandlerQueue()
+			
+			self.cTrav.addCollider(self.npcGroundColNp, self.npcGroundHandler)
+			
+			#self.npcGroundColNp.show()
+			
 		# Uncomment this line to show a visual representation of the
 		# collisions occuring
 		#self.cTrav.showCollisions(render)
@@ -295,12 +366,36 @@ class World(ShowBase):
 		
 		entries = list(self.playerGroundHandler.getEntries())
 		entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
+		
 		for entry in entries:
 			if entry > 0: # and entries[0].getIntoNode().getName() == "Ground":
 				self.player.playerActor.setZ(entry.getSurfacePoint(render).getZ())
 			else:
 				self.player.playerActor.setPos(startpos)
 		
+		for enemy in self.enemies:
+			startpos = enemy.enemyActor.getPos()
+			
+			entries = list(self.enemyGroundHandler.getEntries())
+			entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
+			
+			for entry in entries:
+				if entry > 0: # and entries[0].getIntoNode().getName() == "Ground":
+					enemy.enemyActor.setZ(entry.getSurfacePoint(render).getZ())
+				else:
+					enemy.enemyActor.setPos(startpos)
+		
+		for npc in self.npcs:
+			startpos = npc.npcActor.getPos()
+			
+			entries = list(self.npcGroundHandler.getEntries())
+			entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
+			
+			for entry in entries:
+				if entry > 0: # and entries[0].getIntoNode().getName() == "Ground":
+					npc.npcActor.setZ(entry.getSurfacePoint(render).getZ())
+				else:
+					npc.npcActor.setPos(startpos)
 		return task.cont
 
 def main():

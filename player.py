@@ -136,23 +136,21 @@ class Player():
 		self.app.accept("s", self.setKey, ["backward",1])
 		self.app.accept("shift-s", self.setKey, ["backward",1])
 		
-		self.app.accept("x", self.setKey, ["attack",1])
-		
-		#self.app.accept("q", self.setKey, ["cam-left",1])
-		#self.app.accept("e", self.setKey, ["cam-right",1])
-		
-		self.app.accept("space", self.setKey, ["jump",1])
-		
 		self.app.accept("a-up", self.setKey, ["left",0])
 		self.app.accept("d-up", self.setKey, ["right",0])
 		self.app.accept("w-up", self.setKey, ["forward",0])
 		self.app.accept("s-up", self.setKey, ["backward",0])
 		
+		self.app.accept("x", self.setKey, ["attack",1])
 		self.app.accept("x-up", self.setKey, ["attack",0])
 		
+		#self.app.accept("q", self.setKey, ["cam-left",1])
+		#self.app.accept("e", self.setKey, ["cam-right",1])
+        
 		#self.app.accept("q-up", self.setKey, ["cam-left",0])
 		#self.app.accept("e-up", self.setKey, ["cam-right",0])
 		
+		self.app.accept("space", self.setKey, ["jump",1])
 		self.app.accept("space-up", self.setKey, ["jump",0])
 		
 		
@@ -161,6 +159,9 @@ class Player():
 		
 		self.app.accept("wheel_up", self.moveCam, [1])
 		self.app.accept("wheel_down", self.moveCam, [0])
+        
+		self.app.accept("shift-wheel_up", self.moveCam, [1])
+		self.app.accept("shift-wheel_down", self.moveCam, [0])
 		
 		self.app.accept("t", self.toggleObject)
 		

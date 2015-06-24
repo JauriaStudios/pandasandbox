@@ -39,7 +39,7 @@ class Enemy():
 						})
 		
 		self.enemyActor.setHpr(0,0,0)
-		self.enemyActor.setPos(0,0,-0.5)
+		self.enemyActor.setPos(0,0,5)
 		self.enemyActor.setScale(0.5)
 		self.enemyActor.reparentTo(render)
 		
