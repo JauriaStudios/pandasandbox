@@ -211,7 +211,7 @@ class World(ShowBase):
 		
 	def initWorld(self):
 		
-		self.environ = self.loader.loadModel("models/entradacastillo")
+		self.environ = self.loader.loadModel("models/torreantigua")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
@@ -296,7 +296,7 @@ class World(ShowBase):
 		entries = list(self.playerGroundHandler.getEntries())
 		entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
 		
-		if len(entries) > 0 and entries[0].getIntoNode().getName() == "suelo":
+		if len(entries) > 0 and entries[0].getIntoNode().getName() == "Ground":
 			self.player.playerActor.setZ(entries[0].getSurfacePoint(render).getZ())
 		else:
 			self.player.playerActor.setPos(startpos)
