@@ -295,11 +295,11 @@ class World(ShowBase):
 		
 		entries = list(self.playerGroundHandler.getEntries())
 		entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
-		
-		if len(entries) > 0 and entries[0].getIntoNode().getName() == "Ground":
-			self.player.playerActor.setZ(entries[0].getSurfacePoint(render).getZ())
-		else:
-			self.player.playerActor.setPos(startpos)
+		for entry in entries:
+			if entry > 0: # and entries[0].getIntoNode().getName() == "Ground":
+				self.player.playerActor.setZ(entry.getSurfacePoint(render).getZ())
+			else:
+				self.player.playerActor.setPos(startpos)
 		
 		return task.cont
 
