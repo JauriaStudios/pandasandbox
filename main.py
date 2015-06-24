@@ -85,11 +85,21 @@ class World(ShowBase):
 		
 		self.player = Player(self, 20, 10, 10, 10, 10, 10) #app, hp, mana, strength, dexterity, vigor, magic):
 		
+		self.enemies = []
+		self.npcs = []
+		
 		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 		
+		self.enemies.append(self.foe1)
+		self.enemies.append(self.nasgul)
+		
 		self.npc1 = Npc(self, 100, 50, 5, 2, "guy2")
 		self.npc2 = Npc(self, 100, 50, 5, 2, "ralph")
+		
+		self.npcs.append(self.npc1)
+		self.npcs.append(self.npc2)
+		
 		
 	def initGui(self):
 		
@@ -285,6 +295,35 @@ class World(ShowBase):
 		# Uncomment this line to see the collision rays
 		#self.playerGroundColNp.show()
 		
+		for enemy in self.enemies:
+			
+			self.enemyGroundRay = CollisionRay()
+			self.enemyGroundRay.setOrigin(0, 0, 9)
+			self.enemyGroundRay.setDirection(0, 0, -1)
+			self.enemyGroundCol = CollisionNode('%sRay' % enemy.name)
+			self.enemyGroundCol.addSolid(self.playerGroundRay)
+			self.enemyGroundCol.setFromCollideMask(CollideMask.bit(0))
+			self.enemyGroundCol.setIntoCollideMask(CollideMask.allOff())
+			self.enemyGroundColNp = enemy.enemyActor.attachNewNode(self.enemyGroundCol)
+			self.enemyGroundHandler = CollisionHandlerQueue()
+			self.cTrav.addCollider(self.enemyGroundColNp, self.enemyGroundHandler)
+			#self.enemyGroundColNp.show()
+			
+		
+		for npc in self.npcs:
+			
+			self.npcGroundRay = CollisionRay()
+			self.npcGroundRay.setOrigin(0, 0, 9)
+			self.npcGroundRay.setDirection(0, 0, -1)
+			self.npcGroundCol = CollisionNode('%sRay' % npc.name)
+			self.npcGroundCol.addSolid(self.playerGroundRay)
+			self.npcGroundCol.setFromCollideMask(CollideMask.bit(0))
+			self.npcGroundCol.setIntoCollideMask(CollideMask.allOff())
+			self.npcGroundColNp = npc.npcActor.attachNewNode(self.npcGroundCol)
+			self.npcGroundHandler = CollisionHandlerQueue()
+			self.cTrav.addCollider(self.npcGroundColNp, self.npcGroundHandler)
+			#self.npcGroundColNp.show()
+			
 		# Uncomment this line to show a visual representation of the
 		# collisions occuring
 		#self.cTrav.showCollisions(render)
@@ -301,6 +340,28 @@ class World(ShowBase):
 			else:
 				self.player.playerActor.setPos(startpos)
 		
+		for enemy in self.enemies:
+			startpos = enemy.enemyActor.getPos()
+		
+			entries = list(self.enemyGroundHandler.getEntries())
+			entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
+			for entry in entries:
+				if entry > 0: # and entries[0].getIntoNode().getName() == "Ground":
+					enemy.enemyActor.setZ(entry.getSurfacePoint(render).getZ())
+				else:
+					enemy.enemyActor.setPos(startpos)
+					
+		for npc in self.npcs:
+			startpos = npc.npcActor.getPos()
+		
+			entries = list(self.npcGroundHandler.getEntries())
+			entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
+			for entry in entries:
+				if entry > 0: # and entries[0].getIntoNode().getName() == "Ground":
+					npc.npcActor.setZ(entry.getSurfacePoint(render).getZ())
+				else:
+					npc.npcActor.setPos(startpos)
+					
 		return task.cont
 
 def main():
