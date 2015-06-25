@@ -30,6 +30,31 @@ class Inventory(DirectObject.DirectObject):
 		
 		self.frame.setTransparency(TransparencyAttrib.MAlpha)
 		
+		
+		mapsInventory = loader.loadModel('hud/interface/buttons_inventory_maps.egg')
+		
+		self.inventoryCell = [["0" for x in range(10)] for x in range(5)] 
+		
+		for row in range(len(self.app.player.inventory)):
+			posY = 0.1*row
+			for col in range(len(self.app.player.inventory[row])):
+				posX = 0.1*col
+				self.inventoryCell[row][col] = DirectButton(
+																parent=self.frame,
+																pos=(-0.45+posX, 0 ,-0.45+posY),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																#command=self.hide,
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.55, 0.55, -0.55, 0.55),  
+																frameColor=(0.8,0.8,0.8,0),
+															)
+		
+		self.inventoryCell[3][3]["image"] = "hud/interface/inventoryOcuped.png"
+		self.inventoryCell[3][3]['image_scale'] = (0.5, 0.5, 0.5)
+		
 		self.hide()
 		
 	def toggle(self):

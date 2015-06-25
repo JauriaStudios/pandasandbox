@@ -95,7 +95,7 @@ class Player():
 		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
 		#self.playerHead.setScale(10,10,10)
 		
-		self.invetory = [["0"]*10 for i in range(5)]
+		self.inventory = [["0" for x in range(10)] for x in range(5)] 
 		
 		self.models = []                 #A list that will store our models objects
 		items = [("models/sword1", (0.0, 0.6, -1.5), (0,90,0), 0.2),

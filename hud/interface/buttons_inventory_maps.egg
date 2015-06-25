@@ -1,0 +1,61 @@
+<Comment> {
+  "egg-texture-cards -o buttons_inventory_maps.egg -p 64,64 inventory.png inventoryOcuped.png"
+}
+<Texture> inventoryOcuped {
+  inventoryOcuped.png
+}
+<Texture> inventory {
+  inventory.png
+}
+<Group> {
+  <Switch> { 1 }
+  <Scalar> fps { 2 }
+  <VertexPool> vpool {
+    <Vertex> 0 {
+      -0.5 0.5 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 1 {
+      -0.5 -0.5 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 2 {
+      0.5 -0.5 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 3 {
+      0.5 0.5 0
+      <UV> { 1 1 }
+    }
+    <Vertex> 4 {
+      -0.5 0.5 0
+      <UV> { 0 1 }
+    }
+    <Vertex> 5 {
+      -0.5 -0.5 0
+      <UV> { 0 0 }
+    }
+    <Vertex> 6 {
+      0.5 -0.5 0
+      <UV> { 1 0 }
+    }
+    <Vertex> 7 {
+      0.5 0.5 0
+      <UV> { 1 1 }
+    }
+  }
+  <Group> inventory {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { inventory }
+      <VertexRef> { 0 1 2 3 <Ref> { vpool } }
+    }
+  }
+  <Group> inventoryOcuped {
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { inventoryOcuped }
+      <VertexRef> { 4 5 6 7 <Ref> { vpool } }
+    }
+  }
+}
