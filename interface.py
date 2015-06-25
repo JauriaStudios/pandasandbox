@@ -21,6 +21,7 @@ class Inventory(DirectObject.DirectObject):
 		self.game = game
 		self.tooltip = None
 		self.inventoryShown = False
+		self.itemOnHand = None
 		
 		self.frame = DirectFrame()
 		self.frame['frameColor']=(0.8, 0.8, 0.8, 0)
@@ -33,6 +34,7 @@ class Inventory(DirectObject.DirectObject):
 		
 		mapsInventory = loader.loadModel('hud/interface/buttons_inventory_maps.egg')
 		
+		self.previousItems = [["0" for x in range(10)] for x in range(5)]
 		self.inventoryCell = [["0" for x in range(10)] for x in range(5)]
 		
 		for row in range(len(self.game.player.inventory)):
@@ -56,12 +58,34 @@ class Inventory(DirectObject.DirectObject):
 				self.inventoryCell[row][col].bind(DGG.WITHIN, self.mouseOver, [col,row])
 				self.inventoryCell[row][col].bind(DGG.WITHOUT, self.mouseOut)
 		
+		self.toggleCell = DirectButton(
+										parent=self.frame,
+										pos=(-0.45, 0 ,-0.55),
+										image = (
+											mapsInventory.find('**/inventory'),
+										),
+										#command=self.cellClick,
+										#extraArgs=[row,col],
+										scale=0.1,
+										borderWidth=(0.01,0.01),
+										frameSize=(-0.50, 0.50, -0.50, 0.50),  
+										frameColor=(0.8,0.8,0.8,0),
+										pressEffect=0,
+									)
 		self.hide()
 		
 	def mouseOver(self, col, row, guiEvent=None ):
 		
 		if self.tooltip:
 			self.tooltip.destroy()
+			
+		self.drawTooltip(col, row)
+		
+	def mouseOut(self, arg):
+		if self.tooltip:
+			self.tooltip.destroy()
+		
+	def drawTooltip(self, col, row):
 		
 		if self.game.player.inventory[row][col] != "0":
 			mpos = self.game.mouseWatcherNode.getMouse()
@@ -103,33 +127,55 @@ class Inventory(DirectObject.DirectObject):
 												scale=0.065,
 												frameColor=(0.8,0.8,0.8,0)
 											)
-	def mouseOut(self, arg):
-		if self.tooltip:
-			self.tooltip.destroy()
+											
 		
 	def checkPlayerInventory(self, task):
 		
-		for row in range(len(self.game.player.inventory)):
-			for col in range(len(self.game.player.inventory[row])):
-				if self.game.player.inventory[row][col] != "0":
-					
-					self.inventoryCell[row][col]["image"] = "hud/interface/%s.png" % self.game.player.inventory[row][col]["model"]
+		if self.previousItems != self.game.player.inventory:
+			for row in range(len(self.game.player.inventory)):
+				for col in range(len(self.game.player.inventory[row])):
+					self.previousItems[row][col] = self.game.player.inventory[row][col]
+					if self.game.player.inventory[row][col] != "0":
+						
+						self.inventoryCell[row][col]["image"] = "hud/interface/%s.png" % self.game.player.inventory[row][col]["model"]
+					elif self.game.player.inventory[row][col] == "0":
+						self.inventoryCell[row][col]["image"] = "hud/interface/inventory.png"
+						
 					self.inventoryCell[row][col]['image_scale'] = (0.5, 0.5, 0.5)
+			
+			if self.itemOnHand != None:
+				self.toggleCell["image"] = "hud/interface/%s.png" % self.itemOnHand["model"]
+			else:
+				self.toggleCell["image"] = "hud/interface/inventory.png"
+			
+			self.toggleCell['image_scale'] = (0.5, 0.5, 0.5)
 				
-				
+		
 		return task.cont
 		
 	def cellClick(self, row, col):
-		"""
-		if self.game.player.inventory[row][col] == "0":
-			self.inventoryCell[row][col]["image"] = "hud/interface/inventoryOcuped.png"
-			self.inventoryCell[row][col]['image_scale'] = (0.5, 0.5, 0.5)
-			self.game.player.inventory[row][col] = "1"
-		else:
-			self.inventoryCell[row][col]["image"] = "hud/interface/inventory.png"
-			self.inventoryCell[row][col]['image_scale'] = (0.5, 0.5, 0.5)
+		
+		if self.game.player.inventory[row][col] != "0" and self.itemOnHand == None:
+			
+			self.itemOnHand = self.game.player.inventory[row][col]
 			self.game.player.inventory[row][col] = "0"
-		"""
+			
+			if self.tooltip:
+				self.tooltip.destroy()
+				
+		elif self.game.player.inventory[row][col] == "0" and self.itemOnHand != None:
+			
+			self.game.player.inventory[row][col] = self.itemOnHand
+			self.itemOnHand = None
+			
+			
+		elif self.game.player.inventory[row][col] != "0" and self.itemOnHand != None:
+			
+			toogleItem = self.itemOnHand
+			self.itemOnHand = self.game.player.inventory[row][col]
+			self.game.player.inventory[row][col] = toogleItem 
+			
+			
 	def toggle(self):
 		
 		if self.inventoryShown == False:
