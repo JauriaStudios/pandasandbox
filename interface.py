@@ -31,8 +31,128 @@ class Inventory(DirectObject.DirectObject):
 		
 		self.frame.setTransparency(TransparencyAttrib.MAlpha)
 		
-		
 		mapsInventory = loader.loadModel('hud/interface/buttons_inventory_maps.egg')
+		
+		self.equipHelmetCell = DirectButton(
+																parent=self.frame,
+																pos=(-0.40, 0 ,0.35),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["helmet"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		self.equipWeaponCell = DirectButton(
+																parent=self.frame,
+																pos=(-0.40, 0 ,0.25),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["weapon"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		self.equipRingLeftCell = DirectButton(
+																parent=self.frame,
+																pos=(-0.40, 0 ,0.15),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["ringLeft"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		self.equipGlovesCell = DirectButton(
+																parent=self.frame,
+																pos=(-0.40, 0 ,0.05),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["gloves"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		self.equipCloackCell = DirectButton(
+																parent=self.frame,
+																pos=(0.40, 0 ,0.35),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["cloack"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		self.equipArmourCell = DirectButton(
+																parent=self.frame,
+																pos=(0.40, 0 ,0.25),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["Armour"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		self.equipRingRightCell = DirectButton(
+																parent=self.frame,
+																pos=(0.40, 0 ,0.15),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["ringRight"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		self.equipBootsCell = DirectButton(
+																parent=self.frame,
+																pos=(0.40, 0 ,0.05),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["boots"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
 		
 		self.previousItems = [["0" for x in range(10)] for x in range(5)]
 		self.inventoryCell = [["0" for x in range(10)] for x in range(5)]
@@ -64,14 +184,13 @@ class Inventory(DirectObject.DirectObject):
 										image = (
 											mapsInventory.find('**/inventory'),
 										),
-										#command=self.cellClick,
-										#extraArgs=[row,col],
 										scale=0.1,
 										borderWidth=(0.01,0.01),
 										frameSize=(-0.50, 0.50, -0.50, 0.50),  
 										frameColor=(0.8,0.8,0.8,0),
 										pressEffect=0,
 									)
+		
 		self.hide()
 		
 	def mouseOver(self, col, row, guiEvent=None ):
@@ -84,6 +203,7 @@ class Inventory(DirectObject.DirectObject):
 	def mouseOut(self, arg):
 		if self.tooltip:
 			self.tooltip.destroy()
+		
 		
 	def drawTooltip(self, col, row):
 		
@@ -153,6 +273,10 @@ class Inventory(DirectObject.DirectObject):
 		
 		return task.cont
 		
+	def equipCellClick(self, equipPart):
+		print(equipPart)
+		
+		
 	def cellClick(self, row, col):
 		
 		if self.game.player.inventory[row][col] != "0" and self.itemOnHand == None:
@@ -181,6 +305,7 @@ class Inventory(DirectObject.DirectObject):
 		if self.inventoryShown == False:
 			self.show()
 			self.game.taskMgr.add(self.checkPlayerInventory, "playerInventoryTask")
+			
 		else:
 			self.hide()
 			self.game.taskMgr.remove("playerInventoryTask")
