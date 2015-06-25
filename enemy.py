@@ -20,10 +20,10 @@ from direct.interval.IntervalGlobal import Sequence
 from panda3d.ai import *
 
 class Enemy():
-	def __init__(self, app, hp, mana, speed, attackSpeed, name):
+	def __init__(self, game, hp, mana, speed, attackSpeed, name):
 		
 		
-		self.app = app
+		self.game = game
 		
 		self.name = name
 		
@@ -54,7 +54,7 @@ class Enemy():
 		if self.hp <= 0:
 			self.enemyActor.detachNode()
 			self.enemyActor.removeNode()
-			self.app.taskMgr.remove("%sTask" % self.name)
+			self.game.taskMgr.remove("%sTask" % self.name)
 		
 	def setupAI(self):
 		

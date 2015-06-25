@@ -2,7 +2,7 @@
 # Authors: ep0s TurBoss
 # Models: ep0s TurBoss
 
-# Just sandboxing
+# Player
 
 
 from random import randint as random
@@ -26,9 +26,9 @@ from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import LerpQuatInterval, Sequence
 
 class Player():
-	def __init__(self, app, hp, mana, strength, dexterity, vigor, magic):
+	def __init__(self, game, hp, mana, strength, dexterity, vigor, magic):
 		
-		self.app = app
+		self.game = game
 		
 		self.ori = 0.0
 		self.lastori = -1
@@ -51,7 +51,8 @@ class Player():
 		
 		self.attackDamage = random(1, 7) + self.strength/100				# physical dmg = weapon damage * %str
 		self.magicDamage = random(3, 12) + self.magic/100					# magic dmg = skill damage * %magic
-		self.speed = 5 + 0													# speed = base speed + item
+		self.speed = 15 + 0													# speed = base speed + item
+		self.runSpeed = 25 + 0												# run speed = base speed + item
 		self.defense = 5 + self.vigor/2										# defense = armour + 1/2 vigor
 		self.criticalChance = 10 + 0										# crit chance = base item + skill
 		self.criticalMultiplier = self.attackDamage*1.5						# crit mult = base item + skill
@@ -73,17 +74,19 @@ class Player():
 							"run":0
 						}
 		
-		self.playerActor = Actor({"body":"models/guy2"}, {
-							"body":{
-								"walk":"models/guy2-walk",
-								"slash":"models/guy2-attack",
-								"standby":"models/guy2-standby"
-							}
-						})
+		self.playerActor = Actor({
+									"body":"models/guy2"
+									},{
+										"body":{
+											"walk":"models/guy2-walk",
+											"slash":"models/guy2-attack",
+											"standby":"models/guy2-standby"
+										}
+									})
 		
 		self.playerActor.setHpr(0,0,0)
 		self.playerActor.setScale(0.5)
-		self.playerActor.setPos(self.app.playerStartPos)
+		self.playerActor.setPos(self.game.playerStartPos)
 		
 		self.playerActor.reparentTo(render)
 		
@@ -95,14 +98,39 @@ class Player():
 		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
 		#self.playerHead.setScale(10,10,10)
 		
-		self.inventory = [["0" for x in range(10)] for x in range(5)] 
+		self.inventory = [["0" for x in range(10)] for x in range(5)]
+		
+		#			COLS-ROWS
+		self.inventory[3][3] = "leatherarmour"
+		self.inventory[0][0] = "longsword"
+		self.inventory[1][0] = "leatherarmour"
+		self.inventory[1][3] = "longsword"
+		self.inventory[3][9] = "leatherarmour"
+		
+		self.equip = {
+						"armour":"0",
+						"helmet":"0",
+						"gloves":"0",
+						"boots":"0",
+						
+						"cloak":"0",
+						
+						"ringLeft":"0",
+						"ringRight":"0",
+						"trinket":"0",
+						
+						"weaponLeft":"0",
+						"weaponRight":"0",
+						
+						"shield":"0"
+					}
 		
 		self.models = []                 #A list that will store our models objects
 		items = [("models/sword1", (0.0, 0.6, -1.5), (0,90,0), 0.2),
 				("models/maze", (0.0, 0.6, -1.5), (0,90,0), 0.2)]
 		
 		for row in items:
-			np = self.app.loader.loadModel(row[0])				#Load the model
+			np = self.game.loader.loadModel(row[0])				#Load the model
 			np.setPos(row[1][0], row[1][1], row[1][2])		#Position it
 			np.setHpr(row[2][0], row[2][1], row[2][2])		#Rotate it
 			np.setScale(row[3])								#Scale it
@@ -118,58 +146,61 @@ class Player():
 		
 		self.setObject(self.item)							#Make object 0 the first shown
 		
-		self.app.disableMouse()
-		self.app.camera.setPos(self.playerActor.getPos()+45)
+		self.setupControls()
+		self.setupCamera()
+		self.playerActor.loop("standby")
+		
+	def setupCamera(self):
+		
+		self.game.disableMouse()
+		self.game.camera.setPos(self.playerActor.getPos()+45)
 		
 		self.lens = OrthographicLens()
 		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)  # Or whatever is appropriate for your scene
 		
-		self.app.cam.node().setLens(self.lens)
+		self.game.cam.node().setLens(self.lens)
 		
-		self.app.camLens.setFov(120)
+		self.game.camLens.setFov(120)
 		
+	def setupControls(self):
 		
-		self.app.accept("a", self.setKey, ["left",1])
-		self.app.accept("shift-a", self.setKey, ["left",1])
-		self.app.accept("d", self.setKey, ["right",1])
-		self.app.accept("shift-d", self.setKey, ["right",1])
-		self.app.accept("w", self.setKey, ["forward",1])
-		self.app.accept("shift-w", self.setKey, ["forward",1])
-		self.app.accept("s", self.setKey, ["backward",1])
-		self.app.accept("shift-s", self.setKey, ["backward",1])
+		self.game.accept("a", self.setKey, ["left",1])
+		self.game.accept("shift-a", self.setKey, ["left",1])
+		self.game.accept("d", self.setKey, ["right",1])
+		self.game.accept("shift-d", self.setKey, ["right",1])
+		self.game.accept("w", self.setKey, ["forward",1])
+		self.game.accept("shift-w", self.setKey, ["forward",1])
+		self.game.accept("s", self.setKey, ["backward",1])
+		self.game.accept("shift-s", self.setKey, ["backward",1])
 		
-		self.app.accept("a-up", self.setKey, ["left",0])
-		self.app.accept("d-up", self.setKey, ["right",0])
-		self.app.accept("w-up", self.setKey, ["forward",0])
-		self.app.accept("s-up", self.setKey, ["backward",0])
+		self.game.accept("a-up", self.setKey, ["left",0])
+		self.game.accept("d-up", self.setKey, ["right",0])
+		self.game.accept("w-up", self.setKey, ["forward",0])
+		self.game.accept("s-up", self.setKey, ["backward",0])
 		
-		self.app.accept("x", self.setKey, ["attack",1])
-		self.app.accept("x-up", self.setKey, ["attack",0])
+		self.game.accept("x", self.setKey, ["attack",1])
+		self.game.accept("x-up", self.setKey, ["attack",0])
 		
-		#self.app.accept("q", self.setKey, ["cam-left",1])
-		#self.app.accept("e", self.setKey, ["cam-right",1])
-        
-		#self.app.accept("q-up", self.setKey, ["cam-left",0])
-		#self.app.accept("e-up", self.setKey, ["cam-right",0])
+		#self.game.accept("q", self.setKey, ["cam-left",1])
+		#self.game.accept("e", self.setKey, ["cam-right",1])
 		
-		self.app.accept("space", self.setKey, ["jump",1])
-		self.app.accept("space-up", self.setKey, ["jump",0])
+		#self.game.accept("q-up", self.setKey, ["cam-left",0])
+		#self.game.accept("e-up", self.setKey, ["cam-right",0])
 		
-		
-		self.app.accept("shift", self.setKey, ["run",1])
-		self.app.accept("shift-up", self.setKey, ["run",0])
-		
-		self.app.accept("wheel_up", self.moveCam, [1])
-		self.app.accept("wheel_down", self.moveCam, [0])
-        
-		self.app.accept("shift-wheel_up", self.moveCam, [1])
-		self.app.accept("shift-wheel_down", self.moveCam, [0])
-		
-		self.app.accept("t", self.toggleObject)
-		
-		self.playerActor.loop("standby")
+		self.game.accept("space", self.setKey, ["jump",1])
+		self.game.accept("space-up", self.setKey, ["jump",0])
 		
 		
+		self.game.accept("shift", self.setKey, ["run",1])
+		self.game.accept("shift-up", self.setKey, ["run",0])
+		
+		self.game.accept("wheel_up", self.moveCam, [1])
+		self.game.accept("wheel_down", self.moveCam, [0])
+		
+		self.game.accept("shift-wheel_up", self.moveCam, [1])
+		self.game.accept("shift-wheel_down", self.moveCam, [0])
+		
+		self.game.accept("t", self.toggleObject)
 		
 	def moveCam(self, zoom):
 		if zoom == 0:
@@ -184,7 +215,7 @@ class Player():
 		
 		#print self.zoomLevel
 		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)
-		self.app.cam.node().setLens(self.lens)
+		self.game.cam.node().setLens(self.lens)
 		
 	def checkAttack(self):
 		animControl = self.playerActor.getAnimControl('slash', "body")
@@ -201,8 +232,6 @@ class Player():
 		
 	def setKey(self, key, value):
 		self.keyMap[key] = value
-		
-		
 		
 	def setObject(self, i):
 		for np in self.models: np.hide()
@@ -230,67 +259,67 @@ class Player():
 			self.ori = 45
 			
 			if (self.keyMap["run"]):
-				speed = -20.0
+				speed = -self.runSpeed
 			else:
-				speed = -10.0
+				speed = -self.speed
 				
 		if (self.keyMap["right"]):
 			self.ori = -135
 			
 			if (self.keyMap["run"]):
-				speed = -20.0
+				speed = -self.runSpeed
 			else:
-				speed = -10.0
+				speed = -self.speed
 				
 		
 		if (self.keyMap["forward"]):
 			self.ori = -45
 			
 			if (self.keyMap["run"]):
-				speed = -20.0
+				speed = -self.runSpeed
 			else:
-				speed = -10.0
+				speed = -self.speed
 				
 		
 		if (self.keyMap["backward"]):
 			self.ori = 135
 			
 			if (self.keyMap["run"]):
-				speed = -20.0
+				speed = -self.runSpeed
 			else:
-				speed = -10.0
+				speed = -self.speed
 		
 		if (self.keyMap["left"]) and (self.keyMap["forward"]):
 			self.ori = 0
 			
 			if (self.keyMap["run"]):
-				speed = -20.0
+				speed = -self.runSpeed
 			else:
-				speed = -10.0
+				speed = -self.speed
 		
 		if (self.keyMap["right"]) and (self.keyMap["forward"]):
 			self.ori = -90
 			
 			if (self.keyMap["run"]):
-				speed = -20.0
+				speed = -self.runSpeed
 			else:
-				speed = -10.0
+				speed = -self.speed
 		
 		if (self.keyMap["left"]) and (self.keyMap["backward"]):
 			self.ori = 90
 			
 			if (self.keyMap["run"]):
-				speed = -20.0
+				speed = -self.runSpeed
 			else:
-				speed = -10.0
+				speed = -self.speed
 		
 		if (self.keyMap["right"]) and (self.keyMap["backward"]):
 			self.ori = 180
 			
 			if (self.keyMap["run"]):
-				speed = -20.0
+				speed = -self.runSpeed
 			else:
-				speed = -10.0
+				speed = -self.speed
 		
 		if (self.keyMap["attack"])  and (task.time > self.nextAttack):
 			self.attack()
@@ -303,7 +332,7 @@ class Player():
 		
 		self.playerActor.setY(self.playerActor, speed * dt)
 		
-		# If dt6 is moving, loop the run animation.
+		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
 		
 		if (self.keyMap["forward"]) or (self.keyMap["left"]) or (self.keyMap["right"]) or (self.keyMap["backward"]):
@@ -321,7 +350,7 @@ class Player():
 		
 	def updateCamera(self, task):
 		
-		self.app.camera.setPos(self.playerActor.getPos()+45)
+		self.game.camera.setPos(self.playerActor.getPos()+45)
 		# The camera should look in dt6's direction,
 		# but it should also try to stay horizontal, so look at
 		# a floater which hovers above dt6's head.
@@ -329,5 +358,5 @@ class Player():
 		self.floater.setPos(self.playerActor.getPos())
 		self.floater.setZ(self.playerActor.getZ() + 2.0)
 		
-		self.app.camera.lookAt(self.floater)
+		self.game.camera.lookAt(self.floater)
 		return task.cont

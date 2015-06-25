@@ -16,10 +16,10 @@ from direct.gui.OnscreenImage import OnscreenImage
 from pandac.PandaModules import AntialiasAttrib
 
 class Inventory(DirectObject.DirectObject):
-	def __init__( self, app ):
+	def __init__( self, game ):
 		
-		self.app = app
-		
+		self.game = game
+		self.tooltip = None
 		self.inventoryShown = False
 		
 		self.frame = DirectFrame()
@@ -35,9 +35,9 @@ class Inventory(DirectObject.DirectObject):
 		
 		self.inventoryCell = [["0" for x in range(10)] for x in range(5)] 
 		
-		for row in range(len(self.app.player.inventory)):
+		for row in range(len(self.game.player.inventory)):
 			posY = 0.1*row
-			for col in range(len(self.app.player.inventory[row])):
+			for col in range(len(self.game.player.inventory[row])):
 				posX = 0.1*col
 				self.inventoryCell[row][col] = DirectButton(
 																parent=self.frame,
@@ -45,18 +45,72 @@ class Inventory(DirectObject.DirectObject):
 																image = (
 																	mapsInventory.find('**/inventory'),
 																),
-																#command=self.hide,
+																command=self.cellClick,
+																extraArgs=[row,col],
 																scale=0.1,
 																borderWidth=(0.01,0.01),
-																frameSize=(-0.55, 0.55, -0.55, 0.55),  
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
 																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
 															)
-		
-		self.inventoryCell[3][3]["image"] = "hud/interface/inventoryOcuped.png"
-		self.inventoryCell[3][3]['image_scale'] = (0.5, 0.5, 0.5)
+				self.inventoryCell[row][col].bind(DGG.WITHIN, self.mouseOver, [col,row])
+				self.inventoryCell[row][col].bind(DGG.WITHOUT, self.mouseOut)
 		
 		self.hide()
 		
+	def mouseOver(self, col, row, guiEvent=None ):
+		
+		if self.tooltip:
+			self.tooltip.destroy()
+		
+		if self.game.player.inventory[row][col] != "0":
+			mpos = self.game.mouseWatcherNode.getMouse()
+			x = mpos.getX()
+			y = mpos.getY()
+			
+			self.tooltip = DirectFrame()
+			self.tooltip['frameColor']=(0.8, 0.8, 0.8, 0)
+			self.tooltip['image'] = "hud/interface/tooltip.png"
+			self.tooltip['image_scale'] = (0.2, 0.2, 0.2)
+			self.tooltip.setPos(x, 0, y)
+			
+			self.tooltip.setTransparency(TransparencyAttrib.MAlpha)
+			
+			self.tooltipLabel = DirectLabel(
+											parent=self.tooltip,
+											pos=(0,0,0.15),
+											text=self.game.player.inventory[row][col],
+											text_scale=(0.8,0.8),
+											scale=0.065,
+											frameColor=(0.8,0.8,0.8,0)
+										)
+		
+	def mouseOut(self, arg):
+		if self.tooltip:
+			self.tooltip.destroy()
+		
+	def checkPlayerInventory(self, task):
+		
+		for row in range(len(self.game.player.inventory)):
+			for col in range(len(self.game.player.inventory[row])):
+				if self.game.player.inventory[row][col] != "0":
+					
+					self.inventoryCell[row][col]["image"] = "hud/interface/%s.png" % self.game.player.inventory[row][col]
+					self.inventoryCell[row][col]['image_scale'] = (0.5, 0.5, 0.5)
+				
+		return task.cont
+		
+	def cellClick(self, row, col):
+		"""
+		if self.game.player.inventory[row][col] == "0":
+			self.inventoryCell[row][col]["image"] = "hud/interface/inventoryOcuped.png"
+			self.inventoryCell[row][col]['image_scale'] = (0.5, 0.5, 0.5)
+			self.game.player.inventory[row][col] = "1"
+		else:
+			self.inventoryCell[row][col]["image"] = "hud/interface/inventory.png"
+			self.inventoryCell[row][col]['image_scale'] = (0.5, 0.5, 0.5)
+			self.game.player.inventory[row][col] = "0"
+		"""
 	def toggle(self):
 		
 		if self.inventoryShown == False:
@@ -73,8 +127,8 @@ class Inventory(DirectObject.DirectObject):
 		self.inventoryShown = False
 
 class Status(DirectObject.DirectObject):
-	def __init__( self, app):
-		self.app = app
+	def __init__( self, game):
+		self.game = game
 		
 		# Main frame
 		
@@ -365,7 +419,7 @@ class Status(DirectObject.DirectObject):
 		self.attrHpLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.30),
-											text=str(self.app.player.hp),
+											text=str(self.game.player.hp),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -377,7 +431,7 @@ class Status(DirectObject.DirectObject):
 		self.attrManaLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.23),
-											text=str(self.app.player.mana),
+											text=str(self.game.player.mana),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -389,7 +443,7 @@ class Status(DirectObject.DirectObject):
 		self.attrStrLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.16),
-											text=str(self.app.player.strength),
+											text=str(self.game.player.strength),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -401,7 +455,7 @@ class Status(DirectObject.DirectObject):
 		self.attrDexLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.09),
-											text=str(self.app.player.dexterity),
+											text=str(self.game.player.dexterity),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -413,7 +467,7 @@ class Status(DirectObject.DirectObject):
 		self.attrVigorLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,0.02),
-											text=str(self.app.player.vigor),
+											text=str(self.game.player.vigor),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -425,7 +479,7 @@ class Status(DirectObject.DirectObject):
 		self.attrMagicLabel = DirectLabel(
 											parent=self.frame,
 											pos=(0.3,0,-0.05),
-											text=str(self.app.player.magic),
+											text=str(self.game.player.magic),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -462,7 +516,7 @@ class Status(DirectObject.DirectObject):
 		self.attrDamageLabel = DirectLabel(
 											parent=self.scrollNP,
 											pos=(0.3,0,0.25),
-											text=str(self.app.player.attackDamage),
+											text=str(self.game.player.attackDamage),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -486,7 +540,7 @@ class Status(DirectObject.DirectObject):
 		self.attrMagicDamageLabel = DirectLabel(
 											parent=self.scrollNP,
 											pos=(0.3,0,0.18),
-											text=str(self.app.player.magicDamage),
+											text=str(self.game.player.magicDamage),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -510,7 +564,7 @@ class Status(DirectObject.DirectObject):
 		self.attrSpeedLabel = DirectLabel(
 											parent=self.scrollNP,
 											pos=(0.3,0,0.11),
-											text=str(self.app.player.speed),
+											text=str(self.game.player.speed),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -534,7 +588,7 @@ class Status(DirectObject.DirectObject):
 		self.attrAttackSpeedLabel = DirectLabel(
 											parent=self.scrollNP,
 											pos=(0.3,0,0.04),
-											text=str("%0.2f" % self.app.player.attackSpeed),
+											text=str("%0.2f" % self.game.player.attackSpeed),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -558,7 +612,7 @@ class Status(DirectObject.DirectObject):
 		self.attrDefenseLabel = DirectLabel(
 											parent=self.scrollNP,
 											pos=(0.3,0,-0.03),
-											text=str(self.app.player.defense),
+											text=str(self.game.player.defense),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -582,7 +636,7 @@ class Status(DirectObject.DirectObject):
 		self.attrCriticalChanceLabel = DirectLabel(
 											parent=self.scrollNP,
 											pos=(0.3,0,-0.10),
-											text=str(self.app.player.criticalChance),
+											text=str(self.game.player.criticalChance),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -606,7 +660,7 @@ class Status(DirectObject.DirectObject):
 		self.attrCriticalMultiplierLabel = DirectLabel(
 											parent=self.scrollNP,
 											pos=(0.3,0,-0.17),
-											text=str(self.app.player.criticalMultiplier),
+											text=str(self.game.player.criticalMultiplier),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -630,7 +684,7 @@ class Status(DirectObject.DirectObject):
 		self.attrMagicDefenseLabel = DirectLabel(
 											parent=self.scrollNP,
 											pos=(0.3,0,-0.24),
-											text=str(self.app.player.magicDefense),
+											text=str(self.game.player.magicDefense),
 											text_pos=(0,-0.23),
 											text_scale=(0.8,0.8),
 											image = (
@@ -658,8 +712,8 @@ class Status(DirectObject.DirectObject):
 		self.inventoryShown = False
 
 class Skills(DirectObject.DirectObject):
-	def __init__( self, app):
-		self.app = app
+	def __init__( self, game):
+		self.game = game
 		
 		self.frame = DirectFrame()
 		self.frame['frameColor']=(0.8, 0.8, 0.8, 0)

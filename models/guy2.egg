@@ -46,20 +46,8 @@
               }
             }
             <VertexRef> {
-              431 432 447
-              <Scalar> membership { 0.219056 }  <Ref> { guy2 }
-            }
-            <VertexRef> {
-              427 428 446
-              <Scalar> membership { 0.818832 }  <Ref> { guy2 }
-            }
-            <VertexRef> {
               430 433 442
               <Scalar> membership { 0.482089 }  <Ref> { guy2 }
-            }
-            <VertexRef> {
-              424 439 445
-              <Scalar> membership { 0.981180 }  <Ref> { guy2 }
             }
             <VertexRef> {
               435 436 444
@@ -70,12 +58,24 @@
               <Scalar> membership { 0.968963 }  <Ref> { guy2 }
             }
             <VertexRef> {
-              425 438 440
-              <Scalar> membership { 0.971853 }  <Ref> { guy2 }
-            }
-            <VertexRef> {
               426 429 443
               <Scalar> membership { 0.553596 }  <Ref> { guy2 }
+            }
+            <VertexRef> {
+              427 428 446
+              <Scalar> membership { 0.818832 }  <Ref> { guy2 }
+            }
+            <VertexRef> {
+              431 432 447
+              <Scalar> membership { 0.219056 }  <Ref> { guy2 }
+            }
+            <VertexRef> {
+              424 439 445
+              <Scalar> membership { 0.981180 }  <Ref> { guy2 }
+            }
+            <VertexRef> {
+              425 438 440
+              <Scalar> membership { 0.971853 }  <Ref> { guy2 }
             }
           }
         }
@@ -126,16 +126,16 @@
               }
             }
             <VertexRef> {
-              352 365 375
-              <Scalar> membership { 0.977148 }  <Ref> { guy2 }
+              354 359 369
+              <Scalar> membership { 0.555314 }  <Ref> { guy2 }
+            }
+            <VertexRef> {
+              353 356 374
+              <Scalar> membership { 0.793468 }  <Ref> { guy2 }
             }
             <VertexRef> {
               358 363 370
               <Scalar> membership { 0.481517 }  <Ref> { guy2 }
-            }
-            <VertexRef> {
-              354 359 369
-              <Scalar> membership { 0.555314 }  <Ref> { guy2 }
             }
             <VertexRef> {
               357 360 373
@@ -146,16 +146,16 @@
               <Scalar> membership { 0.966650 }  <Ref> { guy2 }
             }
             <VertexRef> {
-              362 367 371
-              <Scalar> membership { 0.974714 }  <Ref> { guy2 }
-            }
-            <VertexRef> {
-              353 356 374
-              <Scalar> membership { 0.793468 }  <Ref> { guy2 }
-            }
-            <VertexRef> {
               361 364 372
               <Scalar> membership { 0.953248 }  <Ref> { guy2 }
+            }
+            <VertexRef> {
+              352 365 375
+              <Scalar> membership { 0.977148 }  <Ref> { guy2 }
+            }
+            <VertexRef> {
+              362 367 371
+              <Scalar> membership { 0.974714 }  <Ref> { guy2 }
             }
           }
         }
@@ -197,40 +197,16 @@
             }
           }
           <VertexRef> {
-            100 117 122 133
-            <Scalar> membership { 0.322590 }  <Ref> { guy2 }
-          }
-          <VertexRef> {
-            101 104 121
-            <Scalar> membership { 0.087967 }  <Ref> { guy2 }
-          }
-          <VertexRef> {
-            103 113 126 134
-            <Scalar> membership { 0.839598 }  <Ref> { guy2 }
-          }
-          <VertexRef> {
-            105 120 128
-            <Scalar> membership { 0.099111 }  <Ref> { guy2 }
-          }
-          <VertexRef> {
-            99 110 124
-            <Scalar> membership { 0.245978 }  <Ref> { guy2 }
-          }
-          <VertexRef> {
-            111 112 127 130
-            <Scalar> membership { 0.850377 }  <Ref> { guy2 }
+            108 116 123 129
+            <Scalar> membership { 0.323269 }  <Ref> { guy2 }
           }
           <VertexRef> {
             98 125 135
             <Scalar> membership { 0.730222 }  <Ref> { guy2 }
           }
           <VertexRef> {
-            97 118 132
-            <Scalar> membership { 0.105382 }  <Ref> { guy2 }
-          }
-          <VertexRef> {
-            96 109 119
-            <Scalar> membership { 0.083029 }  <Ref> { guy2 }
+            103 113 126 134
+            <Scalar> membership { 0.839598 }  <Ref> { guy2 }
           }
           <VertexRef> {
             102 107 114
@@ -241,8 +217,32 @@
             <Scalar> membership { 0.737079 }  <Ref> { guy2 }
           }
           <VertexRef> {
-            108 116 123 129
-            <Scalar> membership { 0.323269 }  <Ref> { guy2 }
+            99 110 124
+            <Scalar> membership { 0.245978 }  <Ref> { guy2 }
+          }
+          <VertexRef> {
+            96 109 119
+            <Scalar> membership { 0.083029 }  <Ref> { guy2 }
+          }
+          <VertexRef> {
+            100 117 122 133
+            <Scalar> membership { 0.322590 }  <Ref> { guy2 }
+          }
+          <VertexRef> {
+            111 112 127 130
+            <Scalar> membership { 0.850377 }  <Ref> { guy2 }
+          }
+          <VertexRef> {
+            105 120 128
+            <Scalar> membership { 0.099111 }  <Ref> { guy2 }
+          }
+          <VertexRef> {
+            101 104 121
+            <Scalar> membership { 0.087967 }  <Ref> { guy2 }
+          }
+          <VertexRef> {
+            97 118 132
+            <Scalar> membership { 0.105382 }  <Ref> { guy2 }
           }
           <Joint> cabeza {
             <Transform> {

@@ -55,8 +55,6 @@ class World(ShowBase):
 		#self.windowEventSetup()
 		
 		
-		#self.setup()
-		
 	def loading(self):
 		self.bar.show()
 		
@@ -170,6 +168,8 @@ class World(ShowBase):
 		
 		self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
 		self.taskMgr.add(self.npc2.update, "npc2Task",priority=1)
+		
+		self.taskMgr.add(self.inventory.checkPlayerInventory, "playerInventoryTask")
 		
 		self.taskMgr.add(self.update, 'update')
 	

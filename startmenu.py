@@ -16,8 +16,8 @@ from direct.gui.OnscreenImage import OnscreenImage
 from pandac.PandaModules import AntialiasAttrib
 
 class StartMenu(DirectObject.DirectObject):
-	def __init__( self, app):
-		self.app = app
+	def __init__( self, game):
+		self.game = game
 		
 		self.frame = DirectFrame()
 		self.frame['frameColor']=(0.8, 0.8, 0.8, 0)
@@ -97,7 +97,7 @@ class StartMenu(DirectObject.DirectObject):
 	def doStartGame(self):
 		
 		self.frame.hide()
-		self.app.setup()
+		self.game.setup()
 		
 	def endGame(self):
 		sys.exit()

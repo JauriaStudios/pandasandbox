@@ -20,10 +20,10 @@ from direct.interval.IntervalGlobal import Sequence
 from panda3d.ai import *
 
 class Npc():
-	def __init__(self, app, hp, mana, speed, attackSpeed, name):
+	def __init__(self, game, hp, mana, speed, attackSpeed, name):
 		
 		
-		self.app = app
+		self.game = game
 		
 		self.hp = hp
 		self.mana = mana
