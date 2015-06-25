@@ -8,6 +8,9 @@
 #import pdb
 
 import sys, os, time
+import json
+from pprint import pprint
+
 from math import pi, sin, cos
 
 from direct.showbase.ShowBase import ShowBase
@@ -45,7 +48,7 @@ class World(ShowBase):
 		ShowBase.__init__(self)
 		
 		self.menu = StartMenu(self)
-		self.bar = Bar()
+		#self.bar = Bar()
 		
 		#self.messenger.toggleVerbose()
 		
@@ -57,45 +60,42 @@ class World(ShowBase):
 		#self.windowEventSetup()
 		
 		
-	def loading(self):
-		self.bar.show()
 		
 	def setup(self):
 		
 		
-		self.bar.show()
 		
 		print("Init World ...")
-		self.bar.incBar(15)
 		self.initWorld()
 		
+		print("Init Items ...")
+		self.initItems()
+		
 		print("Init Actors ...")
-		self.bar.incBar(30)
 		self.initActors()
 		
 		print("Init GUI ...")
-		self.bar.incBar(45)
 		self.initGui()
 		
 		print("Init Lights ...")
-		self.bar.incBar(60)
 		self.initLights()
 		
 		print("Init Collisions ...")
-		self.bar.incBar(75)
 		self.initCollision()
 		
 		print("Init Tasks ...")
-		self.bar.incBar(95)
 		self.initTasks()
 		
 		print("Launching World")
-		self.bar.incBar(100)
 		
-		self.bar.hide()
 		# Accept the control keys
 		
 		#self.accept("h", self.crono.start)
+		
+	def initItems(self):
+		
+		with open('items/items.json') as items_file:    
+			self.items = json.load(items_file)
 		
 	def initActors(self):
 		

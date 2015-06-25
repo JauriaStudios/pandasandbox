@@ -101,11 +101,11 @@ class Player():
 		self.inventory = [["0" for x in range(10)] for x in range(5)]
 		
 		#			COLS-ROWS
-		self.inventory[3][3] = "leatherarmour"
-		self.inventory[0][0] = "longsword"
-		self.inventory[1][0] = "leatherarmour"
-		self.inventory[1][3] = "longsword"
-		self.inventory[3][9] = "leatherarmour"
+		self.inventory[3][3] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
+		self.inventory[0][0] = self.game.items["items"]["weapons"]["swords"]["longsword"]
+		self.inventory[1][0] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
+		self.inventory[0][8] = self.game.items["items"]["weapons"]["swords"]["longsword"]
+		self.inventory[3][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		
 		self.equip = {
 						"armour":"0",

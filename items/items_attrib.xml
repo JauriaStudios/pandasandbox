@@ -8,49 +8,49 @@
 			<model>shirt</model>
 		</lightarmours>
 		
-		<lightarmours>
+		<lightarmours name="Robe">
 			<name>Robe</name>
 			<armor>10</armor>
 			<weight>12</weight>
 			<model>robe</model>
 		</lightarmours>
 		
-		<lightarmours>
+		<lightarmours name="Silk Robe">
 			<name>Silk Robe</name>
 			<armor>14</armor>
 			<weight>10</weight>
 			<model>silkrobe</model>
 		</lightarmours>
 		
-		<heavyarmours>
+		<heavyarmours name="Cuirass">
 			<name>Cuirass</name>
 			<armor>25</armor>
 			<weight>40</weight>
 			<model>cuirass</model>
 		</heavyarmours>
 		
-		<heavyarmours>
+		<heavyarmours name="Iron Plate">
 			<name>Iron Plate</name>
 			<armor>32</armor>
 			<weight>44</weight>
 			<model>ironplate</model>
 		</heavyarmours>
 		
-		<heavyarmours>
+		<heavyarmours name="Steel Plate">
 			<name>Steel Plate</name>
 			<armor>40</armor>
 			<weight>55</weight>
 			<model>steelplate</model>
 		</heavyarmours>
 
-		<midarmours>
+		<midarmours name="Leather Armour">
 			<name>Leather Armour</name>
 			<armor>13</armor>
 			<weight>22</weight>
 			<model>Leatherarmour</model>
 		</midarmours>
 		
-		<midarmours>
+		<midarmours name="Padded Armour">
 			<name>Padded Armour</name>
 			<armor>19</armor>
 			<weight>28</weight>
@@ -58,28 +58,28 @@
 		</midarmours>
 
 		
-		<helmets>
+		<helmets name="Hat">
 			<name>Hat</name>
 			<armor>2</armor>
 			<weight>1</weight>
 			<model>hat</model>
 		</helmets>
 		
-		<boots>
+		<boots name="Shoes">
 			<name>Shoes</name>
 			<armor>3</armor>
 			<weight>2</weight>
 			<model>shoes</model>
 		</boots>
 		
-		<gloves>
+		<gloves name="Wool Gloves">
 			<name>Wool Gloves</name>
 			<armor>1</armor>
 			<weight>1</weight>
 			<model>woolgloves</model>
 		</gloves>
 		
-		<cloacks>
+		<cloacks name="Wool Cloack">
 			<name>Wool Cloack</name>
 			<armor>1</armor>
 			<weight>1</weight>
@@ -89,13 +89,13 @@
 	</armours>
 	
 	<accesories>
-		<rings>
+		<rings name="Simple Ring">
 			<name>Simple Ring</name>
 			<armor>1</armor>
 			<model>simplering</model>
 		</rings>
 		
-		<trinkets>
+		<trinkets name="Wooden Amulet">
 			<name>Wooden Amulet</name>
 			<armor>1</armor>
 			<model>woodenamulet</model>
@@ -103,7 +103,7 @@
 	</accesories>
 	
 	<weapons>
-		<swords>
+		<swords name="Long Sword">
 			<name>Long Sword</name>
 			<mindamage>8</mindamage>
 			<maxdamage>16</maxdamage>
@@ -112,7 +112,7 @@
 			<model>longsword</model>
 		</swords>
 		
-		<swords>
+		<swords name="Broad Sword">
 			<name>Broad Sword</name>
 			<mindamage>12</mindamage>
 			<maxdamage>20</maxdamage>
@@ -121,7 +121,7 @@
 			<model>broadsword</model>
 		</swords>
 		
-		<axes>
+		<axes name="Iron Axe">
 			<name>Iron Axe</name>
 			<mindamage>3</mindamage>
 			<maxdamage>20</maxdamage>
@@ -130,7 +130,7 @@
 			<model>ironaxe</model>
 		</axes>
 		
-		<axes>
+		<axes name="Steel Axe">
 			<name>Steel Axe</name>
 			<mindamage>6</mindamage>
 			<maxdamage>28</maxdamage>
@@ -139,7 +139,7 @@
 			<model>steelaxe</model>
 		</axes>
 		
-		<spears>
+		<spears name="Iron Spear">
 			<name>Iron Spear</name>
 			<mindamage>7</mindamage>
 			<maxdamage>15</maxdamage>
@@ -148,7 +148,7 @@
 			<model>ironspear</model>
 		</spears>
 		
-		<spears>
+		<spears name="Long Spear">
 			<name>Long Spear</name>
 			<mindamage>9</mindamage>
 			<maxdamage>19</maxdamage>
@@ -157,7 +157,7 @@
 			<model>longspear</model>
 		</spears>
 		
-		<fists>
+		<fists name="Katar">
 			<name>Katar</name>
 			<mindamage>8</mindamage>
 			<maxdamage>10</maxdamage>
@@ -166,7 +166,7 @@
 			<model>katar</model>
 		</fists>
 		
-		<fists>
+		<fists name="Knucles">
 			<name>Knucles</name>
 			<mindamage>3</mindamage>
 			<maxdamage>6</maxdamage>

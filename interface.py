@@ -71,20 +71,38 @@ class Inventory(DirectObject.DirectObject):
 			self.tooltip = DirectFrame()
 			self.tooltip['frameColor']=(0.8, 0.8, 0.8, 0)
 			self.tooltip['image'] = "hud/interface/tooltip.png"
-			self.tooltip['image_scale'] = (0.2, 0.2, 0.2)
+			self.tooltip['image_scale'] = (0.3, 0.0, 0.3)
 			self.tooltip.setPos(x, 0, y)
 			
 			self.tooltip.setTransparency(TransparencyAttrib.MAlpha)
 			
-			self.tooltipLabel = DirectLabel(
+			self.tooltipNameLabel = DirectLabel(
 											parent=self.tooltip,
-											pos=(0,0,0.15),
-											text=self.game.player.inventory[row][col],
+											pos=(0,0,0.23),
+											text=self.game.player.inventory[row][col]["name"],
 											text_scale=(0.8,0.8),
 											scale=0.065,
 											frameColor=(0.8,0.8,0.8,0)
 										)
-		
+			if "armor" in self.game.player.inventory[row][col]:
+				self.tooltipNameLabel = DirectLabel(
+												parent=self.tooltip,
+												pos=(0,0,0.10),
+												text="Armor : %s" % self.game.player.inventory[row][col]["armor"],
+												text_scale=(0.8,0.8),
+												scale=0.065,
+												frameColor=(0.8,0.8,0.8,0)
+											)
+			
+			if ("mindamage" in self.game.player.inventory[row][col]) and ("maxdamage" in self.game.player.inventory[row][col]):
+				self.tooltipNameLabel = DirectLabel(
+												parent=self.tooltip,
+												pos=(0,0,0.10),
+												text="Damage : %s - %s" % (self.game.player.inventory[row][col]["mindamage"], self.game.player.inventory[row][col]["maxdamage"]),
+												text_scale=(0.8,0.8),
+												scale=0.065,
+												frameColor=(0.8,0.8,0.8,0)
+											)
 	def mouseOut(self, arg):
 		if self.tooltip:
 			self.tooltip.destroy()
@@ -95,7 +113,7 @@ class Inventory(DirectObject.DirectObject):
 			for col in range(len(self.game.player.inventory[row])):
 				if self.game.player.inventory[row][col] != "0":
 					
-					self.inventoryCell[row][col]["image"] = "hud/interface/%s.png" % self.game.player.inventory[row][col]
+					self.inventoryCell[row][col]["image"] = "hud/interface/%s.png" % self.game.player.inventory[row][col]["model"]
 					self.inventoryCell[row][col]['image_scale'] = (0.5, 0.5, 0.5)
 				
 				

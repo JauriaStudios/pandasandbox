@@ -1,0 +1,182 @@
+{
+	"items": {
+		"armours": {
+			"lightarmours": {
+				"shirt": {
+					"name": "Shirt",
+					"armor": "8",
+					"weight": "16",
+					"model": "shirt"
+				},
+				"robe": {
+					"name": "Robe",
+					"armor": "10",
+					"weight": "12",
+					"model": "robe"
+				},
+				"silkrobe": {
+					"name": "Silk Robe",
+					"armor": "14",
+					"weight": "10",
+					"model": "silkrobe"
+				}
+			},
+			"heavyarmours": {
+				"cuirass":{
+					"name": "Cuirass",
+					"armor": "25",
+					"weight": "40",
+					"model": "cuirass"
+				},
+				"ironplate": {
+					"name": "Iron Plate",
+					"armor": "32",
+					"weight": "44",
+					"model": "ironplate"
+				},
+				"steelplate": {
+					"name": "Steel Plate",
+					"armor": "40",
+					"weight": "55",
+					"model": "steelplate"
+				}
+			},
+			"midarmours": {
+				"leatherarmour": {
+					"name": "Leather Armour",
+					"armor": "13",
+					"weight": "22",
+					"model": "leatherarmour"
+				},
+				"paddedarmour": {
+					"name": "Padded Armour",
+					"armor": "19",
+					"weight": "28",
+					"model": "paddedarmour"
+				}
+			},
+			"helmets": {
+				"hat": {
+					"name": "Hat",
+					"armor": "2",
+					"weight": "1",
+					"model": "hat"
+				}
+			},
+			"boots": {
+				"shoes": {
+					"name": "Shoes",
+					"armor": "3",
+					"weight": "2",
+					"model": "shoes"
+				}
+			},
+			"gloves": {
+				"woolgloves": {
+					"name": "Wool Gloves",
+					"armor": "1",
+					"weight": "1",
+					"model": "woolgloves"
+				}
+			},
+			"cloacks": {
+				"woolcloack": {
+					"name": "Wool Cloack",
+					"armor": "1",
+					"weight": "1",
+					"model": "woolcloack"
+				}
+			}
+		},
+		"accesories": {
+			"rings": {
+				"simplering": {
+					"name": "Simple Ring",
+					"armor": "1",
+					"model": "simplering"
+				}
+			},
+			"trinkets": {
+				"woodenamulet": {
+					"name": "Wooden Amulet",
+					"armor": "1",
+					"model": "woodenamulet"
+				}
+			}
+		},
+		"weapons": {
+			"swords": {
+				"longsword": {
+					"name": "Long Sword",
+					"mindamage": "8",
+					"maxdamage": "16",
+					"speed": "1.2",
+					"range": "2",
+					"model": "longsword"
+				},
+				"broadsword": {
+					"name": "Broad Sword",
+					"mindamage": "12",
+					"maxdamage": "20",
+					"speed": "1.2",
+					"range": "2",
+					"model": "broadsword"
+				}
+			},
+			"axes": {
+				"ironaxe": {
+					"name": "Iron Axe",
+					"mindamage": "3",
+					"maxdamage": "20",
+					"speed": "1",
+					"range": "2",
+					"model": "ironaxe"
+				},
+				"steelaxe": {
+					"name": "Steel Axe",
+					"mindamage": "6",
+					"maxdamage": "28",
+					"speed": "0.8",
+					"range": "2",
+					"model": "steelaxe"
+				}
+			},
+			"spears": {
+				"ironspear": {
+					"name": "Iron Spear",
+					"mindamage": "7",
+					"maxdamage": "15",
+					"speed": "1.3",
+					"range": "2.6",
+					"model": "ironspear"
+				},
+				"longspear": {
+					"name": "Long Spear",
+					"mindamage": "9",
+					"maxdamage": "19",
+					"speed": "1.1",
+					"range": "3.2",
+					"model": "longspear"
+				}
+			},
+			"fists": {
+				"katar": {
+					"name": "Katar",
+					"mindamage": "8",
+					"maxdamage": "10",
+					"speed": "2.5",
+					"range": "0.6",
+					"model": "katar"
+				},
+				"knucles": {
+					"name": "Knucles",
+					"mindamage": "3",
+					"maxdamage": "6",
+					"speed": "3",
+					"range": "0.5",
+					"model": "knucles"
+				}
+			}
+		}
+	}
+}
