@@ -107,23 +107,37 @@ class Player():
 		self.inventory[0][8] = self.game.items["items"]["weapons"]["swords"]["longsword"]
 		self.inventory[3][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[1][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
+		self.inventory[1][8] = self.game.items["items"]["armours"]["boots"]["leatherboots"]
+		self.inventory[1][7] = self.game.items["items"]["armours"]["helmets"]["woolchaco"]
+		self.inventory[1][6] = self.game.items["items"]["armours"]["cloacks"]["woolcloack"]
+		self.inventory[2][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
+		self.inventory[2][8] = self.game.items["items"]["armours"]["boots"]["leatherboots"]
+		self.inventory[2][7] = self.game.items["items"]["armours"]["helmets"]["woolchaco"]
+		self.inventory[2][6] = self.game.items["items"]["armours"]["cloacks"]["woolcloack"]
+		self.inventory[2][5] = self.game.items["items"]["armours"]["gloves"]["woolgloves"]
+		self.inventory[1][5] = self.game.items["items"]["armours"]["gloves"]["woolgloves"]
+		self.inventory[2][4] = self.game.items["items"]["accesories"]["rings"]["simplering"]
+		self.inventory[1][4] = self.game.items["items"]["accesories"]["rings"]["simplering"]
+		self.inventory[2][3] = self.game.items["items"]["accesories"]["trinkets"]["rubyamulet"]
+		self.inventory[1][3] = self.game.items["items"]["accesories"]["trinkets"]["rubyamulet"]
 		
 		self.equip = {
-						"armour":"0",
-						"helmet":"0",
-						"gloves":"0",
-						"boots":"0",
+						"armour":None,
+						"helmet":None,
+						"gloves":None,
+						"boots":None,
 						
-						"cloak":"0",
+						"cloack":None,
 						
-						"ringLeft":"0",
-						"ringRight":"0",
-						"trinket":"0",
+						"ringLeft":None,
+						"ringRight":None,
+						"trinket":None,
 						
-						"weaponLeft":"0",
-						"weaponRight":"0",
+						"weapon":None,
+						"weaponLeft":None,
+						"weaponRight":None,
 						
-						"shield":"0"
+						"shield":None
 					}
 		
 		self.models = []                 #A list that will store our models objects
