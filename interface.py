@@ -33,7 +33,7 @@ class Inventory(DirectObject.DirectObject):
 		
 		mapsInventory = loader.loadModel('hud/interface/buttons_inventory_maps.egg')
 		
-		self.inventoryCell = [["0" for x in range(10)] for x in range(5)] 
+		self.inventoryCell = [["0" for x in range(10)] for x in range(5)]
 		
 		for row in range(len(self.game.player.inventory)):
 			posY = 0.1*row
@@ -98,6 +98,7 @@ class Inventory(DirectObject.DirectObject):
 					self.inventoryCell[row][col]["image"] = "hud/interface/%s.png" % self.game.player.inventory[row][col]
 					self.inventoryCell[row][col]['image_scale'] = (0.5, 0.5, 0.5)
 				
+				
 		return task.cont
 		
 	def cellClick(self, row, col):
@@ -115,8 +116,10 @@ class Inventory(DirectObject.DirectObject):
 		
 		if self.inventoryShown == False:
 			self.show()
+			self.game.taskMgr.add(self.checkPlayerInventory, "playerInventoryTask")
 		else:
 			self.hide()
+			self.game.taskMgr.remove("playerInventoryTask")
 		
 	def show(self): 
 		self.frame.show()

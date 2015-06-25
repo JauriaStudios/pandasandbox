@@ -27,6 +27,8 @@ from panda3d.core import PerspectiveLens
 
 from pandac.PandaModules import WindowProperties
 
+from panda3d.ai import *
+
 from loadbar import Bar
 from startmenu import StartMenu
 from interface import Inventory, Status, Skills
@@ -93,7 +95,7 @@ class World(ShowBase):
 		self.bar.hide()
 		# Accept the control keys
 		
-		self.accept("h", self.crono.start)
+		#self.accept("h", self.crono.start)
 		
 	def initActors(self):
 		
@@ -102,14 +104,18 @@ class World(ShowBase):
 		self.enemies = []
 		self.npcs = []
 		
+		#Creating AI World
+		
+		self.AIworld = AIWorld(render)
+		
 		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 		
-		self.enemies.append(self.foe1)
-		self.enemies.append(self.nasgul)
-		
 		self.npc1 = Npc(self, 100, 50, 5, 2, "guy2")
 		self.npc2 = Npc(self, 100, 50, 5, 2, "ralph")
+		
+		self.enemies.append(self.foe1)
+		self.enemies.append(self.nasgul)
 		
 		self.npcs.append(self.npc1)
 		self.npcs.append(self.npc2)
@@ -163,13 +169,11 @@ class World(ShowBase):
 		self.taskMgr.add(self.player.move, "moveTask")
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
 		
-		self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
-		self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
+		#self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
+		#self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
 		
-		self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
-		self.taskMgr.add(self.npc2.update, "npc2Task",priority=1)
-		
-		self.taskMgr.add(self.inventory.checkPlayerInventory, "playerInventoryTask")
+		#self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
+		#self.taskMgr.add(self.npc2.update, "npc2Task",priority=1)
 		
 		self.taskMgr.add(self.update, 'update')
 	
@@ -251,6 +255,7 @@ class World(ShowBase):
 	def update(self, task):
 		dt = globalClock.getDt()
 		
+		self.AIworld.update()
 		return task.cont
 	
 	def setKey(self, key, value):

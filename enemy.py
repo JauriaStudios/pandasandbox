@@ -61,12 +61,9 @@ class Enemy():
 		
 		self.enemyActor.loop("walk")
 		
-		#Creating AI World
-		
-		self.AIworld = AIWorld(render)
 
 		self.AIchar = AICharacter("enemy",self.enemyActor, 60, 0.05, 5)
-		self.AIworld.addAiChar(self.AIchar)
+		self.game.AIworld.addAiChar(self.AIchar)
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
 
 		self.AIbehaviors.wander(10, 0, 15, 1.0)

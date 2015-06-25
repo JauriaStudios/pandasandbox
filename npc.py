@@ -59,7 +59,7 @@ class Npc():
 		self.AIworld = AIWorld(render)
 		
 		self.AIchar = AICharacter("npc", self.npcActor, 100, 0.05, 5)
-		self.AIworld.addAiChar(self.AIchar)
+		self.game.AIworld.addAiChar(self.AIchar)
 		
 		self.AIbehaviors = self.AIchar.getAiBehaviors()
 		
