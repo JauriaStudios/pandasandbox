@@ -129,28 +129,28 @@ class World(ShowBase):
 		self.status = Status(self)
 		self.skills = Skills(self)
 		
-		self.statusBar = self.loader.loadModel("models/statusbar")
+		#self.statusBar = self.loader.loadModel("models/statusbar")
 		
 		
-		self.statusBar.setDepthTest(True)
-		self.statusBar.setDepthWrite(True)
+		##self.statusBar.setDepthTest(True)
+		#self.statusBar.setDepthWrite(True)
 		
 		
 		# Reparent the model to render2d.
-		self.statusBar.reparentTo(self.render2d)
+		#self.statusBar.reparentTo(self.render2d)
 		
 		
-		self.statusBar.setScale(0.15, 0.15, 0.15)
-		self.statusBar.setPos(-0.95, 0, 0.65)
+		#self.statusBar.setScale(0.15, 0.15, 0.15)
+		#self.statusBar.setPos(-0.95, 0, 0.65)
 		
 		
-		self.crono = Crono(self)
-		self.cursorpos = CursorPos(self)
-		self.playerpos = PlayerPos(self)
+		#self.crono = Crono(self)
+		##self.cursorpos = CursorPos(self)
+		#self.playerpos = PlayerPos(self)
 		
-		self.crono.draw(0.7, -0.85)
-		self.cursorpos.draw(0.0, -0.85)
-		self.playerpos.draw(-0.7, -0.85)
+		#self.crono.draw(0.7, -0.85)
+		#self.cursorpos.draw(0.0, -0.85)
+		#self.playerpos.draw(-0.7, -0.85)
 		
 		
 		self.accept("i", self.inventory.toggle)
@@ -159,22 +159,22 @@ class World(ShowBase):
 	
 	def initTasks(self):
 		
-		self.taskMgr.add(self.crono.task, "cronoTask")
-		self.taskMgr.add(self.cursorpos.task, "cursorposTask")
+		#self.taskMgr.add(self.crono.task, "cronoTask")
+		#self.taskMgr.add(self.cursorpos.task, "cursorposTask")
 		
-		#self.taskMgr.add(self.playerpos.task, "playerposTask")
+		###self.taskMgr.add(self.playerpos.task, "playerposTask")
 		
 		self.taskMgr.add(self.checkCollision, "collisionTask")
 		
 		self.taskMgr.add(self.player.move, "moveTask")
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
-		
+		"""
 		#self.taskMgr.add(self.foe1.update, "bugTask",priority=1)
 		#self.taskMgr.add(self.nasgul.update, "nasgulTask",priority=1)
 		
 		#self.taskMgr.add(self.npc1.update, "npc1Task",priority=1)
 		#self.taskMgr.add(self.npc2.update, "npc2Task",priority=1)
-		
+		"""
 		self.taskMgr.add(self.update, 'update')
 	
 	def initLights(self):
@@ -241,7 +241,7 @@ class World(ShowBase):
 		
 	def initWorld(self):
 		
-		self.environ = self.loader.loadModel("models/entradacastillo")
+		self.environ = self.loader.loadModel("models/torreantigua")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)

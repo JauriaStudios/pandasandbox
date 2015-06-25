@@ -2,7 +2,7 @@
 # Authors: ep0s TurBoss
 # Models: ep0s TurBoss
 
-# Start Menu
+# Inventory Status Skills
 
 import sys
 
