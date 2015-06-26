@@ -454,7 +454,6 @@ class Inventory(DirectObject.DirectObject):
 		return task.cont
 		
 	def equipCellClick(self, equipPart):
-		print(equipPart)
 		
 		# Rings
 		
