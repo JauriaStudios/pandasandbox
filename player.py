@@ -170,10 +170,10 @@ class Player():
 	def setupCamera(self):
 		
 		self.game.disableMouse()
-		self.game.camera.setPos(self.playerActor.getPos()+45)
+		self.game.camera.setPos(self.playerActor.getPos()+50)
 		
 		self.lens = OrthographicLens()
-		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)  # Or whatever is appropriate for your scene
+		self.lens.setFilmSize(45+self.zoomLevel, 35+self.zoomLevel)  # Or whatever is appropriate for your scene
 		
 		self.game.cam.node().setLens(self.lens)
 		
@@ -227,11 +227,11 @@ class Player():
 		
 		elif zoom == 1:
 			self.zoomLevel -= 5
-			if self.zoomLevel <= -30:
-				self.zoomLevel = -30
+			if self.zoomLevel <= 0:
+				self.zoomLevel = 0
 		
 		#print self.zoomLevel
-		self.lens.setFilmSize(45+self.zoomLevel, 45+self.zoomLevel)
+		self.lens.setFilmSize(45+self.zoomLevel, 35+self.zoomLevel)
 		self.game.cam.node().setLens(self.lens)
 		
 	def checkAttack(self):
@@ -367,7 +367,7 @@ class Player():
 		
 	def updateCamera(self, task):
 		
-		self.game.camera.setPos(self.playerActor.getPos()+45)
+		self.game.camera.setPos(self.playerActor.getPos()+50)
 		# The camera should look in player's direction,
 		# but it should also try to stay horizontal, so look at
 		# a floater which hovers above dt6's head.
