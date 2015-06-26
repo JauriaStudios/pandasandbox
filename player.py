@@ -32,7 +32,7 @@ class Player():
 		
 		self.ori = 0.0
 		self.lastori = -1
-		self.zoomLevel = 5.0
+		self.zoomLevel = 0.0
 		self.nextAttack = 0.0
 		
 		self.attacked = False
@@ -105,10 +105,12 @@ class Player():
 		self.inventory[0][0] = self.game.items["items"]["weapons"]["swords"]["longsword"]
 		self.inventory[1][0] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[0][8] = self.game.items["items"]["weapons"]["swords"]["longsword"]
+		self.inventory[0][7] = self.game.items["items"]["weapons"]["spears"]["ironspear"]
 		self.inventory[3][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[1][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[1][8] = self.game.items["items"]["armours"]["boots"]["leatherboots"]
 		self.inventory[1][7] = self.game.items["items"]["armours"]["helmets"]["woolchaco"]
+		self.inventory[0][6] = self.game.items["items"]["armours"]["helmets"]["goldencrown"]
 		self.inventory[1][6] = self.game.items["items"]["armours"]["cloacks"]["woolcloack"]
 		self.inventory[2][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[2][8] = self.game.items["items"]["armours"]["boots"]["leatherboots"]
