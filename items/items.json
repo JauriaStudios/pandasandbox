@@ -61,6 +61,12 @@
 					"armor": "2",
 					"weight": "1",
 					"model": "hat"
+				},
+				"woolchaco": {
+					"name": "Wool Chaco",
+					"armor": "1",
+					"weight": "1",
+					"model": "woolchaco"
 				}
 			},
 			"boots": {
@@ -69,6 +75,12 @@
 					"armor": "3",
 					"weight": "2",
 					"model": "shoes"
+				},
+				"leatherboots": {
+					"name": "Leather Boots",
+					"armor": "8",
+					"weight": "4",
+					"model": "leatherboots"
 				}
 			},
 			"gloves": {
@@ -86,6 +98,14 @@
 					"weight": "1",
 					"model": "woolcloack"
 				}
+			},
+			"shields": {
+				"goldenshield": {
+					"name": "Golen Shield",
+					"armor": "7",
+					"weight": "5",
+					"model": "goldenshield"
+				}
 			}
 		},
 		"accesories": {
@@ -101,6 +121,11 @@
 					"name": "Wooden Amulet",
 					"armor": "1",
 					"model": "woodenamulet"
+				},
+				"rubyamulet": {
+					"name": "Ruby Amulet",
+					"armor": "1",
+					"model": "rubyamulet"
 				}
 			}
 		},
