@@ -75,12 +75,12 @@ class Player():
 						}
 		
 		self.playerActor = Actor({
-									"body":"models/guy2"
+									"body":"models/hero"
 									},{
 										"body":{
-											"walk":"models/guy2-walk",
-											"slash":"models/guy2-attack",
-											"standby":"models/guy2-standby"
+											"walk":"models/hero-walk",
+											"slash":"models/hero-slash",
+											"standby":"models/hero-standby"
 										}
 									})
 		
@@ -143,7 +143,7 @@ class Player():
 					}
 		
 		self.models = []                 #A list that will store our models objects
-		items = [("models/sword1", (0.0, 0.6, -1.5), (0,90,0), 0.2),
+		items = [("models/sword1", (0.0, 0.6, 1.5), (0,-90,0), 0.2),
 				("models/maze", (0.0, 0.6, -1.5), (0,90,0), 0.2)]
 		
 		for row in items:
