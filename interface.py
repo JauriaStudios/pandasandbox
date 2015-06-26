@@ -21,7 +21,9 @@ class Inventory(DirectObject.DirectObject):
 		self.game = game
 		self.tooltip = None
 		self.inventoryShown = False
+		
 		self.itemOnHand = None
+		
 		self.previousItemOnHand = None
 		
 		self.previousEquipedArmour = None
@@ -32,6 +34,8 @@ class Inventory(DirectObject.DirectObject):
 		self.previousEquipedBoots = None
 		self.previousEquipedRingLeft = None
 		self.previousEquipedRingRight = None
+		self.previousEquipedTrinket = None
+		self.previousEquipedShield = None
 		
 		self.previousItems = [["0" for x in range(10)] for x in range(5)]
 		self.inventoryCell = [["0" for x in range(10)] for x in range(5)]
@@ -46,9 +50,11 @@ class Inventory(DirectObject.DirectObject):
 		
 		mapsInventory = loader.loadModel('hud/interface/buttons_inventory_maps.egg')
 		
+		# Helmet
+		
 		self.equipHelmetCell = DirectButton(
 																parent=self.frame,
-																pos=(-0.40, 0 ,0.35),
+																pos=(-0.40, 0 ,0.45),
 																image = (
 																	mapsInventory.find('**/inventory'),
 																),
@@ -60,6 +66,25 @@ class Inventory(DirectObject.DirectObject):
 																frameColor=(0.8,0.8,0.8,0),
 																pressEffect=0,
 															)
+		
+		# Trinket
+		
+		self.equipTrinketCell = DirectButton(
+																parent=self.frame,
+																pos=(-0.40, 0 ,0.35),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["trinkets"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		# Weapon
 		
 		self.equipWeaponCell = DirectButton(
 																parent=self.frame,
@@ -76,6 +101,8 @@ class Inventory(DirectObject.DirectObject):
 																pressEffect=0,
 															)
 		
+		# Ring Left
+		
 		self.equipRingLeftCell = DirectButton(
 																parent=self.frame,
 																pos=(-0.40, 0 ,0.15),
@@ -90,6 +117,8 @@ class Inventory(DirectObject.DirectObject):
 																frameColor=(0.8,0.8,0.8,0),
 																pressEffect=0,
 															)
+		
+		# Gloves
 		
 		self.equipGlovesCell = DirectButton(
 																parent=self.frame,
@@ -106,9 +135,11 @@ class Inventory(DirectObject.DirectObject):
 																pressEffect=0,
 															)
 		
+		# Cloack
+		
 		self.equipCloackCell = DirectButton(
 																parent=self.frame,
-																pos=(0.40, 0 ,0.35),
+																pos=(0.40, 0 ,0.45),
 																image = (
 																	mapsInventory.find('**/inventory'),
 																),
@@ -120,6 +151,25 @@ class Inventory(DirectObject.DirectObject):
 																frameColor=(0.8,0.8,0.8,0),
 																pressEffect=0,
 															)
+		
+		# Shield
+		
+		self.equipShieldCell = DirectButton(
+																parent=self.frame,
+																pos=(0.40, 0 ,0.35),
+																image = (
+																	mapsInventory.find('**/inventory'),
+																),
+																command=self.equipCellClick,
+																extraArgs=["shields"],
+																scale=0.1,
+																borderWidth=(0.01,0.01),
+																frameSize=(-0.50, 0.50, -0.50, 0.50),  
+																frameColor=(0.8,0.8,0.8,0),
+																pressEffect=0,
+															)
+		
+		# Armour
 		
 		self.equipArmourCell = DirectButton(
 																parent=self.frame,
@@ -136,6 +186,8 @@ class Inventory(DirectObject.DirectObject):
 																pressEffect=0,
 															)
 		
+		# Ring Right
+		
 		self.equipRingRightCell = DirectButton(
 																parent=self.frame,
 																pos=(0.40, 0 ,0.15),
@@ -150,6 +202,8 @@ class Inventory(DirectObject.DirectObject):
 																frameColor=(0.8,0.8,0.8,0),
 																pressEffect=0,
 															)
+		
+		# Boots
 		
 		self.equipBootsCell = DirectButton(
 																parent=self.frame,
@@ -166,6 +220,7 @@ class Inventory(DirectObject.DirectObject):
 																pressEffect=0,
 															)
 		
+		# Inventory Cells
 		
 		for row in range(len(self.game.player.inventory)):
 			posY = 0.1*row
@@ -187,6 +242,8 @@ class Inventory(DirectObject.DirectObject):
 															)
 				self.inventoryCell[row][col].bind(DGG.WITHIN, self.mouseOver, [col,row])
 				self.inventoryCell[row][col].bind(DGG.WITHOUT, self.mouseOut)
+		
+		# Temporal Cell
 		
 		self.toggleCell = DirectButton(
 										parent=self.frame,
@@ -306,6 +363,28 @@ class Inventory(DirectObject.DirectObject):
 			
 			self.equipRingRightCell['image_scale'] = (0.5, 0.5, 0.5)
 			
+		# Check Equiped trinket
+		
+		if self.previousEquipedTrinket != self.game.player.equip["trinket"]:
+			self.previousEquipedTrinket = self.game.player.equip["trinket"]
+			if self.game.player.equip["trinket"] != None:
+				self.equipTrinketCell["image"] = "hud/interface/%s.png" % self.game.player.equip["trinket"]["model"]
+			else:
+				self.equipTrinketCell["image"] = "hud/interface/inventory.png"
+			
+			self.equipTrinketCell['image_scale'] = (0.5, 0.5, 0.5)
+			
+		# Check Equiped shield
+		
+		if self.previousEquipedShield != self.game.player.equip["shield"]:
+			self.previousEquipedShield = self.game.player.equip["shield"]
+			if self.game.player.equip["shield"] != None:
+				self.equipShieldCell["image"] = "hud/interface/%s.png" % self.game.player.equip["shield"]["model"]
+			else:
+				self.equipShieldCell["image"] = "hud/interface/inventory.png"
+			
+			self.equipShieldCell['image_scale'] = (0.5, 0.5, 0.5)
+			
 		# Check Equiped Armour
 		
 		if self.previousEquipedArmour != self.game.player.equip["armour"]:
@@ -410,6 +489,42 @@ class Inventory(DirectObject.DirectObject):
 			elif (self.itemOnHand == None) and (self.game.player.equip["ringRight"] != None):
 					self.itemOnHand = self.game.player.equip["ringRight"] 
 					self.game.player.equip["ringRight"]  = None
+			
+		# Trinkets
+		
+		if equipPart == "trinkets":
+			if (self.itemOnHand != None) and (self.game.player.equip["trinket"] == None):
+				if (self.itemOnHand["model"] in self.game.items["items"]["accesories"]["trinkets"]):
+					self.game.player.equip["trinket"] = self.itemOnHand
+					self.itemOnHand = None
+			
+			elif (self.itemOnHand != None) and (self.game.player.equip["trinket"] != None):
+				if (self.itemOnHand["model"] in self.game.items["items"]["accesories"]["trinkets"]):
+					toggleItem = self.itemOnHand
+					self.itemOnHand = self.game.player.equip["trinket"] 
+					self.game.player.equip["trinket"]  = toggleItem
+			
+			elif (self.itemOnHand == None) and (self.game.player.equip["trinket"] != None):
+					self.itemOnHand = self.game.player.equip["trinket"] 
+					self.game.player.equip["trinket"]  = None
+			
+		# Shields
+		
+		if equipPart == "shields":
+			if (self.itemOnHand != None) and (self.game.player.equip["shield"] == None):
+				if (self.itemOnHand["model"] in self.game.items["items"]["armours"]["shields"]):
+					self.game.player.equip["shield"] = self.itemOnHand
+					self.itemOnHand = None
+			
+			elif (self.itemOnHand != None) and (self.game.player.equip["shield"] != None):
+				if (self.itemOnHand["model"] in self.game.items["items"]["armours"]["shields"]):
+					toggleItem = self.itemOnHand
+					self.itemOnHand = self.game.player.equip["shield"] 
+					self.game.player.equip["shield"]  = toggleItem
+			
+			elif (self.itemOnHand == None) and (self.game.player.equip["shield"] != None):
+					self.itemOnHand = self.game.player.equip["shield"] 
+					self.game.player.equip["shield"]  = None
 			
 		# Armours
 		
