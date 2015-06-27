@@ -67,6 +67,12 @@
 					"armor": "1",
 					"weight": "1",
 					"model": "woolchaco"
+				},
+				"goldencrown": {
+					"name": "Golden Crown",
+					"armor": "5",
+					"weight": "1",
+					"model": "goldencrown"
 				}
 			},
 			"boots": {
@@ -89,6 +95,12 @@
 					"armor": "1",
 					"weight": "1",
 					"model": "woolgloves"
+				},
+				"irongloves": {
+					"name": "Iron Gloves",
+					"armor": "1",
+					"weight": "1",
+					"model": "irongloves"
 				}
 			},
 			"cloacks": {

@@ -32,7 +32,7 @@ class Player():
 		
 		self.ori = 0.0
 		self.lastori = -1
-		self.zoomLevel = 5.0
+		self.zoomLevel = 0.0
 		self.nextAttack = 0.0
 		
 		self.attacked = False
@@ -105,10 +105,12 @@ class Player():
 		self.inventory[0][0] = self.game.items["items"]["weapons"]["swords"]["longsword"]
 		self.inventory[1][0] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[0][8] = self.game.items["items"]["weapons"]["swords"]["longsword"]
+		self.inventory[0][7] = self.game.items["items"]["weapons"]["spears"]["ironspear"]
 		self.inventory[3][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[1][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[1][8] = self.game.items["items"]["armours"]["boots"]["leatherboots"]
 		self.inventory[1][7] = self.game.items["items"]["armours"]["helmets"]["woolchaco"]
+		self.inventory[0][6] = self.game.items["items"]["armours"]["helmets"]["goldencrown"]
 		self.inventory[1][6] = self.game.items["items"]["armours"]["cloacks"]["woolcloack"]
 		self.inventory[2][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[2][8] = self.game.items["items"]["armours"]["boots"]["leatherboots"]
@@ -273,41 +275,49 @@ class Player():
 		speed = 0
 		
 		if (self.keyMap["left"]):
-			self.ori = 45
+			#self.ori = 45
 			
 			if (self.keyMap["run"]):
-				speed = -self.runSpeed
+				speed = self.runSpeed
 			else:
-				speed = -self.speed
+				speed = self.speed
+			
+			self.playerActor.setX(self.playerActor, speed * dt)
 				
 		if (self.keyMap["right"]):
-			self.ori = -135
+			#self.ori = -135
 			
 			if (self.keyMap["run"]):
 				speed = -self.runSpeed
 			else:
 				speed = -self.speed
+			
+			self.playerActor.setX(self.playerActor, speed * dt)
 				
 		
 		if (self.keyMap["forward"]):
-			self.ori = -45
+			#self.ori = -45
 			
 			if (self.keyMap["run"]):
 				speed = -self.runSpeed
 			else:
 				speed = -self.speed
+			
+			self.playerActor.setY(self.playerActor, speed * dt)
 				
 		
 		if (self.keyMap["backward"]):
-			self.ori = 135
+			#self.ori = 135
 			
 			if (self.keyMap["run"]):
-				speed = -self.runSpeed
+				speed = self.runSpeed
 			else:
-				speed = -self.speed
+				speed = self.speed
+			
+			self.playerActor.setY(self.playerActor, speed * dt)
 		
 		if (self.keyMap["left"]) and (self.keyMap["forward"]):
-			self.ori = 0
+			#self.ori = 0
 			
 			if (self.keyMap["run"]):
 				speed = -self.runSpeed
@@ -315,7 +325,7 @@ class Player():
 				speed = -self.speed
 		
 		if (self.keyMap["right"]) and (self.keyMap["forward"]):
-			self.ori = -90
+			#self.ori = -90
 			
 			if (self.keyMap["run"]):
 				speed = -self.runSpeed
@@ -323,7 +333,7 @@ class Player():
 				speed = -self.speed
 		
 		if (self.keyMap["left"]) and (self.keyMap["backward"]):
-			self.ori = 90
+			#self.ori = 90
 			
 			if (self.keyMap["run"]):
 				speed = -self.runSpeed
@@ -331,7 +341,7 @@ class Player():
 				speed = -self.speed
 		
 		if (self.keyMap["right"]) and (self.keyMap["backward"]):
-			self.ori = 180
+			#self.ori = 180
 			
 			if (self.keyMap["run"]):
 				speed = -self.runSpeed
@@ -342,17 +352,43 @@ class Player():
 			self.attack()
 			self.nextAttack = task.time + self.attackSpeed
 		self.keyMap["attack"] = 0
-		
+		"""
 		if self.lastori != self.ori :
 			turn = Sequence(LerpQuatInterval(self.playerActor, duration=0.05,  hpr=Vec3(self.ori, 0, 0), blendType='easeOut')).start()
 			self.lastori = self.ori
-		
-		self.playerActor.setY(self.playerActor, speed * dt)
+		"""
+		if base.mouseWatcherNode.hasMouse():
+			# get the mouse position as a LVector2. The values for each axis are from -1 to
+			# 1. The top-left is (-1,-1), the bottom right is (1,1)
+			mpos = base.mouseWatcherNode.getMouse()
+			# Here we multiply the values to get the amount of degrees to turn
+			# Restrain is used to make sure the values returned by getMouse are in the
+			# valid range. If this particular model were to turn more than this,
+			# significant tearing would be visable
+			#print(mpos*20)
+			#self.playerActor.setP(clamp(mpos.getX()) * 50)
+			#self.playerActor.headsUp(clamp(mpos) * 20)
+
 		
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
 		
-		if (self.keyMap["forward"]) or (self.keyMap["left"]) or (self.keyMap["right"]) or (self.keyMap["backward"]):
+		if (self.keyMap["forward"]):
+			if self.isMoving is False:
+				self.playerActor.loop("walk")
+				self.isMoving = True
+		
+		elif (self.keyMap["backward"]):
+			if self.isMoving is False:
+				self.playerActor.loop("walk")
+				self.isMoving = True
+		
+		elif (self.keyMap["left"]):
+			if self.isMoving is False:
+				self.playerActor.loop("walk")
+				self.isMoving = True
+		
+		elif (self.keyMap["right"]):
 			if self.isMoving is False:
 				self.playerActor.loop("walk")
 				self.isMoving = True
@@ -363,17 +399,21 @@ class Player():
 				self.playerActor.loop("standby")
 				self.isMoving = False
 		return task.cont
-	
+		
 		
 	def updateCamera(self, task):
 		
 		self.game.camera.setPos(self.playerActor.getPos()+50)
 		# The camera should look in player's direction,
 		# but it should also try to stay horizontal, so look at
-		# a floater which hovers above dt6's head.
+		# a floater which hovers above player's head.
 		
 		self.floater.setPos(self.playerActor.getPos())
 		self.floater.setZ(self.playerActor.getZ() + 2.0)
 		
 		self.game.camera.lookAt(self.floater)
 		return task.cont
+# A simple function to make sure a value is in a given range, -1 to 1 by
+# default
+def clamp(i, mn=-1, mx=1):
+	return min(max(i, mn), mx)
