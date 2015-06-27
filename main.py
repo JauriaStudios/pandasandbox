@@ -361,10 +361,7 @@ class World(ShowBase):
 			
 			#self.npcGroundColNp.show()
 			
-		# Uncomment this line to show a visual representation of the
-		# collisions occuring
-		#self.cTrav.showCollisions(render)
-		
+
 	def checkCollision(self, task):
 		
 		startpos = self.player.playerActor.getPos()
@@ -401,6 +398,8 @@ class World(ShowBase):
 					npc.npcActor.setZ(entry.getSurfacePoint(render).getZ())
 				else:
 					npc.npcActor.setPos(startpos)
+		
+		
 		return task.cont
 
 def main():
@@ -411,12 +410,12 @@ def main():
 	props.setFullscreen(0)
 	props.setSize(1024, 768)
 	
-	app = World()
+	game = World()
 	
-	app.win.setClearColor((0, 0, 0, 1))
-	app.win.requestProperties( props )
-	app.setFrameRateMeter(True)
+	game.win.setClearColor((0, 0, 0, 1))
+	game.win.requestProperties( props )
+	game.setFrameRateMeter(True)
 	
-	app.run()
+	game.run()
 
 if __name__ == "__main__": main()
