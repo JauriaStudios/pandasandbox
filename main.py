@@ -183,7 +183,7 @@ class World(ShowBase):
 		# Create some lighting
 		
 		ambientLight = AmbientLight("ambientLight")
-		ambientLight.setColor(Vec4(1, 1, 1, 1))
+		ambientLight.setColor(Vec4(0.8, 0.8, 0.8, 0.65))
 		
 		"""
 		directionalLight = DirectionalLight("directionalLight")
