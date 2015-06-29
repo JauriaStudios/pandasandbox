@@ -352,23 +352,14 @@ class Player():
 			self.attack()
 			self.nextAttack = task.time + self.attackSpeed
 		self.keyMap["attack"] = 0
+		
 		"""
 		if self.lastori != self.ori :
 			turn = Sequence(LerpQuatInterval(self.playerActor, duration=0.05,  hpr=Vec3(self.ori, 0, 0), blendType='easeOut')).start()
 			self.lastori = self.ori
 		"""
-		if base.mouseWatcherNode.hasMouse():
-			# get the mouse position as a LVector2. The values for each axis are from -1 to
-			# 1. The top-left is (-1,-1), the bottom right is (1,1)
-			mpos = base.mouseWatcherNode.getMouse()
-			# Here we multiply the values to get the amount of degrees to turn
-			# Restrain is used to make sure the values returned by getMouse are in the
-			# valid range. If this particular model were to turn more than this,
-			# significant tearing would be visable
-			#print(mpos*20)
-			#self.playerActor.setP(clamp(mpos.getX()) * 50)
-			#self.playerActor.headsUp(clamp(mpos) * 20)
-
+		
+		self.playerActor.headsUp(self.game.floater.getPos())
 		
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
@@ -413,7 +404,3 @@ class Player():
 		
 		self.game.camera.lookAt(self.floater)
 		return task.cont
-# A simple function to make sure a value is in a given range, -1 to 1 by
-# default
-def clamp(i, mn=-1, mx=1):
-	return min(max(i, mn), mx)
