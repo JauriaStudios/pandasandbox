@@ -315,7 +315,7 @@ class Player():
 				speed = self.speed
 			
 			self.playerActor.setY(self.playerActor, speed * dt)
-		
+		"""
 		if (self.keyMap["left"]) and (self.keyMap["forward"]):
 			#self.ori = 0
 			
@@ -347,7 +347,7 @@ class Player():
 				speed = -self.runSpeed
 			else:
 				speed = -self.speed
-		
+		"""
 		if (self.keyMap["attack"])  and (task.time > self.nextAttack):
 			self.attack()
 			self.nextAttack = task.time + self.attackSpeed
@@ -360,7 +360,7 @@ class Player():
 		"""
 		
 		self.playerActor.headsUp(self.game.lookPoint)
-		
+		self.playerActor.setH(self.playerActor.getH()-180)
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
 		
