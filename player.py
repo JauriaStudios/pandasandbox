@@ -88,7 +88,42 @@ class Player():
 									"torso":"models/hero/torso",
 									"torso-ironplate":"models/hero/torso-ironplate"
 									},
-									{"head":{"standby":"models/hero/head-standby"}}
+									{"head":{"standby":"models/hero/head-standby",
+											"walk":"models/hero/head-walk",
+											"slash-front": "models/hero/head-slash-front"},
+									"larm":{"standby":"models/hero/larm-standby",
+											"walk":"models/hero/larm-walk",
+											"slash-front": "models/hero/larm-slash-front"},
+									"rarm":{"standby":"models/hero/rarm-standby",
+											"walk":"models/hero/rarm-walk",
+											"slash-front": "models/hero/rarm-slash-front"},
+									"lboot":{"standby":"models/hero/lboot-standby",
+											"walk":"models/hero/lboot-walk",
+											"slash-front": "models/hero/lboot-slash-front"},
+									"rboot":{"standby":"models/hero/rboot-standby",
+											"walk":"models/hero/rboot-walk",
+											"slash-front": "models/hero/rboot-slash-front"},
+									"lleg":{"standby":"models/hero/lleg-standby",
+											"walk":"models/hero/lleg-walk",
+											"slash-front": "models/hero/lleg-slash-front"},
+									"rleg":{"standby":"models/hero/rleg-standby",
+											"walk":"models/hero/rleg-walk",
+											"slash-front": "models/hero/rleg-slash-front"},
+									"lhand":{"standby":"models/hero/lhand-standby",
+											"walk":"models/hero/lhand-walk",
+											"slash-front": "models/hero/lhand-slash-front"},
+									"rhand":{"standby":"models/hero/rhand-standby",
+											"walk":"models/hero/rhand-walk",
+											"slash-front": "models/hero/rhand-slash-front"},
+									"torso":{"standby":"models/hero/torso-standby",
+											"walk":"models/hero/torso-walk",
+											"slash-front": "models/hero/torso-slash-front"},
+									"torso-ironplate":{"standby":"models/hero/torso-ironplate-standby",
+											"walk":"models/hero/torso-ironplate-walk",
+											"slash-front": "models/hero/torso-ironplate-slash-front"},
+										
+										
+											}
 									)
 		
 		self.playerActor.hidePart("torso")
@@ -262,14 +297,14 @@ class Player():
 		
 		#return animControl.isPlaying()
 		
-	"""
+	
 	def attack(self):
 		if self.isAttacking is False:
-			#self.playerActor.play("slash")
+			self.playerActor.play("slash-front")
 			self.isAttacking = True
 		
 		self.isAttacking = False
-	"""
+	
 		
 	def setKey(self, key, value):
 		self.keyMap[key] = value
@@ -371,12 +406,12 @@ class Player():
 				speed = -self.speed
 		"""
 		
-		"""
+		
 		if (self.keyMap["attack"])  and (task.time > self.nextAttack):
 			self.attack()
 			self.nextAttack = task.time + self.attackSpeed
 		self.keyMap["attack"] = 0
-		"""
+		
 		
 		"""
 		if self.lastori != self.ori :
@@ -389,7 +424,7 @@ class Player():
 		
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
-		"""
+		
 		if (self.keyMap["forward"]):
 			if self.isMoving is False:
 				self.playerActor.loop("walk")
@@ -415,7 +450,7 @@ class Player():
 				self.playerActor.stop()
 				self.playerActor.loop("standby")
 				self.isMoving = False
-		"""
+		
 		return task.cont
 		
 		
