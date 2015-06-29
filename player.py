@@ -176,7 +176,8 @@ class Player():
 		
 		self.setupControls()
 		self.setupCamera()
-		self.playerActor.loop("standby")
+		
+		#self.playerActor.loop("standby")
 		
 	def setupCamera(self):
 		
@@ -255,7 +256,7 @@ class Player():
 		
 	def attack(self):
 		if self.isAttacking is False:
-			self.playerActor.play("slash")
+			#self.playerActor.play("slash")
 			self.isAttacking = True
 		
 		self.isAttacking = False
@@ -376,7 +377,7 @@ class Player():
 		
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
-		
+		"""
 		if (self.keyMap["forward"]):
 			if self.isMoving is False:
 				self.playerActor.loop("walk")
@@ -402,7 +403,7 @@ class Player():
 				self.playerActor.stop()
 				self.playerActor.loop("standby")
 				self.isMoving = False
-		
+		"""
 		return task.cont
 		
 		
