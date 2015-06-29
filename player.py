@@ -359,7 +359,7 @@ class Player():
 			self.lastori = self.ori
 		"""
 		
-		self.playerActor.headsUp(self.game.floater.getPos())
+		self.playerActor.headsUp(self.game.lookPoint)
 		
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.

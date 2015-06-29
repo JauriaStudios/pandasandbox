@@ -47,9 +47,8 @@ class World(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		
-		#self.floater = NodePath(PandaNode("floater"))
-		self.floater = self.loader.loadModel("models/sword1")
-		self.floater.reparentTo(render)
+		self.lookPoint = NodePath(PandaNode("floater"))
+		self.lookPoint.reparentTo(render)
 		
 		self.menu = StartMenu(self)
 		#self.bar = Bar()
@@ -93,7 +92,6 @@ class World(ShowBase):
 		print("Launching World")
 		
 		# Accept the control keys
-		
 		#self.accept("h", self.crono.start)
 		
 	def initItems(self):
@@ -330,7 +328,7 @@ class World(ShowBase):
 
 		# Uncomment this line to show a visual representation of the
 		# collisions occuring
-		self.cTrav.showCollisions(render)
+		#self.cTrav.showCollisions(render)
 		
 		
 		
@@ -381,12 +379,10 @@ class World(ShowBase):
 			
 			nearPoint = render.getRelativePoint(self.camera, self.mouseGroundRay.getOrigin())
 			nearVec = render.getRelativeVector(self.camera, self.mouseGroundRay.getDirection())
-			
-			print(PointAtZ(.5, nearPoint, nearVec))
-			
-			#self.floater.setX(0)
-			#sself.floater.setY(0)
-		
+			try:
+				self.lookPoint.setPos(PointAtZ(.5, nearPoint, nearVec))
+			except:
+				print("error")
 		"""
 		for enemy in self.enemies:
 			startpos = enemy.enemyActor.getPos()
