@@ -182,8 +182,8 @@ class World(ShowBase):
 	def initLights(self):
 		# Create some lighting
 		
-		#ambientLight = AmbientLight("ambientLight")
-		#ambientLight.setColor(Vec4(0.1, 0.1, 0.1, 1.8))
+		ambientLight = AmbientLight("ambientLight")
+		ambientLight.setColor(Vec4(1, 1, 1, 1))
 		
 		"""
 		directionalLight = DirectionalLight("directionalLight")
@@ -203,7 +203,7 @@ class World(ShowBase):
 		plnp1.setPos(26.71, -33.2, 26)
 		
 		plight2 = PointLight('plight2')
-		plight2.setColor(VBase4(0.2, 1.5, 1, 1))
+		plight2.setColor(VBase4(1, 1, 1, 1))
 		plight2.showFrustum()
 		plnp2 = render.attachNewNode(plight2)
 		plnp2.setPos(-25, 25, 25)
@@ -216,7 +216,7 @@ class World(ShowBase):
 		slight.setShadowCaster(True, 512, 512)
 		slight.showFrustum()
 		slnp = render.attachNewNode(slight)
-		slnp.setPos(0, 0, 25)
+		slnp.setPos(0, 0, 100)
 		
 		slnp.lookAt(Vec3(0,0,0))
 		
