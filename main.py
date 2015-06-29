@@ -47,6 +47,9 @@ class World(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		
+		self.lookPoint = NodePath(PandaNode("floater"))
+		self.lookPoint.reparentTo(render)
+		
 		self.menu = StartMenu(self)
 		#self.bar = Bar()
 		
@@ -65,31 +68,30 @@ class World(ShowBase):
 		
 		
 		
-		print("Init World ...")
+		print("Init World...")
 		self.initWorld()
 		
-		print("Init Items ...")
+		print("Init Items...")
 		self.initItems()
 		
-		print("Init Actors ...")
+		print("Init Actors...")
 		self.initActors()
 		
 		print("Init GUI ...")
 		self.initGui()
 		
-		print("Init Lights ...")
+		print("Init Lights...")
 		self.initLights()
 		
-		print("Init Collisions ...")
+		print("Init Collisions...")
 		self.initCollision()
 		
-		print("Init Tasks ...")
+		print("Init Tasks...")
 		self.initTasks()
 		
 		print("Launching World")
 		
 		# Accept the control keys
-		
 		#self.accept("h", self.crono.start)
 		
 	def initItems(self):
@@ -294,74 +296,89 @@ class World(ShowBase):
 		
 	def initCollision(self):
 		
-		# We will detect the height of the terrain by creating a collision
-		# ray and casting it downward toward the terrain.  One ray will
-		# start above ralph's head, and the other will start above the camera.
-		# A ray may hit the terrain, or it may hit a rock or a tree.  If it
-		# hits the terrain, we can detect the height.  If it hits anything
-		# else, we rule that the move is illegal.
+		
+		self.enemyGroundRay = []
+		self.enemyGroundCol = []
+		self.enemyGroundColNp = []
+		self.enemyGroundHandler = []
+		
+		self.npcGroundRay = []
+		self.npcGroundCol = []
+		self.npcGroundColNp = []
+		self.npcGroundHandler = []
 		
 		self.cTrav = CollisionTraverser()
+		
 		
 		self.playerGroundRay = CollisionRay()
 		self.playerGroundRay.setOrigin(0, 0, 9)
 		self.playerGroundRay.setDirection(0, 0, -1)
-		
 		self.playerGroundCol = CollisionNode('playerRay')
 		self.playerGroundCol.addSolid(self.playerGroundRay)
 		self.playerGroundCol.setFromCollideMask(CollideMask.bit(0))
 		self.playerGroundCol.setIntoCollideMask(CollideMask.allOff())
-		
 		self.playerGroundColNp = self.player.playerActor.attachNewNode(self.playerGroundCol)
-		
 		self.playerGroundHandler = CollisionHandlerQueue()
-		
 		self.cTrav.addCollider(self.playerGroundColNp, self.playerGroundHandler)
+		
+		self.mouseGroundRay = CollisionRay()
+		self.mouseGroundRay.setOrigin(0, 0, 9)
+		self.mouseGroundRay.setDirection(0, 0, -1)
+		self.mouseGroundCol = CollisionNode('mouseRay')
+		self.mouseGroundCol.addSolid(self.mouseGroundRay)
+		self.mouseGroundCol.setFromCollideMask(CollideMask.bit(0))
+		self.mouseGroundCol.setIntoCollideMask(CollideMask.allOff())
+		self.mouseGroundColNp = self.camera.attachNewNode(self.mouseGroundCol)
+		self.mouseGroundHandler = CollisionHandlerQueue()
+		self.cTrav.addCollider(self.mouseGroundColNp, self.mouseGroundHandler)
 		
 		# Uncomment this line to see the collision rays
 		#self.playerGroundColNp.show()
+		#self.camGroundColNp.show()
+
+		# Uncomment this line to show a visual representation of the
+		# collisions occuring
+		#self.cTrav.showCollisions(render)
 		
 		
+		i = 0
 		for enemy in self.enemies:
 			
-			self.enemyGroundRay = CollisionRay()
-			self.enemyGroundRay.setOrigin(0, 0, 9)
-			self.enemyGroundRay.setDirection(0, 0, -1)
+			self.enemyGroundRay.append(CollisionRay())
+			self.enemyGroundRay[i].setOrigin(0, 0, 9)
+			self.enemyGroundRay[i].setDirection(0, 0, -1)
 			
-			self.enemyGroundCol = CollisionNode('%sRay' % enemy.name)
-			self.enemyGroundCol.addSolid(self.playerGroundRay)
-			self.enemyGroundCol.setFromCollideMask(CollideMask.bit(0))
-			self.enemyGroundCol.setIntoCollideMask(CollideMask.allOff())
+			self.enemyGroundCol.append(CollisionNode('%sRay' % enemy.name))
+			self.enemyGroundCol[i].addSolid(self.enemyGroundRay[i])
+			self.enemyGroundCol[i].setFromCollideMask(CollideMask.bit(0))
+			self.enemyGroundCol[i].setIntoCollideMask(CollideMask.allOff())
 			
-			self.enemyGroundColNp = enemy.enemyActor.attachNewNode(self.enemyGroundCol)
-			
-			self.enemyGroundHandler = CollisionHandlerQueue()
-			
-			self.cTrav.addCollider(self.enemyGroundColNp, self.enemyGroundHandler)
+			self.enemyGroundColNp.append(enemy.enemyActor.attachNewNode(self.enemyGroundCol[i]))
+			self.enemyGroundHandler.append(CollisionHandlerQueue())
+			self.cTrav.addCollider(self.enemyGroundColNp[i], self.enemyGroundHandler[i])
 			
 			#self.enemyGroundColNp.show()
+			i += 1
 		
-		
+		i = 0
 		for npc in self.npcs:
 			
-			self.npcGroundRay = CollisionRay()
-			self.npcGroundRay.setOrigin(0, 0, 9)
-			self.npcGroundRay.setDirection(0, 0, -1)
+			self.npcGroundRay.append(CollisionRay())
+			self.npcGroundRay[i].setOrigin(0, 0, 9)
+			self.npcGroundRay[i].setDirection(0, 0, -1)
 			
-			self.npcGroundCol = CollisionNode('%sRay' % npc.name)
-			self.npcGroundCol.addSolid(self.playerGroundRay)
-			self.npcGroundCol.setFromCollideMask(CollideMask.bit(0))
-			self.npcGroundCol.setIntoCollideMask(CollideMask.allOff())
+			self.npcGroundCol.append(CollisionNode('%sRay' % npc.name))
+			self.npcGroundCol[i].addSolid(self.npcGroundRay[i])
+			self.npcGroundCol[i].setFromCollideMask(CollideMask.bit(0))
+			self.npcGroundCol[i].setIntoCollideMask(CollideMask.allOff())
 			
-			self.npcGroundColNp = npc.npcActor.attachNewNode(self.npcGroundCol)
-			
-			self.npcGroundHandler = CollisionHandlerQueue()
-			
-			self.cTrav.addCollider(self.npcGroundColNp, self.npcGroundHandler)
+			self.npcGroundColNp.append(npc.npcActor.attachNewNode(self.npcGroundCol[i]))
+			self.npcGroundHandler.append(CollisionHandlerQueue())
+			self.cTrav.addCollider(self.npcGroundColNp[i], self.npcGroundHandler[i])
 			
 			#self.npcGroundColNp.show()
-			
-
+			i += 1
+	
 	def checkCollision(self, task):
 		
 		startpos = self.player.playerActor.getPos()
@@ -375,10 +392,26 @@ class World(ShowBase):
 			else:
 				self.player.playerActor.setPos(startpos)
 		
+		if self.mouseWatcherNode.hasMouse():
+			
+			mpos = self.mouseWatcherNode.getMouse()
+			
+			self.mouseGroundRay.setFromLens(self.camNode, mpos.getX(), mpos.getY())
+			
+			
+			nearPoint = render.getRelativePoint(self.camera, self.mouseGroundRay.getOrigin())
+			nearVec = render.getRelativeVector(self.camera, self.mouseGroundRay.getDirection())
+			try:
+				self.lookPoint.setPos(PointAtZ(.5, nearPoint, nearVec))
+			except:
+				print("error")
+		
+		i = 0
+		
 		for enemy in self.enemies:
 			startpos = enemy.enemyActor.getPos()
 			
-			entries = list(self.enemyGroundHandler.getEntries())
+			entries = list(self.enemyGroundHandler[i].getEntries())
 			entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
 			
 			for entry in entries:
@@ -386,11 +419,14 @@ class World(ShowBase):
 					enemy.enemyActor.setZ(entry.getSurfacePoint(render).getZ())
 				else:
 					enemy.enemyActor.setPos(startpos)
+			i += 1
 		
+		
+		i = 0
 		for npc in self.npcs:
 			startpos = npc.npcActor.getPos()
 			
-			entries = list(self.npcGroundHandler.getEntries())
+			entries = list(self.npcGroundHandler[i].getEntries())
 			entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
 			
 			for entry in entries:
@@ -398,10 +434,13 @@ class World(ShowBase):
 					npc.npcActor.setZ(entry.getSurfacePoint(render).getZ())
 				else:
 					npc.npcActor.setPos(startpos)
-		
+			i += 1
 		
 		return task.cont
-
+	
+def PointAtZ(z, point, vec):
+	return point + vec * ((z - point.getZ()) / vec.getZ())
+	
 def main():
 	props = WindowProperties( )
 	

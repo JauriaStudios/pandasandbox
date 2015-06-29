@@ -13,13 +13,13 @@ from panda3d.core import CollisionTraverser, CollisionNode
 from panda3d.core import CollisionHandlerQueue, CollisionRay
 from panda3d.core import CollideMask
 
-from panda3d.core import Vec3,Vec4,BitMask32, VBase4
+from panda3d.core import Vec3,Vec4,BitMask32, VBase4, LVecBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.core import PandaNode,NodePath
 from panda3d.core import TransformState
 from panda3d.core import OrthographicLens
 from panda3d.core import ModifierButtons
-
+from panda3d.core import Shader
 
 from direct.actor.Actor import Actor
 
@@ -29,6 +29,7 @@ class Player():
 	def __init__(self, game, hp, mana, strength, dexterity, vigor, magic):
 		
 		self.game = game
+		
 		
 		self.ori = 0.0
 		self.lastori = -1
@@ -83,6 +84,14 @@ class Player():
 											"standby":"models/hero-standby"
 										}
 									})
+		
+		# Shaders
+		
+		#self.shader = Shader.load("shaders/testShader.sha", Shader.SL_Cg)
+		
+		#self.playerActor.setShader(self.shader)
+		
+		# End shaders
 		
 		self.playerActor.setHpr(0,0,0)
 		self.playerActor.setScale(0.5)
@@ -197,8 +206,11 @@ class Player():
 		self.game.accept("w-up", self.setKey, ["forward",0])
 		self.game.accept("s-up", self.setKey, ["backward",0])
 		
-		self.game.accept("x", self.setKey, ["attack",1])
-		self.game.accept("x-up", self.setKey, ["attack",0])
+		self.game.accept("mouse1", self.setKey, ["attack",1])
+		self.game.accept("mouse1-up", self.setKey, ["attack",0])
+		
+		self.game.accept("shift-mouse1", self.setKey, ["attack",1])
+		self.game.accept("shift-mouse1-up", self.setKey, ["attack",0])
 		
 		#self.game.accept("q", self.setKey, ["cam-left",1])
 		#self.game.accept("e", self.setKey, ["cam-right",1])
@@ -315,7 +327,7 @@ class Player():
 				speed = self.speed
 			
 			self.playerActor.setY(self.playerActor, speed * dt)
-		
+		"""
 		if (self.keyMap["left"]) and (self.keyMap["forward"]):
 			#self.ori = 0
 			
@@ -347,28 +359,20 @@ class Player():
 				speed = -self.runSpeed
 			else:
 				speed = -self.speed
-		
+		"""
 		if (self.keyMap["attack"])  and (task.time > self.nextAttack):
 			self.attack()
 			self.nextAttack = task.time + self.attackSpeed
 		self.keyMap["attack"] = 0
+		
 		"""
 		if self.lastori != self.ori :
 			turn = Sequence(LerpQuatInterval(self.playerActor, duration=0.05,  hpr=Vec3(self.ori, 0, 0), blendType='easeOut')).start()
 			self.lastori = self.ori
 		"""
-		if base.mouseWatcherNode.hasMouse():
-			# get the mouse position as a LVector2. The values for each axis are from -1 to
-			# 1. The top-left is (-1,-1), the bottom right is (1,1)
-			mpos = base.mouseWatcherNode.getMouse()
-			# Here we multiply the values to get the amount of degrees to turn
-			# Restrain is used to make sure the values returned by getMouse are in the
-			# valid range. If this particular model were to turn more than this,
-			# significant tearing would be visable
-			#print(mpos*20)
-			#self.playerActor.setP(clamp(mpos.getX()) * 50)
-			#self.playerActor.headsUp(clamp(mpos) * 20)
-
+		
+		self.playerActor.headsUp(self.game.lookPoint)
+		self.playerActor.setH(self.playerActor.getH()-180)
 		
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
@@ -398,6 +402,7 @@ class Player():
 				self.playerActor.stop()
 				self.playerActor.loop("standby")
 				self.isMoving = False
+		
 		return task.cont
 		
 		
@@ -412,8 +417,5 @@ class Player():
 		self.floater.setZ(self.playerActor.getZ() + 2.0)
 		
 		self.game.camera.lookAt(self.floater)
+		
 		return task.cont
-# A simple function to make sure a value is in a given range, -1 to 1 by
-# default
-def clamp(i, mn=-1, mx=1):
-	return min(max(i, mn), mx)
