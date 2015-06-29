@@ -76,14 +76,22 @@ class Player():
 						}
 		
 		self.playerActor = Actor({
-									"body":"models/hero"
-									},{
-										"body":{
-											"walk":"models/hero-walk",
-											"slash":"models/hero-slash",
-											"standby":"models/hero-standby"
-										}
-									})
+									"head":"models/hero/head",
+									"larm":"models/hero/larm",
+									"rarm":"models/hero/rarm",
+									"lboot":"models/hero/lboot",
+									"rboot":"models/hero/rboot",
+									"lleg":"models/hero/lleg",
+									"rleg":"models/hero/rleg",
+									"lhand":"models/hero/lhand",
+									"rhand":"models/hero/rhand",
+									"torso":"models/hero/torso",
+									"torso-ironplate":"models/hero/torso-ironplate"
+									},
+									{"head":{"standby":"models/hero/head-standby"}}
+									)
+		
+		self.playerActor.hidePart("torso")
 		
 		# Shaders
 		
@@ -103,7 +111,7 @@ class Player():
 		self.floater.reparentTo(render)
 		self.floater.setZ(2.0)
 		
-		self.playerHand = self.playerActor.exposeJoint(None, 'body', 'manod')
+		#self.playerHand = self.playerActor.exposeJoint(None, 'body', 'manod')
 		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
 		#self.playerHead.setScale(10,10,10)
 		
@@ -156,7 +164,7 @@ class Player():
 		self.models = []                 #A list that will store our models objects
 		items = [("models/sword1", (0.0, 0.6, 1.5), (0,-90,0), 0.2),
 				("models/maze", (0.0, 0.6, -1.5), (0,90,0), 0.2)]
-		
+		"""
 		for row in items:
 			np = self.game.loader.loadModel(row[0])				#Load the model
 			np.setPos(row[1][0], row[1][1], row[1][2])		#Position it
@@ -165,19 +173,19 @@ class Player():
 			np.reparentTo(self.playerHand)
 			#weaponNP.reparentTo(self.playerHand)
 			self.models.append(np)							#Add it to our models list
-		
+		"""
 		
 		
 		self.item = 0
 		self.isMoving = False
 		self.isAttacking = False
 		
-		self.setObject(self.item)							#Make object 0 the first shown
+		#self.setObject(self.item)							#Make object 0 the first shown
 		
 		self.setupControls()
 		self.setupCamera()
 		
-		#self.playerActor.loop("standby")
+		self.playerActor.loop("standby", "head")
 		
 	def setupCamera(self):
 		
@@ -249,18 +257,19 @@ class Player():
 		self.lens.setFilmSize(45+self.zoomLevel, 35+self.zoomLevel)
 		self.game.cam.node().setLens(self.lens)
 		
-	def checkAttack(self):
-		animControl = self.playerActor.getAnimControl('slash', "body")
+	#def checkAttack(self):
+		#animControl = self.playerActor.getAnimControl('slash', "body")
 		
-		return animControl.isPlaying()
+		#return animControl.isPlaying()
 		
+	"""
 	def attack(self):
 		if self.isAttacking is False:
 			#self.playerActor.play("slash")
 			self.isAttacking = True
 		
 		self.isAttacking = False
-		
+	"""
 		
 	def setKey(self, key, value):
 		self.keyMap[key] = value
@@ -361,10 +370,13 @@ class Player():
 			else:
 				speed = -self.speed
 		"""
+		
+		"""
 		if (self.keyMap["attack"])  and (task.time > self.nextAttack):
 			self.attack()
 			self.nextAttack = task.time + self.attackSpeed
 		self.keyMap["attack"] = 0
+		"""
 		
 		"""
 		if self.lastori != self.ori :
