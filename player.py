@@ -75,56 +75,68 @@ class Player():
 							"run":0
 						}
 		
-		self.playerActor = Actor({
-									"head":"models/hero/head",
-									"larm":"models/hero/larm",
-									"rarm":"models/hero/rarm",
-									"lboot":"models/hero/lboot",
-									"rboot":"models/hero/rboot",
-									"lleg":"models/hero/lleg",
-									"rleg":"models/hero/rleg",
-									"lhand":"models/hero/lhand",
-									"rhand":"models/hero/rhand",
-									"torso":"models/hero/torso",
-									"torso-ironplate":"models/hero/torso-ironplate"
-									},
-									{"head":{"standby":"models/hero/head-standby",
-											"walk":"models/hero/head-walk",
-											"slash-front": "models/hero/head-slash-front"},
-									"larm":{"standby":"models/hero/larm-standby",
-											"walk":"models/hero/larm-walk",
-											"slash-front": "models/hero/larm-slash-front"},
-									"rarm":{"standby":"models/hero/rarm-standby",
-											"walk":"models/hero/rarm-walk",
-											"slash-front": "models/hero/rarm-slash-front"},
-									"lboot":{"standby":"models/hero/lboot-standby",
-											"walk":"models/hero/lboot-walk",
-											"slash-front": "models/hero/lboot-slash-front"},
-									"rboot":{"standby":"models/hero/rboot-standby",
-											"walk":"models/hero/rboot-walk",
-											"slash-front": "models/hero/rboot-slash-front"},
-									"lleg":{"standby":"models/hero/lleg-standby",
-											"walk":"models/hero/lleg-walk",
-											"slash-front": "models/hero/lleg-slash-front"},
-									"rleg":{"standby":"models/hero/rleg-standby",
-											"walk":"models/hero/rleg-walk",
-											"slash-front": "models/hero/rleg-slash-front"},
-									"lhand":{"standby":"models/hero/lhand-standby",
-											"walk":"models/hero/lhand-walk",
-											"slash-front": "models/hero/lhand-slash-front"},
-									"rhand":{"standby":"models/hero/rhand-standby",
-											"walk":"models/hero/rhand-walk",
-											"slash-front": "models/hero/rhand-slash-front"},
-									"torso":{"standby":"models/hero/torso-standby",
-											"walk":"models/hero/torso-walk",
-											"slash-front": "models/hero/torso-slash-front"},
-									"torso-ironplate":{"standby":"models/hero/torso-ironplate-standby",
-											"walk":"models/hero/torso-ironplate-walk",
-											"slash-front": "models/hero/torso-ironplate-slash-front"},
-										
-										
-											}
-									)
+		self.models = {
+						"head":"models/hero/head",
+						"larm":"models/hero/larm",
+						"rarm":"models/hero/rarm",
+						"lboot":"models/hero/lboot",
+						"rboot":"models/hero/rboot",
+						"lleg":"models/hero/lleg",
+						"rleg":"models/hero/rleg",
+						"lhand":"models/hero/lhand",
+						"rhand":"models/hero/rhand",
+						"torso":"models/hero/torso",
+						
+						"torso-ironplate":"models/hero/torso-ironplate"
+						}
+						
+		self.animations = {
+							"head":{"standby":"models/hero/head-standby",
+									"walk":"models/hero/head-walk",
+									"slash-front": "models/hero/head-slash-front"},
+									
+							"larm":{"standby":"models/hero/larm-standby",
+									"walk":"models/hero/larm-walk",
+									"slash-front": "models/hero/larm-slash-front"},
+									
+							"rarm":{"standby":"models/hero/rarm-standby",
+									"walk":"models/hero/rarm-walk",
+									"slash-front": "models/hero/rarm-slash-front"},
+									
+							"lboot":{"standby":"models/hero/lboot-standby",
+									"walk":"models/hero/lboot-walk",
+									"slash-front": "models/hero/lboot-slash-front"},
+									
+							"rboot":{"standby":"models/hero/rboot-standby",
+									"walk":"models/hero/rboot-walk",
+									"slash-front": "models/hero/rboot-slash-front"},
+									
+							"lleg":{"standby":"models/hero/lleg-standby",
+									"walk":"models/hero/lleg-walk",
+									"slash-front": "models/hero/lleg-slash-front"},
+									
+							"rleg":{"standby":"models/hero/rleg-standby",
+									"walk":"models/hero/rleg-walk",
+									"slash-front": "models/hero/rleg-slash-front"},
+									
+							"lhand":{"standby":"models/hero/lhand-standby",
+									"walk":"models/hero/lhand-walk",
+									"slash-front": "models/hero/lhand-slash-front"},
+									
+							"rhand":{"standby":"models/hero/rhand-standby",
+									"walk":"models/hero/rhand-walk",
+									"slash-front": "models/hero/rhand-slash-front"},
+									
+							"torso":{"standby":"models/hero/torso-standby",
+									"walk":"models/hero/torso-walk",
+									"slash-front": "models/hero/torso-slash-front"},
+									
+							"torso-ironplate":{"standby":"models/hero/torso-ironplate-standby",
+									"walk":"models/hero/torso-ironplate-walk",
+									"slash-front": "models/hero/torso-ironplate-slash-front"},
+							}
+		
+		self.playerActor = Actor(self.models, self.animations)
 		
 		self.playerActor.hidePart("torso")
 		
