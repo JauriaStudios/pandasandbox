@@ -13,13 +13,13 @@ from panda3d.core import CollisionTraverser, CollisionNode
 from panda3d.core import CollisionHandlerQueue, CollisionRay
 from panda3d.core import CollideMask
 
-from panda3d.core import Vec3,Vec4,BitMask32, VBase4
+from panda3d.core import Vec3,Vec4,BitMask32, VBase4, LVecBase4
 from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.core import PandaNode,NodePath
 from panda3d.core import TransformState
 from panda3d.core import OrthographicLens
 from panda3d.core import ModifierButtons
-
+from panda3d.core import Shader
 
 from direct.actor.Actor import Actor
 
@@ -29,6 +29,7 @@ class Player():
 	def __init__(self, game, hp, mana, strength, dexterity, vigor, magic):
 		
 		self.game = game
+		
 		
 		self.ori = 0.0
 		self.lastori = -1
@@ -83,6 +84,14 @@ class Player():
 											"standby":"models/hero-standby"
 										}
 									})
+		
+		# Shaders
+		
+		#self.shader = Shader.load("shaders/testShader.sha", Shader.SL_Cg)
+		
+		#self.playerActor.setShader(self.shader)
+		
+		# End shaders
 		
 		self.playerActor.setHpr(0,0,0)
 		self.playerActor.setScale(0.5)
@@ -197,8 +206,11 @@ class Player():
 		self.game.accept("w-up", self.setKey, ["forward",0])
 		self.game.accept("s-up", self.setKey, ["backward",0])
 		
-		self.game.accept("x", self.setKey, ["attack",1])
-		self.game.accept("x-up", self.setKey, ["attack",0])
+		self.game.accept("mouse1", self.setKey, ["attack",1])
+		self.game.accept("mouse1-up", self.setKey, ["attack",0])
+		
+		self.game.accept("shift-mouse1", self.setKey, ["attack",1])
+		self.game.accept("shift-mouse1-up", self.setKey, ["attack",0])
 		
 		#self.game.accept("q", self.setKey, ["cam-left",1])
 		#self.game.accept("e", self.setKey, ["cam-right",1])
@@ -361,6 +373,7 @@ class Player():
 		
 		self.playerActor.headsUp(self.game.lookPoint)
 		self.playerActor.setH(self.playerActor.getH()-180)
+		
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
 		
@@ -389,6 +402,7 @@ class Player():
 				self.playerActor.stop()
 				self.playerActor.loop("standby")
 				self.isMoving = False
+		
 		return task.cont
 		
 		
@@ -403,4 +417,5 @@ class Player():
 		self.floater.setZ(self.playerActor.getZ() + 2.0)
 		
 		self.game.camera.lookAt(self.floater)
+		
 		return task.cont
