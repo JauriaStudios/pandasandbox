@@ -62,69 +62,102 @@ class Player():
 		
 		
 		self.keyMap = {
-							"left":0,
-							"right":0,
-							"forward":0,
-							"backward":0,
-							
-							"cam-left":0,
-							"cam-right":0,
-							
-							"jump":0,
-							"attack":0,
-							"run":0
+						"left":0,
+						"right":0,
+						"forward":0,
+						"backward":0,
+						
+						"cam-left":0,
+						"cam-right":0,
+						
+						"jump":0,
+						"attack":0,
+						"run":0
 						}
 		
-		self.playerActor = Actor({
-									"head":"models/hero/head",
-									"larm":"models/hero/larm",
-									"rarm":"models/hero/rarm",
-									"lboot":"models/hero/lboot",
-									"rboot":"models/hero/rboot",
-									"lleg":"models/hero/lleg",
-									"rleg":"models/hero/rleg",
-									"lhand":"models/hero/lhand",
-									"rhand":"models/hero/rhand",
-									"torso":"models/hero/torso",
-									"torso-ironplate":"models/hero/torso-ironplate"
-									},
-									{"head":{"standby":"models/hero/head-standby",
-											"walk":"models/hero/head-walk",
-											"slash-front": "models/hero/head-slash-front"},
-									"larm":{"standby":"models/hero/larm-standby",
-											"walk":"models/hero/larm-walk",
-											"slash-front": "models/hero/larm-slash-front"},
-									"rarm":{"standby":"models/hero/rarm-standby",
-											"walk":"models/hero/rarm-walk",
-											"slash-front": "models/hero/rarm-slash-front"},
-									"lboot":{"standby":"models/hero/lboot-standby",
-											"walk":"models/hero/lboot-walk",
-											"slash-front": "models/hero/lboot-slash-front"},
-									"rboot":{"standby":"models/hero/rboot-standby",
-											"walk":"models/hero/rboot-walk",
-											"slash-front": "models/hero/rboot-slash-front"},
-									"lleg":{"standby":"models/hero/lleg-standby",
-											"walk":"models/hero/lleg-walk",
-											"slash-front": "models/hero/lleg-slash-front"},
-									"rleg":{"standby":"models/hero/rleg-standby",
-											"walk":"models/hero/rleg-walk",
-											"slash-front": "models/hero/rleg-slash-front"},
-									"lhand":{"standby":"models/hero/lhand-standby",
-											"walk":"models/hero/lhand-walk",
-											"slash-front": "models/hero/lhand-slash-front"},
-									"rhand":{"standby":"models/hero/rhand-standby",
-											"walk":"models/hero/rhand-walk",
-											"slash-front": "models/hero/rhand-slash-front"},
-									"torso":{"standby":"models/hero/torso-standby",
-											"walk":"models/hero/torso-walk",
-											"slash-front": "models/hero/torso-slash-front"},
-									"torso-ironplate":{"standby":"models/hero/torso-ironplate-standby",
-											"walk":"models/hero/torso-ironplate-walk",
-											"slash-front": "models/hero/torso-ironplate-slash-front"},
-										
-										
-											}
-									)
+		# Player Models
+		
+		self.models = {
+						"head":"models/hero/head",
+						"larm":"models/hero/larm",
+						"rarm":"models/hero/rarm",
+						"lboot":"models/hero/lboot",
+						"rboot":"models/hero/rboot",
+						"lleg":"models/hero/lleg",
+						"rleg":"models/hero/rleg",
+						"lhand":"models/hero/lhand",
+						"rhand":"models/hero/rhand",
+						"torso":"models/hero/torso",
+						
+						}
+		
+		# Player Animations
+		
+		self.animations = {
+							"head":{"standby":"models/hero/head-standby",
+									"walk":"models/hero/head-walk",
+									"slash-front": "models/hero/head-slash-front"},
+									
+							"larm":{"standby":"models/hero/larm-standby",
+									"walk":"models/hero/larm-walk",
+									"slash-front": "models/hero/larm-slash-front"},
+									
+							"rarm":{"standby":"models/hero/rarm-standby",
+									"walk":"models/hero/rarm-walk",
+									"slash-front": "models/hero/rarm-slash-front"},
+									
+							"lboot":{"standby":"models/hero/lboot-standby",
+									"walk":"models/hero/lboot-walk",
+									"slash-front": "models/hero/lboot-slash-front"},
+									
+							"rboot":{"standby":"models/hero/rboot-standby",
+									"walk":"models/hero/rboot-walk",
+									"slash-front": "models/hero/rboot-slash-front"},
+									
+							"lleg":{"standby":"models/hero/lleg-standby",
+									"walk":"models/hero/lleg-walk",
+									"slash-front": "models/hero/lleg-slash-front"},
+									
+							"rleg":{"standby":"models/hero/rleg-standby",
+									"walk":"models/hero/rleg-walk",
+									"slash-front": "models/hero/rleg-slash-front"},
+									
+							"lhand":{"standby":"models/hero/lhand-standby",
+									"walk":"models/hero/lhand-walk",
+									"slash-front": "models/hero/lhand-slash-front"},
+									
+							"rhand":{"standby":"models/hero/rhand-standby",
+									"walk":"models/hero/rhand-walk",
+									"slash-front": "models/hero/rhand-slash-front"},
+									
+							"torso":{"standby":"models/hero/torso-standby",
+									"walk":"models/hero/torso-walk",
+									"slash-front": "models/hero/torso-slash-front"},
+									
+							}
+		
+		# Load All Player Parts
+		
+		for itemClass, items in self.game.items["items"].iteritems():
+			if itemClass == "armours":
+				for itemType, value in items["heavyarmours"].iteritems():
+					modelName = value["model"]
+					if modelName == "ironplate":
+						
+						#self.modelName = self.game.items["items"]["armours"]["heavyarmours"]["ironplate"]["model"]
+						#print(self.modelName)
+						
+						self.models["torso-%s" % modelName] = "models/hero/torso-%s" % modelName
+						
+						self.animations["torso-%s" % modelName] = {
+																"standby":"models/hero/torso-%s-standby" % modelName,
+																"walk":"models/hero/torso-%s-walk" % modelName,
+																"slash-front": "models/hero/torso-%s-slash-front" % modelName
+															}
+		
+		# Init Actor
+		
+		self.playerActor = Actor(self.models, self.animations)
 		
 		self.playerActor.hidePart("torso")
 		
@@ -152,7 +185,8 @@ class Player():
 		
 		self.inventory = [["0" for x in range(10)] for x in range(5)]
 		
-		#			COLS-ROWS
+		#			COLS-ROWS		#			COLS-ROWS
+		self.inventory[0][3] = self.game.items["items"]["armours"]["heavyarmours"]["ironplate"]
 		self.inventory[3][3] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[0][0] = self.game.items["items"]["weapons"]["swords"]["longsword"]
 		self.inventory[1][0] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
