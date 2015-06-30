@@ -142,24 +142,22 @@ class Player():
 			if itemClass == "armours":
 				for itemType, value in items["heavyarmours"].iteritems():
 					modelName = value["model"]
-					if modelName == "ironplate":
-						
-						#self.modelName = self.game.items["items"]["armours"]["heavyarmours"]["ironplate"]["model"]
-						#print(self.modelName)
-						
-						self.models["torso-%s" % modelName] = "models/hero/torso-%s" % modelName
-						
-						self.animations["torso-%s" % modelName] = {
-																"standby":"models/hero/torso-%s-standby" % modelName,
-																"walk":"models/hero/torso-%s-walk" % modelName,
-																"slash-front": "models/hero/torso-%s-slash-front" % modelName
-															}
+					
+					self.models["torso-%s" % modelName] = "models/hero/torso-%s" % modelName
+					
+					self.animations["torso-%s" % modelName] = {
+															"standby":"models/hero/torso-%s-standby" % modelName,
+															"walk":"models/hero/torso-%s-walk" % modelName,
+															"slash-front": "models/hero/torso-%s-slash-front" % modelName
+														}
 		
 		# Init Actor
 		
 		self.playerActor = Actor(self.models, self.animations)
 		
 		self.playerActor.hidePart("torso")
+		self.playerActor.hidePart("torso-cuirass")
+		self.playerActor.hidePart("torso-ironplate")
 		
 		# Shaders
 		
