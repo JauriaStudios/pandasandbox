@@ -62,18 +62,20 @@ class Player():
 		
 		
 		self.keyMap = {
-							"left":0,
-							"right":0,
-							"forward":0,
-							"backward":0,
-							
-							"cam-left":0,
-							"cam-right":0,
-							
-							"jump":0,
-							"attack":0,
-							"run":0
+						"left":0,
+						"right":0,
+						"forward":0,
+						"backward":0,
+						
+						"cam-left":0,
+						"cam-right":0,
+						
+						"jump":0,
+						"attack":0,
+						"run":0
 						}
+		
+		# Player Models
 		
 		self.models = {
 						"head":"models/hero/head",
@@ -88,6 +90,8 @@ class Player():
 						"torso":"models/hero/torso",
 						
 						}
+		
+		# Player Animations
 		
 		self.animations = {
 							"head":{"standby":"models/hero/head-standby",
@@ -132,23 +136,26 @@ class Player():
 									
 							}
 		
+		# Load All Player Parts
+		
 		for itemClass, items in self.game.items["items"].iteritems():
 			if itemClass == "armours":
 				for itemType, value in items["heavyarmours"].iteritems():
-					print (value["model"])
+					modelName = value["model"]
+					if modelName == "ironplate":
+						
+						#self.modelName = self.game.items["items"]["armours"]["heavyarmours"]["ironplate"]["model"]
+						#print(self.modelName)
+						
+						self.models["torso-%s" % modelName] = "models/hero/torso-%s" % modelName
+						
+						self.animations["torso-%s" % modelName] = {
+																"standby":"models/hero/torso-%s-standby" % modelName,
+																"walk":"models/hero/torso-%s-walk" % modelName,
+																"slash-front": "models/hero/torso-%s-slash-front" % modelName
+															}
 		
-		
-		
-		self.modelName = self.game.items["items"]["armours"]["heavyarmours"]["ironplate"]["model"]
-		#print(self.modelName)
-		
-		self.models["torso-%s" % self.modelName] = "models/hero/torso-%s" % self.modelName
-		
-		self.animations["torso-%s" % self.modelName] = {
-												"standby":"models/hero/torso-%s-standby" % self.modelName,
-												"walk":"models/hero/torso-%s-walk" % self.modelName,
-												"slash-front": "models/hero/torso-%s-slash-front" % self.modelName
-											}
+		# Init Actor
 		
 		self.playerActor = Actor(self.models, self.animations)
 		
