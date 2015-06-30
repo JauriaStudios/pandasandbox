@@ -87,9 +87,8 @@ class Player():
 						"rhand":"models/hero/rhand",
 						"torso":"models/hero/torso",
 						
-						"torso-ironplate":"models/hero/torso-ironplate"
 						}
-						
+		
 		self.animations = {
 							"head":{"standby":"models/hero/head-standby",
 									"walk":"models/hero/head-walk",
@@ -131,10 +130,25 @@ class Player():
 									"walk":"models/hero/torso-walk",
 									"slash-front": "models/hero/torso-slash-front"},
 									
-							"torso-ironplate":{"standby":"models/hero/torso-ironplate-standby",
-									"walk":"models/hero/torso-ironplate-walk",
-									"slash-front": "models/hero/torso-ironplate-slash-front"},
 							}
+		
+		for itemClass, items in self.game.items["items"].iteritems():
+			if itemClass == "armours":
+				for itemType, value in items["heavyarmours"].iteritems():
+					print (value["model"])
+		
+		
+		
+		self.modelName = self.game.items["items"]["armours"]["heavyarmours"]["ironplate"]["model"]
+		#print(self.modelName)
+		
+		self.models["torso-%s" % self.modelName] = "models/hero/torso-%s" % self.modelName
+		
+		self.animations["torso-%s" % self.modelName] = {
+												"standby":"models/hero/torso-%s-standby" % self.modelName,
+												"walk":"models/hero/torso-%s-walk" % self.modelName,
+												"slash-front": "models/hero/torso-%s-slash-front" % self.modelName
+											}
 		
 		self.playerActor = Actor(self.models, self.animations)
 		
@@ -164,7 +178,8 @@ class Player():
 		
 		self.inventory = [["0" for x in range(10)] for x in range(5)]
 		
-		#			COLS-ROWS
+		#			COLS-ROWS		#			COLS-ROWS
+		self.inventory[0][3] = self.game.items["items"]["armours"]["heavyarmours"]["ironplate"]
 		self.inventory[3][3] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[0][0] = self.game.items["items"]["weapons"]["swords"]["longsword"]
 		self.inventory[1][0] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
