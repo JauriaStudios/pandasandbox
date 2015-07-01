@@ -93,6 +93,8 @@ class Player():
 		animations = { name:{
 								"standby":"models/hero/%s-standby" % name,
 								"walk":"models/hero/%s-walk" % name,
+								"walk-back":"models/hero/%s-walk-back" % name,
+								"walk-side":"models/hero/%s-walk-side" % name,
 								"slash-front": "models/hero/%s-slash-front" % name
 							} for name in parts
 						}
@@ -113,6 +115,8 @@ class Player():
 					animations["torso-%s" % modelName] = {
 															"standby":"models/hero/torso-%s-standby" % modelName,
 															"walk":"models/hero/torso-%s-walk" % modelName,
+															"walk-back":"models/hero/torso-%s-walk-back" % modelName,
+															"walk-side":"models/hero/torso-%s-walk-side" % modelName,
 															"slash-front":"models/hero/torso-%s-slash-front" % modelName
 														}
 		
@@ -466,17 +470,12 @@ class Player():
 		
 		elif (self.keyMap["backward"]):
 			if self.isMoving is False:
-				self.playerActor.loop("walk")
+				self.playerActor.loop("walk-back")
 				self.isMoving = True
 		
-		elif (self.keyMap["left"]):
+		elif (self.keyMap["left"] or self.keyMap["right"]):
 			if self.isMoving is False:
-				self.playerActor.loop("walk")
-				self.isMoving = True
-		
-		elif (self.keyMap["right"]):
-			if self.isMoving is False:
-				self.playerActor.loop("walk")
+				self.playerActor.loop("walk-side")
 				self.isMoving = True
 		
 		else:
