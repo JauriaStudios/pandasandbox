@@ -56,11 +56,11 @@
 				}
 			},
 			"helmets": {
-				"hat": {
-					"name": "Hat",
-					"armor": "2",
-					"weight": "1",
-					"model": "hat"
+				"ironhelmet": {
+					"name": "Iron Helmet",
+					"armor": "5",
+					"weight": "2",
+					"model": "ironhelmet"
 				},
 				"woolchaco": {
 					"name": "Wool Chaco",
@@ -76,11 +76,11 @@
 				}
 			},
 			"boots": {
-				"shoes": {
-					"name": "Shoes",
-					"armor": "3",
+				"irongreaves": {
+					"name": "Iron Greaves",
+					"armor": "4",
 					"weight": "2",
-					"model": "shoes"
+					"model": "irongreaves"
 				},
 				"leatherboots": {
 					"name": "Leather Boots",
@@ -112,10 +112,17 @@
 				}
 			},
 			"shields": {
-				"goldenshield": {
-					"name": "Golen Shield",
+				"ironshield": {
+					"name": "Iron Shield",
 					"armor": "7",
 					"weight": "5",
+					"model": "ironshield"
+				},
+				"goldenshield": {
+					"name": "Golden Shield",
+					"armor": "5",
+					"marmor": "10",
+					"weight": "8",
 					"model": "goldenshield"
 				}
 			}

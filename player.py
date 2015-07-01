@@ -206,8 +206,8 @@ class Player():
 		self.inventory[1][4] = self.game.items["items"]["accesories"]["rings"]["simplering"]
 		self.inventory[2][3] = self.game.items["items"]["accesories"]["trinkets"]["rubyamulet"]
 		self.inventory[1][3] = self.game.items["items"]["accesories"]["trinkets"]["rubyamulet"]
-		self.inventory[2][2] = self.game.items["items"]["armours"]["shields"]["goldenshield"]
-		self.inventory[1][2] = self.game.items["items"]["armours"]["shields"]["goldenshield"]
+		self.inventory[2][2] = self.game.items["items"]["armours"]["shields"]["ironshield"]
+		self.inventory[1][2] = self.game.items["items"]["armours"]["shields"]["ironshield"]
 		
 		self.equip = {
 						"armour":None,
