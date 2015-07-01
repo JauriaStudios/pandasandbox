@@ -30,6 +30,13 @@ class Player():
 		
 		self.game = game
 		
+		self.previousEquipedArmour = None
+		self.previousEquipedWeaponr = None
+		self.previousEquipedHelmet = None
+		self.previousEquipedGloves = None
+		self.previousEquipedCloack = None
+		self.previousEquipedBoots = None
+		self.previousEquipedShield = None
 		
 		self.ori = 0.0
 		self.lastori = -1
@@ -75,89 +82,54 @@ class Player():
 						"run":0
 						}
 		
+		# Player Parts
+		
+		parts = ["head", "larm", "rarm", "lboot", "rboot", "lleg", "rleg", "lhand", "rhand", "torso"]
+		
 		# Player Models
 		
-		self.models = {
-						"head":"models/hero/head",
-						"larm":"models/hero/larm",
-						"rarm":"models/hero/rarm",
-						"lboot":"models/hero/lboot",
-						"rboot":"models/hero/rboot",
-						"lleg":"models/hero/lleg",
-						"rleg":"models/hero/rleg",
-						"lhand":"models/hero/lhand",
-						"rhand":"models/hero/rhand",
-						"torso":"models/hero/torso",
-						
-						}
+		models = { name: "models/hero/%s" % name for name in parts }
 		
 		# Player Animations
 		
-		self.animations = {
-							"head":{"standby":"models/hero/head-standby",
-									"walk":"models/hero/head-walk",
-									"slash-front": "models/hero/head-slash-front"},
-									
-							"larm":{"standby":"models/hero/larm-standby",
-									"walk":"models/hero/larm-walk",
-									"slash-front": "models/hero/larm-slash-front"},
-									
-							"rarm":{"standby":"models/hero/rarm-standby",
-									"walk":"models/hero/rarm-walk",
-									"slash-front": "models/hero/rarm-slash-front"},
-									
-							"lboot":{"standby":"models/hero/lboot-standby",
-									"walk":"models/hero/lboot-walk",
-									"slash-front": "models/hero/lboot-slash-front"},
-									
-							"rboot":{"standby":"models/hero/rboot-standby",
-									"walk":"models/hero/rboot-walk",
-									"slash-front": "models/hero/rboot-slash-front"},
-									
-							"lleg":{"standby":"models/hero/lleg-standby",
-									"walk":"models/hero/lleg-walk",
-									"slash-front": "models/hero/lleg-slash-front"},
-									
-							"rleg":{"standby":"models/hero/rleg-standby",
-									"walk":"models/hero/rleg-walk",
-									"slash-front": "models/hero/rleg-slash-front"},
-									
-							"lhand":{"standby":"models/hero/lhand-standby",
-									"walk":"models/hero/lhand-walk",
-									"slash-front": "models/hero/lhand-slash-front"},
-									
-							"rhand":{"standby":"models/hero/rhand-standby",
-									"walk":"models/hero/rhand-walk",
-									"slash-front": "models/hero/rhand-slash-front"},
-									
-							"torso":{"standby":"models/hero/torso-standby",
-									"walk":"models/hero/torso-walk",
-									"slash-front": "models/hero/torso-slash-front"},
-									
-							}
+		animations = { name:{
+								"standby":"models/hero/%s-standby" % name,
+								"walk":"models/hero/%s-walk" % name,
+								"slash-front": "models/hero/%s-slash-front" % name
+							} for name in parts
+					}
+		
+		# Init Actor
+		
+		self.playerActor = Actor(models, animations)
 		
 		# Load All Player Parts
 		
 		for itemClass, items in self.game.items["items"].iteritems():
 			if itemClass == "armours":
+				for itemType, value in items["lightarmours"].iteritems():
+					modelName = value["model"]
+					
+				for itemType, value in items["midarmours"].iteritems():
+					modelName = value["model"]
+					
 				for itemType, value in items["heavyarmours"].iteritems():
 					modelName = value["model"]
 					
-					self.models["torso-%s" % modelName] = "models/hero/torso-%s" % modelName
+					self.playerActor.loadModel("models/hero/torso-%s" % modelName, partName="torso-%s" % modelName)
 					
-					self.animations["torso-%s" % modelName] = {
-															"standby":"models/hero/torso-%s-standby" % modelName,
-															"walk":"models/hero/torso-%s-walk" % modelName,
-															"slash-front": "models/hero/torso-%s-slash-front" % modelName
-														}
+					self.playerActor.loadAnims({"torso-%s" % modelName:{
+																		"standby":"models/hero/torso-%s-standby" % modelName,
+																		"walk":"models/hero/torso-%s-walk" % modelName,
+																		"slash-front":"models/hero/torso-%s-slash-front" % modelName
+																		}
+												},partName="torso-%s" % modelName)
+					
+					self.playerActor.hidePart("torso-%s" % modelName)
 		
-		# Init Actor
 		
-		self.playerActor = Actor(self.models, self.animations)
 		
-		self.playerActor.hidePart("torso")
-		self.playerActor.hidePart("torso-cuirass")
-		self.playerActor.hidePart("torso-ironplate")
+		#self.playerActor.ls()
 		
 		# Shaders
 		
@@ -185,6 +157,8 @@ class Player():
 		
 		#			COLS-ROWS		#			COLS-ROWS
 		self.inventory[0][3] = self.game.items["items"]["armours"]["heavyarmours"]["ironplate"]
+		self.inventory[0][4] = self.game.items["items"]["armours"]["heavyarmours"]["steelplate"]
+		self.inventory[0][5] = self.game.items["items"]["armours"]["heavyarmours"]["cuirass"]
 		self.inventory[3][3] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[0][0] = self.game.items["items"]["weapons"]["swords"]["longsword"]
 		self.inventory[1][0] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
@@ -253,6 +227,24 @@ class Player():
 		self.setupCamera()
 		
 		self.playerActor.loop("standby", "head")
+		
+		self.game.taskMgr.add(self.checkEquip, "checkEquipTask")
+		
+	def checkEquip(self, task):
+		
+		# Check Equiped Armour
+		
+		if self.previousEquipedArmour != self.equip["armour"]:
+			if self.equip["armour"] != None:
+				self.playerActor.hidePart("torso")
+				self.playerActor.showPart("torso-%s" % self.equip["armour"]["model"])
+			else:
+				self.playerActor.showPart("torso")
+				self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
+			
+			self.previousEquipedArmour = self.equip["armour"]
+		
+		return task.cont
 		
 	def setupCamera(self):
 		
