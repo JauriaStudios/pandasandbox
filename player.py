@@ -86,24 +86,16 @@ class Player():
 		
 		parts = ["head", "larm", "rarm", "lboot", "rboot", "lleg", "rleg", "lhand", "rhand", "torso"]
 		
-		# Player Models
+		# Player Models & Animations
 		
 		models = { name: "models/hero/%s" % name for name in parts }
-		
-		# Player Animations
 		
 		animations = { name:{
 								"standby":"models/hero/%s-standby" % name,
 								"walk":"models/hero/%s-walk" % name,
 								"slash-front": "models/hero/%s-slash-front" % name
 							} for name in parts
-					}
-		
-		# Init Actor
-		
-		self.playerActor = Actor(models, animations)
-		
-		# Load All Player Parts
+						}
 		
 		for itemClass, items in self.game.items["items"].iteritems():
 			if itemClass == "armours":
@@ -116,15 +108,33 @@ class Player():
 				for itemType, value in items["heavyarmours"].iteritems():
 					modelName = value["model"]
 					
-					self.playerActor.loadModel("models/hero/torso-%s" % modelName, partName="torso-%s" % modelName)
+					models["torso-%s" % modelName] = "models/hero/torso-%s" % modelName
 					
-					self.playerActor.loadAnims({"torso-%s" % modelName:{
-																		"standby":"models/hero/torso-%s-standby" % modelName,
-																		"walk":"models/hero/torso-%s-walk" % modelName,
-																		"slash-front":"models/hero/torso-%s-slash-front" % modelName
-																		}
-												},partName="torso-%s" % modelName)
+					animations["torso-%s" % modelName] = {
+															"standby":"models/hero/torso-%s-standby" % modelName,
+															"walk":"models/hero/torso-%s-walk" % modelName,
+															"slash-front":"models/hero/torso-%s-slash-front" % modelName
+														}
+		
+		
+		# Init Actor
+		
+		self.playerActor = Actor(models, animations)
+		
+		
+		
+		# Hide All Player Parts
+		
+		for itemClass, items in self.game.items["items"].iteritems():
+			if itemClass == "armours":
+				for itemType, value in items["lightarmours"].iteritems():
+					modelName = value["model"]
 					
+				for itemType, value in items["midarmours"].iteritems():
+					modelName = value["model"]
+					
+				for itemType, value in items["heavyarmours"].iteritems():
+					modelName = value["model"]
 					self.playerActor.hidePart("torso-%s" % modelName)
 		
 		
