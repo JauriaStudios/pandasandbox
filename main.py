@@ -29,6 +29,7 @@ from panda3d.core import Filename,AmbientLight,DirectionalLight, PointLight, Spo
 from panda3d.core import PerspectiveLens
 
 from pandac.PandaModules import WindowProperties
+from pandac.PandaModules import PStatClient
 
 from panda3d.ai import *
 
@@ -46,7 +47,9 @@ class World(ShowBase):
 	
 	def __init__(self):
 		ShowBase.__init__(self)
-		
+        
+		#PStatClient.connect()
+        
 		self.lookPoint = NodePath(PandaNode("floater"))
 		self.lookPoint.reparentTo(render)
 		
@@ -243,7 +246,7 @@ class World(ShowBase):
 		
 	def initWorld(self):
 		
-		self.environ = self.loader.loadModel("models/torreantigua")
+		self.environ = self.loader.loadModel("models/plane")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)

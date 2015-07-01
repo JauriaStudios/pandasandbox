@@ -1,0 +1,46 @@
+<CoordinateSystem> { Z-Up }
+
+<Comment> {
+  "egg-trans -tbnall -o /home/jauria/Proyectos/pandasandbox/models/plane.egg /home/jauria/Proyectos/pandasandbox/models/plane.egg"
+}
+<Group> startPos {
+  <Transform> {
+    <Matrix4> {
+      1 0 0 0
+      0 1 0 0
+      0 0 1 0
+      0 0 0 1
+    }
+  }
+}
+<Group> map {
+  <Transform> {
+    <Matrix4> {
+      80 0 0 0
+      0 80 0 0
+      0 0 80 0
+      0 0 0 1
+    }
+  }
+  <Tag> Collie {
+    "Pollyset keep descend"
+  }
+  <VertexPool> map {
+    <Vertex> 0 {
+      -80 -80 0
+    }
+    <Vertex> 1 {
+      80 -80 0
+    }
+    <Vertex> 2 {
+      80 80 0
+    }
+    <Vertex> 3 {
+      -80 80 0
+    }
+  }
+  <Polygon> {
+    <Normal> { 0 0 1 }
+    <VertexRef> { 0 1 2 3 <Ref> { map } }
+  }
+}
