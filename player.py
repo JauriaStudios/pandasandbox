@@ -61,6 +61,10 @@ class Player():
 		self.magicDamage = random(3, 12) + self.magic/100					# magic dmg = skill damage * %magic
 		self.speed = 15 + 0													# speed = base speed + item
 		self.runSpeed = 25 + 0												# run speed = base speed + item
+		self.lateralSpeed = 10												# speed when moving sidewards
+		self.lateralRunSpeed = 20											# run speed when moving sidewards
+		self.backwardsSpeed = 10											# speed when moving backwards
+		self.backwardsRunSpeed = 20											# run speed when moving backwards
 		self.defense = 5 + self.vigor/2										# defense = armour + 1/2 vigor
 		self.criticalChance = 10 + 0										# crit chance = base item + skill
 		self.criticalMultiplier = self.attackDamage*1.5						# crit mult = base item + skill
@@ -93,6 +97,8 @@ class Player():
 		animations = { name:{
 								"standby":"models/hero/%s-standby" % name,
 								"walk":"models/hero/%s-walk" % name,
+								"walk-back":"models/hero/%s-walk-back" % name,
+								"walk-side":"models/hero/%s-walk-side" % name,
 								"slash-front": "models/hero/%s-slash-front" % name
 							} for name in parts
 						}
@@ -113,10 +119,12 @@ class Player():
 					animations["torso-%s" % modelName] = {
 															"standby":"models/hero/torso-%s-standby" % modelName,
 															"walk":"models/hero/torso-%s-walk" % modelName,
+															"walk-back":"models/hero/torso-%s-walk-back" % modelName,
+															"walk-side":"models/hero/torso-%s-walk-side" % modelName,
 															"slash-front":"models/hero/torso-%s-slash-front" % modelName
 														}
 
-		
+
 		# Init Actor
 
 		self.playerActor = Actor(models, animations)
@@ -369,9 +377,11 @@ class Player():
 			#self.ori = 45
 
 			if (self.keyMap["run"]):
-				speed = self.runSpeed
+				speed = self.lateralRunSpeed
+				self.playerActor.setPlayRate(2.0, 'walk-side')
 			else:
-				speed = self.speed
+				speed = self.lateralSpeed
+				self.playerActor.setPlayRate(1.0, 'walk-side')
 
 			self.playerActor.setX(self.playerActor, speed * dt)
 
@@ -379,9 +389,11 @@ class Player():
 			#self.ori = -135
 
 			if (self.keyMap["run"]):
-				speed = -self.runSpeed
+				speed = -self.lateralRunSpeed
+				self.playerActor.setPlayRate(2.0, 'walk-side')
 			else:
-				speed = -self.speed
+				speed = -self.lateralSpeed
+				self.playerActor.setPlayRate(1.0, 'walk-side')
 
 			self.playerActor.setX(self.playerActor, speed * dt)
 
@@ -391,8 +403,10 @@ class Player():
 
 			if (self.keyMap["run"]):
 				speed = -self.runSpeed
+				self.playerActor.setPlayRate(1.5, 'walk')
 			else:
 				speed = -self.speed
+				self.playerActor.setPlayRate(1.0, 'walk')
 
 			self.playerActor.setY(self.playerActor, speed * dt)
 
@@ -401,9 +415,11 @@ class Player():
 			#self.ori = 135
 
 			if (self.keyMap["run"]):
-				speed = self.runSpeed
+				speed = self.backwardsRunSpeed
+				self.playerActor.setPlayRate(2.0, 'walk-back')
 			else:
-				speed = self.speed
+				speed = self.backwardsSpeed
+				self.playerActor.setPlayRate(1.0, 'walk-back')
 
 			self.playerActor.setY(self.playerActor, speed * dt)
 		"""
@@ -466,17 +482,12 @@ class Player():
 
 		elif (self.keyMap["backward"]):
 			if self.isMoving is False:
-				self.playerActor.loop("walk")
+				self.playerActor.loop("walk-back")
 				self.isMoving = True
 
-		elif (self.keyMap["left"]):
+		elif (self.keyMap["left"] or self.keyMap["right"]):
 			if self.isMoving is False:
-				self.playerActor.loop("walk")
-				self.isMoving = True
-
-		elif (self.keyMap["right"]):
-			if self.isMoving is False:
-				self.playerActor.loop("walk")
+				self.playerActor.loop("walk-side")
 				self.isMoving = True
 
 		else:
