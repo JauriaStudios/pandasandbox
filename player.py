@@ -61,6 +61,10 @@ class Player():
 		self.magicDamage = random(3, 12) + self.magic/100					# magic dmg = skill damage * %magic
 		self.speed = 15 + 0													# speed = base speed + item
 		self.runSpeed = 25 + 0												# run speed = base speed + item
+		self.lateralSpeed = 10												# speed when moving sidewards
+		self.lateralRunSpeed = 20											# run speed when moving sidewards
+		self.backwardsSpeed = 10											# speed when moving backwards
+		self.backwardsRunSpeed = 20											# run speed when moving backwards
 		self.defense = 5 + self.vigor/2										# defense = armour + 1/2 vigor
 		self.criticalChance = 10 + 0										# crit chance = base item + skill
 		self.criticalMultiplier = self.attackDamage*1.5						# crit mult = base item + skill
@@ -373,19 +377,23 @@ class Player():
 			#self.ori = 45
 			
 			if (self.keyMap["run"]):
-				speed = self.runSpeed
+				speed = self.lateralRunSpeed
+				self.playerActor.setPlayRate(2.0, 'walk-side')
 			else:
-				speed = self.speed
-			
+				speed = self.lateralSpeed
+				self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 			self.playerActor.setX(self.playerActor, speed * dt)
 				
 		if (self.keyMap["right"]):
 			#self.ori = -135
 			
 			if (self.keyMap["run"]):
-				speed = -self.runSpeed
+				speed = -self.lateralRunSpeed
+				self.playerActor.setPlayRate(2.0, 'walk-side')
 			else:
-				speed = -self.speed
+				speed = -self.lateralSpeed
+				self.playerActor.setPlayRate(1.0, 'walk-side')
 			
 			self.playerActor.setX(self.playerActor, speed * dt)
 				
@@ -395,8 +403,10 @@ class Player():
 			
 			if (self.keyMap["run"]):
 				speed = -self.runSpeed
+				self.playerActor.setPlayRate(1.5, 'walk')
 			else:
 				speed = -self.speed
+				self.playerActor.setPlayRate(1.0, 'walk')
 			
 			self.playerActor.setY(self.playerActor, speed * dt)
 				
@@ -405,9 +415,11 @@ class Player():
 			#self.ori = 135
 			
 			if (self.keyMap["run"]):
-				speed = self.runSpeed
+				speed = self.backwardsRunSpeed
+				self.playerActor.setPlayRate(2.0, 'walk-back')
 			else:
-				speed = self.speed
+				speed = self.backwardsSpeed
+				self.playerActor.setPlayRate(1.0, 'walk-back')
 			
 			self.playerActor.setY(self.playerActor, speed * dt)
 		"""

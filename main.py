@@ -47,9 +47,9 @@ class World(ShowBase):
 	
 	def __init__(self):
 		ShowBase.__init__(self)
-        
+		
 		#PStatClient.connect()
-        
+		
 		self.lookPoint = NodePath(PandaNode("floater"))
 		self.lookPoint.reparentTo(render)
 		
