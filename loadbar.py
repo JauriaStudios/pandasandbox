@@ -11,14 +11,14 @@ class Bar(DirectObject.DirectObject):
 	def __init__( self):
 		self.bar = DirectWaitBar(text = "Loading...", value = 0, pos = (0,.4,.4))
 		self.bar.hide()
-	
+
 	def incBar(self, arg):
 		self.bar['value'] +=	arg
 		#text = str(bar['value'])
 		#textObject.setText(text)
-		
+
 	def show(self):
 		self.bar.show()
-		
+
 	def hide(self):
 		self.bar.hide()

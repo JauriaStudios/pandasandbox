@@ -18,16 +18,16 @@ from pandac.PandaModules import AntialiasAttrib
 class StartMenu(DirectObject.DirectObject):
 	def __init__( self, game):
 		self.game = game
-		
+
 		self.frame = DirectFrame()
 		self.frame['frameColor']=(0.8, 0.8, 0.8, 0)
 		self.frame['image'] = "hud/startMenu.png"
 		self.frame['image_scale'] = (1.0, 1.0, 1.0)
 		self.frame.setPos(0, 0, 0)
-		
+
 		self.frame.setTransparency(TransparencyAttrib.MAlpha)
-		
-		mapsStart = loader.loadModel('hud/mainMenu/buttons_start_maps.egg')        
+
+		mapsStart = loader.loadModel('hud/mainMenu/buttons_start_maps.egg')
 		self.startButton = DirectButton(
 											parent=self.frame,
 											pos=(0,0,0),
@@ -40,12 +40,12 @@ class StartMenu(DirectObject.DirectObject):
 											command=self.doStartGame,
 											scale=0.2,
 											borderWidth=(0.01,0.01),
-											frameSize=(-0.55, 0.55, -0.2, 0.2),  
+											frameSize=(-0.55, 0.55, -0.2, 0.2),
 											frameColor=(0.8,0.8,0.8,0)
 										)
 										#rolloverSound=self.soundManager.over,
 										#clickSound=self.soundManager.click))
-		
+
 		mapsCredits = loader.loadModel('hud/mainMenu/buttons_credits_maps.egg')
 		self.creditsButton = DirectButton(
 											parent=self.frame,
@@ -59,13 +59,13 @@ class StartMenu(DirectObject.DirectObject):
 											command=self.hide,
 											scale=0.2,
 											borderWidth=(0.01,0.01),
-											frameSize=(-0.55, 0.55, -0.2, 0.2),  
+											frameSize=(-0.55, 0.55, -0.2, 0.2),
 											frameColor=(0.8,0.8,0.8,0)
 										)
 										#rolloverSound=self.soundManager.over,
 										#clickSound=self.soundManager.click))
-		
-		
+
+
 		mapsQuit = loader.loadModel('hud/mainMenu/buttons_quit_maps.egg')
 		self.quitButton = DirectButton(
 											parent=self.frame,
@@ -79,25 +79,25 @@ class StartMenu(DirectObject.DirectObject):
 											command=self.endGame,
 											scale=0.2,
 											borderWidth=(0.01,0.01),
-											frameSize=(-0.55, 0.55, -0.2, 0.2),  
+											frameSize=(-0.55, 0.55, -0.2, 0.2),
 											frameColor=(0.8,0.8,0.8,0)
 										)
 										#rolloverSound=self.soundManager.over,
 										#clickSound=self.soundManager.click))
-		
-		
+
+
 		self.accept("escape", sys.exit)
-		
-	def show(self): 
-		self.frame.show()        
-		
-	def hide(self): 
+
+	def show(self):
+		self.frame.show()
+
+	def hide(self):
 		self.frame.hide()
-	
+
 	def doStartGame(self):
-		
+
 		self.frame.hide()
 		self.game.setup()
-		
+
 	def endGame(self):
 		sys.exit()
