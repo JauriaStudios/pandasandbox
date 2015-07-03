@@ -255,12 +255,16 @@ class Player():
 		if self.previousEquipedArmour != self.equip["armour"]:
 			if self.equip["armour"] != None:
 				self.playerActor.hidePart("torso")
+				try:
+					self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
+				except error:
+					pass
 				self.playerActor.showPart("torso-%s" % self.equip["armour"]["model"])
-			else:
-				self.playerActor.showPart("torso")
+				self.previousEquipedArmour = self.equip["armour"]
+			elif self.equip["armour"] == None:
 				self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
-
-			self.previousEquipedArmour = self.equip["armour"]
+				self.playerActor.showPart("torso")
+				self.previousEquipedArmour = None
 
 		return task.cont
 

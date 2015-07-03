@@ -49,7 +49,7 @@ class World(ShowBase):
 		ShowBase.__init__(self)
 
 		#PStatClient.connect()
-		
+
 		self.lookPoint = NodePath(PandaNode("floater"))
 		self.lookPoint.reparentTo(render)
 
@@ -407,7 +407,7 @@ class World(ShowBase):
 			try:
 				self.lookPoint.setPos(PointAtZ(.5, nearPoint, nearVec))
 			except:
-				print("error")
+				pass
 
 		i = 0
 
