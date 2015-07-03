@@ -257,7 +257,7 @@ class Player():
 				self.playerActor.hidePart("torso")
 				try:
 					self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
-				except error:
+				except:
 					pass
 				self.playerActor.showPart("torso-%s" % self.equip["armour"]["model"])
 				self.previousEquipedArmour = self.equip["armour"]

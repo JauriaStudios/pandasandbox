@@ -406,7 +406,7 @@ class World(ShowBase):
 			nearVec = render.getRelativeVector(self.camera, self.mouseGroundRay.getDirection())
 			try:
 				self.lookPoint.setPos(PointAtZ(.5, nearPoint, nearVec))
-			except error:
+			except:
 				pass
 
 		i = 0
