@@ -113,7 +113,7 @@ class World(ShowBase):
 
 		self.AIworld = AIWorld(render)
 
-		self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
+		"""self.foe1 = Enemy(self, 100, 50, 5, 2, "bug") #(self, app, hp, mana, speed, attackSpeed, name):
 		self.nasgul = Enemy(self, 100, 50, 5, 2, "nasgul")
 
 		self.npc1 = Npc(self, 100, 50, 5, 2, "guy2")
@@ -123,7 +123,7 @@ class World(ShowBase):
 		self.enemies.append(self.nasgul)
 
 		self.npcs.append(self.npc1)
-		self.npcs.append(self.npc2)
+		self.npcs.append(self.npc2)"""
 
 
 	def initGui(self):
@@ -246,7 +246,7 @@ class World(ShowBase):
 
 	def initWorld(self):
 
-		self.environ = self.loader.loadModel("models/plane")
+		self.environ = self.loader.loadModel("models/levels/firstmaze")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
