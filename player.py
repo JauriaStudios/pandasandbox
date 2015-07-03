@@ -118,6 +118,20 @@ class Player():
 															"slash-front":"models/hero/torso-%s-slash-front" % modelName
 														}
 
+				for itemType, value in items["helmets"].iteritems():
+					modelName = value["model"]
+
+					models["head-%s" % modelName] = "models/hero/head-%s" % modelName
+
+					animations["head-%s" % modelName] = {
+															"standby":"models/hero/head-%s-standby" % modelName,
+															"walk":"models/hero/head-%s-walk" % modelName,
+															"walk-back":"models/hero/head-%s-walk-back" % modelName,
+															"walk-side":"models/hero/head-%s-walk-side" % modelName,
+															"slash-front":"models/hero/head-%s-slash-front" % modelName
+														}
+
+
 
 		# Init Actor
 
@@ -138,6 +152,10 @@ class Player():
 				for itemType, value in items["heavyarmours"].iteritems():
 					modelName = value["model"]
 					self.playerActor.hidePart("torso-%s" % modelName)
+					
+				for itemType, value in items["helmets"].iteritems():
+					modelName = value["model"]
+					self.playerActor.hidePart("head-%s" % modelName)
 
 
 
