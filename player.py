@@ -30,14 +30,6 @@ class Player():
 
 		self.game = game
 
-		self.previousEquipedArmour = None
-		self.previousEquipedWeaponr = None
-		self.previousEquipedHelmet = None
-		self.previousEquipedGloves = None
-		self.previousEquipedCloack = None
-		self.previousEquipedBoots = None
-		self.previousEquipedShield = None
-
 		self.ori = 0.0
 		self.lastori = -1
 		self.zoomLevel = 0.0
@@ -90,6 +82,8 @@ class Player():
 
 		parts = ["head", "larm", "rarm", "lboot", "rboot", "lleg", "rleg", "lhand", "rhand", "torso"]
 
+		self.previousPart = { name: None for name in parts }
+
 		# Player Models & Animations
 
 		models = { name: "models/hero/%s" % name for name in parts }
@@ -124,6 +118,20 @@ class Player():
 															"slash-front":"models/hero/torso-%s-slash-front" % modelName
 														}
 
+				for itemType, value in items["helmets"].iteritems():
+					modelName = value["model"]
+
+					models["head-%s" % modelName] = "models/hero/head-%s" % modelName
+
+					animations["head-%s" % modelName] = {
+															"standby":"models/hero/head-%s-standby" % modelName,
+															"walk":"models/hero/head-%s-walk" % modelName,
+															"walk-back":"models/hero/head-%s-walk-back" % modelName,
+															"walk-side":"models/hero/head-%s-walk-side" % modelName,
+															"slash-front":"models/hero/head-%s-slash-front" % modelName
+														}
+
+
 
 		# Init Actor
 
@@ -144,6 +152,10 @@ class Player():
 				for itemType, value in items["heavyarmours"].iteritems():
 					modelName = value["model"]
 					self.playerActor.hidePart("torso-%s" % modelName)
+					
+				for itemType, value in items["helmets"].iteritems():
+					modelName = value["model"]
+					self.playerActor.hidePart("head-%s" % modelName)
 
 
 
@@ -246,28 +258,29 @@ class Player():
 
 		self.playerActor.loop("standby", "head")
 
-		self.game.taskMgr.add(self.checkEquip, "checkEquipTask")
+		self.game.taskMgr.add(self.checkEquip, "checkTorsoTask", extraArgs=["torso", "armour"], appendTask=True)
+		self.game.taskMgr.add(self.checkEquip, "checkHeadTask", extraArgs=["head", "helmet"], appendTask=True)
 
-	def checkEquip(self, task):
+	def checkEquip(self, partName, equipPart, task):
 
-		# Check Equiped Armour
+		# Check Equiped Parts
 
-		if self.previousEquipedArmour != self.equip["armour"]:
-			if self.equip["armour"] != None and self.previousEquipedArmour == None:
-				self.playerActor.hidePart("torso")
-				self.playerActor.showPart("torso-%s" % self.equip["armour"]["model"])
-				self.previousEquipedArmour = self.equip["armour"]
+		if self.previousPart[partName] != self.equip[equipPart]:
+			if self.equip[equipPart] != None and self.previousPart[partName] == None:
+				self.playerActor.hidePart(partName)
+				self.playerActor.showPart("%s-%s" % (partName, self.equip[equipPart]["model"]))
+				self.previousPart[partName] = self.equip[equipPart]
 
-			elif self.equip["armour"] != None and self.previousEquipedArmour != None:
-				self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
-				self.playerActor.showPart("torso-%s" % self.equip["armour"]["model"])
-				self.previousEquipedArmour = self.equip["armour"]
+			elif self.equip[equipPart] != None and self.previousPart[partName] != None:
+				self.playerActor.hidePart("%s-%s" % (partName, self.previousPart[partName]["model"]))
+				self.playerActor.showPart("%s-%s" % (partName, self.equip[equipPart]["model"]))
+				self.previousPart[partName] = self.equip[equipPart]
 
 
-			elif self.equip["armour"] == None:
-				self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
-				self.playerActor.showPart("torso")
-				self.previousEquipedArmour = None
+			elif self.equip[equipPart] == None:
+				self.playerActor.hidePart("%s-%s" % (partName, self.previousPart[partName]["model"]))
+				self.playerActor.showPart(partName)
+				self.previousPart[partName] = None
 
 		return task.cont
 
