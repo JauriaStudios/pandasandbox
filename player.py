@@ -253,14 +253,17 @@ class Player():
 		# Check Equiped Armour
 
 		if self.previousEquipedArmour != self.equip["armour"]:
-			if self.equip["armour"] != None:
+			if self.equip["armour"] != None and self.previousEquipedArmour == None:
 				self.playerActor.hidePart("torso")
-				try:
-					self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
-				except:
-					pass
 				self.playerActor.showPart("torso-%s" % self.equip["armour"]["model"])
 				self.previousEquipedArmour = self.equip["armour"]
+
+			elif self.equip["armour"] != None and self.previousEquipedArmour != None:
+				self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
+				self.playerActor.showPart("torso-%s" % self.equip["armour"]["model"])
+				self.previousEquipedArmour = self.equip["armour"]
+
+
 			elif self.equip["armour"] == None:
 				self.playerActor.hidePart("torso-%s" % self.previousEquipedArmour["model"])
 				self.playerActor.showPart("torso")
