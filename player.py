@@ -152,7 +152,7 @@ class Player():
 				for itemType, value in items["heavyarmours"].iteritems():
 					modelName = value["model"]
 					self.playerActor.hidePart("torso-%s" % modelName)
-					
+
 				for itemType, value in items["helmets"].iteritems():
 					modelName = value["model"]
 					self.playerActor.hidePart("head-%s" % modelName)
@@ -199,6 +199,7 @@ class Player():
 		self.inventory[1][8] = self.game.items["items"]["armours"]["boots"]["leatherboots"]
 		self.inventory[1][7] = self.game.items["items"]["armours"]["helmets"]["woolchaco"]
 		self.inventory[0][6] = self.game.items["items"]["armours"]["helmets"]["goldencrown"]
+		self.inventory[0][8] = self.game.items["items"]["armours"]["helmets"]["ironhelmet"]
 		self.inventory[1][6] = self.game.items["items"]["armours"]["cloacks"]["woolcloack"]
 		self.inventory[2][9] = self.game.items["items"]["armours"]["midarmours"]["leatherarmour"]
 		self.inventory[2][8] = self.game.items["items"]["armours"]["boots"]["leatherboots"]

@@ -246,7 +246,7 @@ class World(ShowBase):
 
 	def initWorld(self):
 
-		self.environ = self.loader.loadModel("models/levels/firstmaze")
+		self.environ = self.loader.loadModel("models/levels/plane")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
@@ -336,7 +336,7 @@ class World(ShowBase):
 		self.cTrav.addCollider(self.mouseGroundColNp, self.mouseGroundHandler)
 
 		# Uncomment this line to see the collision rays
-		#self.playerGroundColNp.show()
+		#self.mouseGroundColNp.show()
 		#self.camGroundColNp.show()
 
 		# Uncomment this line to show a visual representation of the
