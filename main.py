@@ -247,7 +247,7 @@ class World(ShowBase):
 
 	def initWorld(self):
 
-		self.environ = self.loader.loadModel("models/levels/firstmaze")
+		self.environ = self.loader.loadModel("models/levels/firstmaze-2")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
