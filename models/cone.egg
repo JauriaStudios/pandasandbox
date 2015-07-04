@@ -1,0 +1,300 @@
+<CoordinateSystem> { Z-Up }
+
+<Comment> {
+  "egg-trans -tbnall -o /home/jauria/Proyectos/pandasandbox/models/cone.egg /home/jauria/Proyectos/pandasandbox/models/cone.egg"
+}
+<Material> Material.001 {
+  <Scalar> diffr { 0.00452 }
+  <Scalar> diffg { 0.64 }
+  <Scalar> diffb { 0 }
+  <Scalar> ambr { 1 }
+  <Scalar> ambg { 1 }
+  <Scalar> ambb { 1 }
+  <Scalar> emitr { 0 }
+  <Scalar> emitg { 0 }
+  <Scalar> emitb { 0 }
+  <Scalar> specr { 1 }
+  <Scalar> specg { 1 }
+  <Scalar> specb { 1 }
+  <Scalar> shininess { 12.5 }
+}
+<Group> Cone {
+  <Transform> {
+    <Matrix4> {
+      -1 0 1.50996e-07 0
+      0 1 2.68718e-07 0
+      -1.50996e-07 2.68718e-07 -1 0
+      0 0 1.01561 1
+    }
+  }
+  <VertexPool> Cone {
+    <Vertex> 0 {
+      0.382682 0.92388 2.01561
+    }
+    <Vertex> 1 {
+      -0 0 0.015612
+    }
+    <Vertex> 2 {
+      0.195089 0.980785 2.01561
+    }
+    <Vertex> 3 {
+      0 1 2.01561
+    }
+    <Vertex> 4 {
+      -0.19509 0.980785 2.01561
+    }
+    <Vertex> 5 {
+      0.555569 0.83147 2.01561
+    }
+    <Vertex> 6 {
+      0.707106 0.707107 2.01561
+    }
+    <Vertex> 7 {
+      0.831469 0.555571 2.01561
+    }
+    <Vertex> 8 {
+      0.923879 0.382684 2.01561
+    }
+    <Vertex> 9 {
+      0.980785 0.195091 2.01561
+    }
+    <Vertex> 10 {
+      1 1e-06 2.01561
+    }
+    <Vertex> 11 {
+      0.980786 -0.19509 2.01561
+    }
+    <Vertex> 12 {
+      0.92388 -0.382683 2.01561
+    }
+    <Vertex> 13 {
+      0.83147 -0.55557 2.01561
+    }
+    <Vertex> 14 {
+      0.707107 -0.707107 2.01561
+    }
+    <Vertex> 15 {
+      0.555571 -0.83147 2.01561
+    }
+    <Vertex> 16 {
+      0.382684 -0.92388 2.01561
+    }
+    <Vertex> 17 {
+      0.195091 -0.980785 2.01561
+    }
+    <Vertex> 18 {
+      0 -1 2.01561
+    }
+    <Vertex> 19 {
+      -0.19509 -0.980786 2.01561
+    }
+    <Vertex> 20 {
+      -0.382683 -0.92388 2.01561
+    }
+    <Vertex> 21 {
+      -0.55557 -0.83147 2.01561
+    }
+    <Vertex> 22 {
+      -0.707107 -0.707107 2.01561
+    }
+    <Vertex> 23 {
+      -0.831469 -0.55557 2.01561
+    }
+    <Vertex> 24 {
+      -0.923879 -0.382684 2.01561
+    }
+    <Vertex> 25 {
+      -0.980785 -0.19509 2.01561
+    }
+    <Vertex> 26 {
+      -1 -0 2.01561
+    }
+    <Vertex> 27 {
+      -0.980785 0.19509 2.01561
+    }
+    <Vertex> 28 {
+      -0.923879 0.382683 2.01561
+    }
+    <Vertex> 29 {
+      -0.831469 0.55557 2.01561
+    }
+    <Vertex> 30 {
+      -0.707107 0.707106 2.01561
+    }
+    <Vertex> 31 {
+      -0.55557 0.831469 2.01561
+    }
+    <Vertex> 32 {
+      -0.382683 0.923879 2.01561
+    }
+  }
+  <Polygon> {
+    <Normal> { 0.259887 0.856738 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 0 1 2 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.087754 0.890977 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 3 1 4 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.422035 0.789574 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 5 1 0 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.567964 0.692068 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 6 1 5 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.692066 0.567966 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 7 1 6 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.789573 0.422037 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 8 1 7 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.856737 0.259889 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 9 1 8 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.890976 0.087755 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 10 1 9 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.890977 -0.087753 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 11 1 10 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.856737 -0.259887 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 12 1 11 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.789574 -0.422035 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 13 1 12 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.692067 -0.567964 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 14 1 13 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.567965 -0.692066 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 15 1 14 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.422036 -0.789573 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 16 1 15 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.259889 -0.856737 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 17 1 16 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.087754 -0.890976 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 18 1 17 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.087753 -0.890977 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 19 1 18 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.259888 -0.856737 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 20 1 19 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.422036 -0.789573 -0.445489 }
+    <MRef> { Material.001 }
+    <VertexRef> { 21 1 20 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.567965 -0.692067 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 22 1 21 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.692067 -0.567964 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 23 1 22 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.789573 -0.422035 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 24 1 23 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.856737 -0.259888 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 25 1 24 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.890977 -0.087753 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 26 1 25 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.890977 0.087754 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 27 1 26 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.856737 0.259888 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 28 1 27 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.789573 0.422036 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 29 1 28 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.692067 0.567965 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 30 1 29 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.567965 0.692067 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 31 1 30 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.422036 0.789573 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 32 1 31 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0.087753 0.890977 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 2 1 3 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { -0.259888 0.856737 -0.445488 }
+    <MRef> { Material.001 }
+    <VertexRef> { 4 1 32 <Ref> { Cone } }
+  }
+  <Polygon> {
+    <Normal> { 0 0 1 }
+    <MRef> { Material.001 }
+    <VertexRef> {
+      3 4 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12
+      11 10 9 8 7 6 5 0 2
+      <Ref> { Cone }
+    }
+  }
+}

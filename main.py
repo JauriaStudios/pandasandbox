@@ -50,7 +50,8 @@ class World(ShowBase):
 
 		#PStatClient.connect()
 
-		self.lookPoint = NodePath(PandaNode("floater"))
+		#self.lookPoint = NodePath(PandaNode("floater"))
+		self.lookPoint = self.loader.loadModel("models/cone")
 		self.lookPoint.reparentTo(render)
 
 		self.menu = StartMenu(self)
@@ -246,7 +247,7 @@ class World(ShowBase):
 
 	def initWorld(self):
 
-		self.environ = self.loader.loadModel("models/levels/plane")
+		self.environ = self.loader.loadModel("models/levels/firstmaze")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
