@@ -247,7 +247,7 @@ class World(ShowBase):
 
 	def initWorld(self):
 
-		self.environ = self.loader.loadModel("models/levels/firstmaze-2")
+		self.environ = self.loader.loadModel("models/levels/plane")
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
@@ -338,12 +338,12 @@ class World(ShowBase):
 		self.cTrav.addCollider(self.mouseGroundColNp, self.mouseGroundHandler)
 
 		# Uncomment this line to see the collision rays
+		#self.playerGroundColNp.show()
 		#self.mouseGroundColNp.show()
-		#self.camGroundColNp.show()
 
 		# Uncomment this line to show a visual representation of the
 		# collisions occuring
-		self.cTrav.showCollisions(render)
+		#self.cTrav.showCollisions(render)
 
 
 		i = 0
@@ -392,7 +392,7 @@ class World(ShowBase):
 		entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
 
 		for entry in entries:
-			if entry > 0: # and entries[0].getIntoNode().getName() == "Ground":
+			if entry > 0 and entries[0].getIntoNode().getName() == "Ground":
 				self.player.playerActor.setZ(entry.getSurfacePoint(render).getZ())
 			else:
 				self.player.playerActor.setPos(startpos)
