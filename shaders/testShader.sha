@@ -1,5 +1,5 @@
 //Cg
- 
+
 void vshader(float4 vtx_position : POSITION,
              float4 vtx_color: COLOR,
              out float4 l_position : POSITION,
@@ -9,7 +9,7 @@ void vshader(float4 vtx_position : POSITION,
   l_position = mul(mat_modelproj, vtx_position);
   l_color0 = vtx_color;
 }
- 
+
 void fshader(float4 l_color0 : COLOR0,
              out float4 o_color : COLOR)
 {
