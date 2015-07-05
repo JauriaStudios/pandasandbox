@@ -257,6 +257,7 @@ class World(ShowBase):
 		# Reparent the model to render
 
 		self.environ.reparentTo(render)
+		#self.environ.ls()
 
 	def update(self, task):
 		dt = globalClock.getDt()
@@ -342,7 +343,7 @@ class World(ShowBase):
 
 		# Uncomment this line to show a visual representation of the
 		# collisions occuring
-		#self.cTrav.showCollisions(render)
+		self.cTrav.showCollisions(render)
 
 
 		i = 0
@@ -406,7 +407,7 @@ class World(ShowBase):
 			nearPoint = render.getRelativePoint(self.camera, self.mouseGroundRay.getOrigin())
 			nearVec = render.getRelativeVector(self.camera, self.mouseGroundRay.getDirection())
 			try:
-				self.lookPoint.setPos(PointAtZ(.5, nearPoint, nearVec))
+				self.lookPoint.setPos(PointAtZ(self.player.playerActor.getZ(), nearPoint, nearVec))
 			except:
 				pass
 
