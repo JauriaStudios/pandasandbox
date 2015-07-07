@@ -70,10 +70,11 @@ class World(ShowBase):
 
 	def setup(self):
 
-
+		print("Init Levels...")
+		self.initLevels()
 
 		print("Init World...")
-		self.initWorld()
+		self.initWorld("maze")
 
 		print("Init Items...")
 		self.initItems()
@@ -245,9 +246,13 @@ class World(ShowBase):
 		render.setLight(self.light)
 		"""
 
-	def initWorld(self):
+	def initLevels(self):
+		with open('levels/levels.json') as levels_file:
+			self.levels = json.load(levels_file)
 
-		self.environ = self.loader.loadModel("models/levels/plane")
+	def initWorld(self, level):
+
+		self.environ = self.loader.loadModel(self.levels["levels"][level]["model"])
 		#self.environ.setScale(20, 20, 20)
 		#self.environ.setHpr(0, 0, 0)
 		self.environ.setPos(0, 0, 0)
@@ -258,6 +263,16 @@ class World(ShowBase):
 
 		self.environ.reparentTo(render)
 		#self.environ.ls()
+		self.accept("q", self.changeMap)
+
+	def destroyWorld(self):
+
+		self.environ.detachNode()
+		self.environ.removeNode()
+
+	def changeMap(self):#, levelName):
+		self.destroyWorld()
+		self.initWorld("yard")
 
 	def update(self, task):
 		dt = globalClock.getDt()

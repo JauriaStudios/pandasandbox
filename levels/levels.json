@@ -1,0 +1,24 @@
+{
+	"levels": {
+		"maze":{
+			"model": "models/levels/firstmaze",
+			"lights":{
+				"spot":{
+					"x": "0",
+					"y": "0",
+					"z": "10"
+				}
+			}
+		},
+		"yard":{
+			"model": "models/levels/plane",
+			"lights":{
+				"spot":{
+					"x": "0",
+					"y": "0",
+					"z": "10"
+				}
+			}
+		}
+	}
+}
