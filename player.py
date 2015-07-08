@@ -164,7 +164,6 @@ class Player():
 		# Shaders
 
 		#self.shader = Shader.load("shaders/testShader.sha", Shader.SL_Cg)
-
 		#self.playerActor.setShader(self.shader)
 
 		# End shaders

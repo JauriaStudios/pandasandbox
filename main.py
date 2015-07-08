@@ -187,9 +187,9 @@ class World(ShowBase):
 	def initLights(self):
 		# Create some lighting
 
-		self.environ.ls()
+		#self.environ.ls()
 
-		print(self.environ.findAllMatches("**/Spot"))
+		#print(self.environ.findAllMatches("**/Spot"))
 
 		ambientLight = AmbientLight("ambientLight")
 		ambientLight.setColor(Vec4(0.8, 0.8, 0.8, 0.65))
