@@ -74,7 +74,7 @@ class World(ShowBase):
 		self.initLevels()
 
 		print("Init World...")
-		self.initWorld("maze")
+		self.initWorld("yard")
 
 		print("Init Items...")
 		self.initItems()
@@ -186,6 +186,10 @@ class World(ShowBase):
 
 	def initLights(self):
 		# Create some lighting
+
+		self.environ.ls()
+
+		print(self.environ.findAllMatches("**/Spot"))
 
 		ambientLight = AmbientLight("ambientLight")
 		ambientLight.setColor(Vec4(0.8, 0.8, 0.8, 0.65))
