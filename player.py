@@ -163,7 +163,7 @@ class Player():
 
 		# Shaders
 
-		#self.shader = Shader.load("shaders/testShader.sha", Shader.SL_Cg)
+		self.shader = Shader.load("shaders/testShader.sha", Shader.SL_Cg)
 		#self.playerActor.setShader(self.shader)
 
 		# End shaders
@@ -260,6 +260,10 @@ class Player():
 
 		self.game.taskMgr.add(self.checkEquip, "checkTorsoTask", extraArgs=["torso", "armour"], appendTask=True)
 		self.game.taskMgr.add(self.checkEquip, "checkHeadTask", extraArgs=["head", "helmet"], appendTask=True)
+
+	def update(self, task):
+		self.playerActor.setShaderInput("timer", task.time)
+		return task.cont
 
 	def checkEquip(self, partName, equipPart, task):
 

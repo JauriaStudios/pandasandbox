@@ -12,8 +12,9 @@ void vshader(float4 vtx_position : POSITION,
   l_texcoord0 = vtx_texcoord0;
 }
 
-void fshader(out float4 o_color : COLOR)
+void fshader(out float4 o_color : COLOR,
+            uniform float k_timer : C7)
 {
-  float4 output_color = float4 (1, 0, 0, 0.5);
+  float4 output_color = float4 (sin(k_timer), cos(k_timer), sin(k_timer), 0.5);
   o_color = output_color;
 }

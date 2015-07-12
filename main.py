@@ -173,6 +173,7 @@ class World(ShowBase):
 
 		self.taskMgr.add(self.checkCollision, "collisionTask")
 
+		#self.taskMgr.add(self.player.update, "updateTask")
 		self.taskMgr.add(self.player.move, "moveTask")
 		self.taskMgr.add(self.player.updateCamera, "playerCameraTask",priority=1)
 		"""
