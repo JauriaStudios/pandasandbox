@@ -6,14 +6,11 @@
 
 import sys
 
-from pandac.PandaModules import *
-
 from direct.showbase import DirectObject
 from direct.gui.DirectGui import *
-from direct.gui.OnscreenText import OnscreenText
-from direct.gui.OnscreenImage import OnscreenImage
 
-from pandac.PandaModules import AntialiasAttrib
+from panda3d.core import AntialiasAttrib, TransparencyAttrib
+from panda3d.core import TextNode
 
 class Inventory(DirectObject.DirectObject):
 	def __init__( self, game ):

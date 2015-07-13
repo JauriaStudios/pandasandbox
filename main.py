@@ -28,8 +28,8 @@ from panda3d.core import Point3, TransparencyAttrib,TextNode
 from panda3d.core import Filename,AmbientLight,DirectionalLight, PointLight, Spotlight
 from panda3d.core import PerspectiveLens
 
-from pandac.PandaModules import WindowProperties
-from pandac.PandaModules import PStatClient
+from panda3d.core import WindowProperties
+from panda3d.core import PStatClient
 
 from panda3d.ai import *
 
