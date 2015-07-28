@@ -168,15 +168,20 @@ class Player():
 
 		# End shaders
 
-		self.playerActor.setHpr(0,0,0)
-		self.playerActor.setScale(0.5)
-		self.playerActor.setPos(self.game.playerStartPos)
-
-		self.playerActor.reparentTo(render)
+		self.moveFloater = NodePath(PandaNode("moveFloater"))
+		self.moveFloater.reparentTo(render)
+		self.moveFloater.setPos(self.game.playerStartPos)
 
 		self.floater = NodePath(PandaNode("floater"))
 		self.floater.reparentTo(render)
-		self.floater.setZ(2.0)
+		#self.floater.setZ(8.0)
+
+		self.playerActor.setHpr(0,0,0)
+		self.playerActor.setScale(0.5)
+		self.playerActor.setPos(self.moveFloater.getPos())
+
+		self.playerActor.reparentTo(self.moveFloater)
+
 
 		#self.playerHand = self.playerActor.exposeJoint(None, 'body', 'manod')
 		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
@@ -391,95 +396,59 @@ class Player():
 		self.models[self.item].show()
 
 	def move(self, task):
-		#print task.time
 
-		# If a move-key is pressed, move in the specified direction.
 		dt = globalClock.getDt()
 		speed = 0
 
 		if (self.keyMap["left"]):
-			#self.ori = 45
 
 			if (self.keyMap["run"]):
-				speed = self.lateralRunSpeed
-				self.playerActor.setPlayRate(2.0, 'walk-side')
+				speed = self.runSpeed
+				#self.playerActor.setPlayRate(2.0, 'walk-side')
 			else:
-				speed = self.lateralSpeed
-				self.playerActor.setPlayRate(1.0, 'walk-side')
+				speed = self.speed
+				#self.playerActor.setPlayRate(1.0, 'walk-side')
 
-			self.playerActor.setX(self.playerActor, speed * dt)
+			self.moveFloater.setX(self.moveFloater, speed * dt)
+			self.moveFloater.setY(self.moveFloater, -speed * dt)
 
 		if (self.keyMap["right"]):
-			#self.ori = -135
 
 			if (self.keyMap["run"]):
-				speed = -self.lateralRunSpeed
-				self.playerActor.setPlayRate(2.0, 'walk-side')
+				speed = self.runSpeed
+				#self.playerActor.setPlayRate(2.0, 'walk-side')
 			else:
-				speed = -self.lateralSpeed
-				self.playerActor.setPlayRate(1.0, 'walk-side')
+				speed = self.lateralSpeed
+				#self.playerActor.setPlayRate(1.0, 'walk-side')
 
-			self.playerActor.setX(self.playerActor, speed * dt)
+			self.moveFloater.setX(self.moveFloater, -speed * dt)
+			self.moveFloater.setY(self.moveFloater, speed * dt)
 
 
 		if (self.keyMap["forward"]):
-			#self.ori = -45
 
 			if (self.keyMap["run"]):
-				speed = -self.runSpeed
-				self.playerActor.setPlayRate(1.5, 'walk')
+				speed = self.runSpeed
+				#self.playerActor.setPlayRate(1.5, 'walk')
 			else:
-				speed = -self.speed
-				self.playerActor.setPlayRate(1.0, 'walk')
+				speed = self.speed
+				#self.playerActor.setPlayRate(1.0, 'walk')
 
-			self.playerActor.setY(self.playerActor, speed * dt)
+			self.moveFloater.setY(self.moveFloater, -speed * dt)
+			self.moveFloater.setX(self.moveFloater, -speed * dt)
 
 
 		if (self.keyMap["backward"]):
-			#self.ori = 135
 
 			if (self.keyMap["run"]):
-				speed = self.backwardsRunSpeed
-				self.playerActor.setPlayRate(2.0, 'walk-back')
+				speed = self.runSpeed
+				#self.playerActor.setPlayRate(2.0, 'walk-back')
 			else:
-				speed = self.backwardsSpeed
-				self.playerActor.setPlayRate(1.0, 'walk-back')
+				speed = self.speed
+				#self.playerActor.setPlayRate(1.0, 'walk-back')
 
-			self.playerActor.setY(self.playerActor, speed * dt)
-		"""
-		if (self.keyMap["left"]) and (self.keyMap["forward"]):
-			#self.ori = 0
-
-			if (self.keyMap["run"]):
-				speed = -self.runSpeed
-			else:
-				speed = -self.speed
-
-		if (self.keyMap["right"]) and (self.keyMap["forward"]):
-			#self.ori = -90
-
-			if (self.keyMap["run"]):
-				speed = -self.runSpeed
-			else:
-				speed = -self.speed
-
-		if (self.keyMap["left"]) and (self.keyMap["backward"]):
-			#self.ori = 90
-
-			if (self.keyMap["run"]):
-				speed = -self.runSpeed
-			else:
-				speed = -self.speed
-
-		if (self.keyMap["right"]) and (self.keyMap["backward"]):
-			#self.ori = 180
-
-			if (self.keyMap["run"]):
-				speed = -self.runSpeed
-			else:
-				speed = -self.speed
-		"""
-
+			self.moveFloater.setY(self.moveFloater, speed * dt)
+			self.moveFloater.setX(self.moveFloater, speed * dt)
 
 		if (self.keyMap["attack"])  and (task.time > self.nextAttack):
 			self.attack()
@@ -501,23 +470,23 @@ class Player():
 
 		if (self.keyMap["forward"]):
 			if self.isMoving is False:
-				self.playerActor.loop("walk")
+				#self.playerActor.loop("walk")
 				self.isMoving = True
 
 		elif (self.keyMap["backward"]):
 			if self.isMoving is False:
-				self.playerActor.loop("walk-back")
+				#self.playerActor.loop("walk-back")
 				self.isMoving = True
 
 		elif (self.keyMap["left"] or self.keyMap["right"]):
 			if self.isMoving is False:
-				self.playerActor.loop("walk-side")
+				#self.playerActor.loop("walk-side")
 				self.isMoving = True
 
 		else:
 			if self.isMoving:
 				self.playerActor.stop()
-				self.playerActor.loop("standby")
+				#self.playerActor.loop("standby")
 				self.isMoving = False
 
 		return task.cont
@@ -525,13 +494,14 @@ class Player():
 
 	def updateCamera(self, task):
 
-		self.game.camera.setPos(self.playerActor.getPos()+50)
+		self.floater.setPos(self.moveFloater.getPos())
+		self.floater.setZ(self.moveFloater.getZ() + 2.0)
+
+		self.game.camera.setPos(self.floater.getPos()+50)
 		# The camera should look in player's direction,
 		# but it should also try to stay horizontal, so look at
 		# a floater which hovers above player's head.
 
-		self.floater.setPos(self.playerActor.getPos())
-		self.floater.setZ(self.playerActor.getZ() + 2.0)
 
 		self.game.camera.lookAt(self.floater)
 
