@@ -178,10 +178,8 @@ class Player():
 
 		self.playerActor.setHpr(0,0,0)
 		self.playerActor.setScale(0.5)
-		self.playerActor.setPos(self.moveFloater.getPos())
 
 		self.playerActor.reparentTo(self.moveFloater)
-
 
 		#self.playerHand = self.playerActor.exposeJoint(None, 'body', 'manod')
 		#self.playerHead = self.playerActor.controlJoint(None, 'body', 'cabeza')
@@ -396,6 +394,9 @@ class Player():
 		self.models[self.item].show()
 
 	def move(self, task):
+
+		#self.playerActor.setPos(self.moveFloater.getPos())
+		#self.playerActor.setZ(self.moveFloater.getZ())
 
 		dt = globalClock.getDt()
 		speed = 0

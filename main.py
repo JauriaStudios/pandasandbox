@@ -342,7 +342,7 @@ class World(ShowBase):
 		self.playerGroundCol.addSolid(self.playerGroundRay)
 		self.playerGroundCol.setFromCollideMask(CollideMask.bit(0))
 		self.playerGroundCol.setIntoCollideMask(CollideMask.allOff())
-		self.playerGroundColNp = self.player.playerActor.attachNewNode(self.playerGroundCol)
+		self.playerGroundColNp = self.player.moveFloater.attachNewNode(self.playerGroundCol)
 		self.playerGroundHandler = CollisionHandlerQueue()
 		self.cTrav.addCollider(self.playerGroundColNp, self.playerGroundHandler)
 
@@ -406,16 +406,16 @@ class World(ShowBase):
 
 	def checkCollision(self, task):
 
-		startpos = self.player.playerActor.getPos()
+		startpos = self.player.moveFloater.getPos()
 
 		entries = list(self.playerGroundHandler.getEntries())
 		entries.sort(key=lambda x: x.getSurfacePoint(render).getZ())
 
 		for entry in entries:
 			if entry > 0 and entries[0].getIntoNode().getName() == "Ground":
-				self.player.playerActor.setZ(entry.getSurfacePoint(render).getZ())
+				self.player.moveFloater.setZ(entry.getSurfacePoint(render).getZ())
 			else:
-				self.player.playerActor.setPos(startpos)
+				self.player.moveFloater.setPos(startpos)
 
 		if self.mouseWatcherNode.hasMouse():
 
@@ -427,7 +427,7 @@ class World(ShowBase):
 			nearPoint = render.getRelativePoint(self.camera, self.mouseGroundRay.getOrigin())
 			nearVec = render.getRelativeVector(self.camera, self.mouseGroundRay.getDirection())
 			try:
-				self.lookPoint.setPos(PointAtZ(self.player.playerActor.getZ(), nearPoint, nearVec))
+				self.lookPoint.setPos(PointAtZ(self.player.moveFloater.getZ(), nearPoint, nearVec))
 			except:
 				pass
 
