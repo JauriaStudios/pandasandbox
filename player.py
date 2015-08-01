@@ -251,13 +251,25 @@ class Player():
 
 
 		self.item = 0
+		
 		self.isMovingForward = False
 		self.isMovingBackward = False
 		self.isMovingSideRight = False
 		self.isMovingSideLeft = False
+		
+		self.isMovingForwardLeft = False
+		self.isMovingForwardRight = False
+		
+		self.isMovingSideRightUp = False
+		self.isMovingSideRightDown = False
+		
+		self.isMovingSideLeftUp = False
+		self.isMovingSideLeftDown = False
+		
+		self.isMovingBackwardLeft = False
+		self.isMovingBackwardRight = False
+		
 		self.isAttacking = False
-
-		#self.setObject(self.item)							#Make object 0 the first shown
 
 		self.setupControls()
 		self.setupCamera()
@@ -474,7 +486,176 @@ class Player():
 		# If player is moving, loop the run animation.
 		# If he is standing still, stop the animation.
 
-		if self.keyMap["forward"]:
+		if self.keyMap["forward"] and self.keyMap["right"]:
+
+			if ((self.playerActor.getH() < -45) and (self.playerActor.getH() > -135)):
+				if self.isMovingForward is False:
+					
+					self.playerActor.stop()
+					self.playerActor.loop("walk")
+
+					self.isMovingForward = True
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = False
+					self.isMovingBackward = False
+
+			elif ((self.playerActor.getH() < -135) and (self.playerActor.getH() > -225)):
+				if self.isMovingSideRight is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-side")
+					
+					self.isMovingForward = False
+					self.isMovingSideRight = True
+					self.isMovingSideLeft = False
+					self.isMovingBackward = False
+
+			elif ((self.playerActor.getH() < -225) and (self.playerActor.getH() > -315)):
+				if self.isMovingBackward is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-back")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = False
+					self.isMovingBackward = True
+
+			elif (((self.playerActor.getH() < -315) and (self.playerActor.getH() < 0)) or ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -45))):
+				if self.isMovingSideLeft is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-side")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = True
+					self.isMovingBackward = False
+		
+		elif self.keyMap["right"] and self.keyMap["backward"]:
+
+			if ((self.playerActor.getH() < -135) and (self.playerActor.getH() > -225)):
+				if self.isMovingForward is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk")
+
+					self.isMovingForward = True
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = False
+					self.isMovingBackward = False
+
+			elif ((self.playerActor.getH() < -225) and (self.playerActor.getH() > -315)):
+				if self.isMovingSideRight is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-side")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = True
+					self.isMovingSideLeft = False
+					self.isMovingBackward = False
+
+			elif (((self.playerActor.getH() < -315) and (self.playerActor.getH() < 0)) or ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -45))):
+				if self.isMovingBackward is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-back")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = False
+					self.isMovingBackward = True
+
+			elif ((self.playerActor.getH() < -45) and (self.playerActor.getH() > -135)):
+				if self.isMovingSideLeft is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-side")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = True
+					self.isMovingBackward = False
+		
+		elif self.keyMap["backward"] and self.keyMap["left"]:
+
+			if ((self.playerActor.getH() < -225) and (self.playerActor.getH() > -315)):
+				if self.isMovingForward is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk")
+
+					self.isMovingForward = True
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = False
+					self.isMovingBackward = False
+
+			elif (((self.playerActor.getH() < -315) and (self.playerActor.getH() < 0)) or ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -45))):
+				if self.isMovingSideRight is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-side")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = True
+					self.isMovingSideLeft = False
+					self.isMovingBackward = False
+
+			elif ((self.playerActor.getH() < -45) and (self.playerActor.getH() > -135)):
+				if self.isMovingBackward is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-back")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = False
+					self.isMovingBackward = True
+
+			elif ((self.playerActor.getH() < -135) and (self.playerActor.getH() > -225)):
+				if self.isMovingSideLeft is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-side")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = True
+					self.isMovingBackward = False
+		
+		elif self.keyMap["left"] and self.keyMap["forward"]:
+
+			if (((self.playerActor.getH() < -315) and (self.playerActor.getH() < 0)) or ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -45))):
+				if self.isMovingForward is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk")
+
+					self.isMovingForward = True
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = False
+					self.isMovingBackward = False
+
+			elif ((self.playerActor.getH() < -45) and (self.playerActor.getH() > -135)):
+				if self.isMovingSideRight is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-side")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = True
+					self.isMovingSideLeft = False
+					self.isMovingBackward = False
+
+			elif ((self.playerActor.getH() < -135) and (self.playerActor.getH() > -225)):
+				if self.isMovingBackward is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-back")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = False
+					self.isMovingBackward = True
+
+			elif ((self.playerActor.getH() < -225) and (self.playerActor.getH() > -315)):
+				if self.isMovingSideLeft is False:
+					self.playerActor.stop()
+					self.playerActor.loop("walk-side")
+
+					self.isMovingForward = False
+					self.isMovingSideRight = False
+					self.isMovingSideLeft = True
+					self.isMovingBackward = False
+					
+		elif self.keyMap["forward"]:
 
 			if ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -90)):
 				if self.isMovingForward is False:
