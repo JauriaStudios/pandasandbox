@@ -489,6 +489,12 @@ class Player():
 		if self.keyMap["forward"] and self.keyMap["right"]:
 
 			if ((self.playerActor.getH() < -45) and (self.playerActor.getH() > -135)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk')
+				
 				if self.isMovingForward is False:
 					
 					self.playerActor.stop()
@@ -500,6 +506,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -135) and (self.playerActor.getH() > -225)):
+					
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+					
 				if self.isMovingSideRight is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -510,6 +522,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -225) and (self.playerActor.getH() > -315)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-back')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-back')
+				
 				if self.isMovingBackward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-back")
@@ -520,7 +538,19 @@ class Player():
 					self.isMovingBackward = True
 
 			elif (((self.playerActor.getH() < -315) and (self.playerActor.getH() < 0)) or ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -45))):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+					
 				if self.isMovingSideLeft is False:
+					
+					if (self.keyMap["run"]):
+						self.playerActor.setPlayRate(2.0, 'walk-side')
+					else:
+						self.playerActor.setPlayRate(1.0, 'walk-side')
+					
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
 
@@ -532,6 +562,12 @@ class Player():
 		elif self.keyMap["right"] and self.keyMap["backward"]:
 
 			if ((self.playerActor.getH() < -135) and (self.playerActor.getH() > -225)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk')
+				
 				if self.isMovingForward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk")
@@ -542,6 +578,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -225) and (self.playerActor.getH() > -315)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideRight is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -552,6 +594,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif (((self.playerActor.getH() < -315) and (self.playerActor.getH() < 0)) or ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -45))):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-back')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-back')
+				
 				if self.isMovingBackward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-back")
@@ -562,6 +610,12 @@ class Player():
 					self.isMovingBackward = True
 
 			elif ((self.playerActor.getH() < -45) and (self.playerActor.getH() > -135)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideLeft is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -574,6 +628,12 @@ class Player():
 		elif self.keyMap["backward"] and self.keyMap["left"]:
 
 			if ((self.playerActor.getH() < -225) and (self.playerActor.getH() > -315)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk')
+				
 				if self.isMovingForward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk")
@@ -584,6 +644,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif (((self.playerActor.getH() < -315) and (self.playerActor.getH() < 0)) or ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -45))):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideRight is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -594,6 +660,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -45) and (self.playerActor.getH() > -135)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-back')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-back')
+				
 				if self.isMovingBackward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-back")
@@ -604,6 +676,12 @@ class Player():
 					self.isMovingBackward = True
 
 			elif ((self.playerActor.getH() < -135) and (self.playerActor.getH() > -225)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideLeft is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -616,6 +694,12 @@ class Player():
 		elif self.keyMap["left"] and self.keyMap["forward"]:
 
 			if (((self.playerActor.getH() < -315) and (self.playerActor.getH() < 0)) or ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -45))):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk')
+				
 				if self.isMovingForward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk")
@@ -626,6 +710,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -45) and (self.playerActor.getH() > -135)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideRight is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -636,6 +726,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -135) and (self.playerActor.getH() > -225)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-back')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-back')
+				
 				if self.isMovingBackward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-back")
@@ -646,6 +742,12 @@ class Player():
 					self.isMovingBackward = True
 
 			elif ((self.playerActor.getH() < -225) and (self.playerActor.getH() > -315)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideLeft is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -658,6 +760,12 @@ class Player():
 		elif self.keyMap["forward"]:
 
 			if ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -90)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk')
+				
 				if self.isMovingForward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk")
@@ -668,6 +776,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -90) and (self.playerActor.getH() > -180)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideRight is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -678,6 +792,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -180) and (self.playerActor.getH() > -270)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-back')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-back')
+				
 				if self.isMovingBackward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-back")
@@ -688,6 +808,12 @@ class Player():
 					self.isMovingBackward = True
 
 			elif ((self.playerActor.getH() < -270) and (self.playerActor.getH() < 0)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideLeft is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -700,6 +826,12 @@ class Player():
 		elif self.keyMap["backward"]:
 
 			if ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -90)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-back')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-back')
+				
 				if self.isMovingBackward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-back")
@@ -710,6 +842,12 @@ class Player():
 					self.isMovingBackward = True
 
 			elif ((self.playerActor.getH() < -90) and (self.playerActor.getH() > -180)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideRight is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -720,6 +858,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -180) and (self.playerActor.getH() > -270)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk')
+				
 				if self.isMovingForward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk")
@@ -730,6 +874,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -270) and (self.playerActor.getH() < 0)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideLeft is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -742,6 +892,12 @@ class Player():
 		elif self.keyMap["left"]:
 
 			if ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -90)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideRight is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -752,6 +908,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -90) and (self.playerActor.getH() > -180)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-back')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-back')
+				
 				if self.isMovingBackward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-back")
@@ -762,6 +924,12 @@ class Player():
 					self.isMovingBackward = True
 
 			elif ((self.playerActor.getH() < -180) and (self.playerActor.getH() > -270)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideLeft is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -772,6 +940,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -270) and (self.playerActor.getH() < 0)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk')
+				
 				if self.isMovingForward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk")
@@ -784,6 +958,12 @@ class Player():
 		elif self.keyMap["right"]:
 
 			if ((self.playerActor.getH() < 0) and (self.playerActor.getH() > -90)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideLeft is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -794,6 +974,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -90) and (self.playerActor.getH() > -180)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk')
+				
 				if self.isMovingForward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk")
@@ -804,6 +990,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -180) and (self.playerActor.getH() > -270)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-side')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-side')
+				
 				if self.isMovingSideRight is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-side")
@@ -814,6 +1006,12 @@ class Player():
 					self.isMovingBackward = False
 
 			elif ((self.playerActor.getH() < -270) and (self.playerActor.getH() < 0)):
+				
+				if (self.keyMap["run"]):
+					self.playerActor.setPlayRate(2.0, 'walk-back')
+				else:
+					self.playerActor.setPlayRate(1.0, 'walk-back')
+				
 				if self.isMovingBackward is False:
 					self.playerActor.stop()
 					self.playerActor.loop("walk-back")
